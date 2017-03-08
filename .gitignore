@@ -9,6 +9,9 @@
 # Vendors
 /vendor
 
+#nbproject
+/nbproject
+
 # Managed by Composer
 /app/bootstrap.php.cache
 /var/bootstrap.php.cache
