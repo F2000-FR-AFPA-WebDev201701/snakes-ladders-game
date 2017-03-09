@@ -1,0 +1,61 @@
+body {
+    width: 1000px;
+    margin: auto;
+    color:#000000; /*code hexadécimal du noir*/
+    font-family:verdana;
+    font-size:12px;
+}
+#logo{
+    width: 80px;
+    height: 80px;
+}
+header {
+    position: static;
+}
+#mainContent{
+    margin-top: 100px;
+}
+#questions {
+    height: 450px;
+}
+#reponses {
+    height: 450px;
+
+}
+#plateau {
+    height: 450px;
+    background-color:  	#99b3ff;
+}
+.panel-body {
+    height: 450px;
+}
+#partie {
+    height: 80px;
+    border: 0px;
+    background-color:  	#f0f4f2;
+}
+#joueurs {
+    height: 80px;
+    border: 0px;
+    background-color: 	#b3c6ff;
+}
+#de {
+    height: 80px;
+    border: 0px;
+    background-color:  	#f0f4f2;
+}
+
+
+
+/* le paragraphe contenant la question : */
+#question {
+    text-align: justify;
+}
+h4 {
+    text-align: center;
+}
+
+footer {
+    margin-left: 65px;
+    margin-right: 65px;
+}

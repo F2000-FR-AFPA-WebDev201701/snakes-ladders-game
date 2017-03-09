@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Snakes_ladders_game!{% endblock %}</title>
+        <script src="{{asset('js/jquery-3.1.1.min.js')}}"></script>
+
+        {# Create the favicon icon #}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
+        <!-- Bootstrap CSS, theme and JS -->
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css')}}">
+        <script src="{{ asset('js/bootstrap.min.js')}}" ></script>
+
+        {#correlation with the css file#}
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}" >
+    </head>
+    <body>
+        <header>
+            {% include 'AppBundle:Default:_header.html.twig' %}
+        </header>
+
+        <div id="mainContent">
+            {% block content %} {% endblock %}
+        </div>
+
+        <footer>
+            {% include 'AppBundle:Default:_footer.html.twig' %}
+        </footer>
+    </body>
+</html>
