@@ -1,15 +1,19 @@
-
 body {
     width: 1000px;
     margin: auto;
     color:#000000; /*code hexadécimal du noir*/
+    font-family:verdana;
+    font-size:12px;
 }
-
-header {
+#logo{
+    width: 80px;
     height: 80px;
-    border: 0px;
-    background-color:  #f0f4f2;
+}
+header {
     position: static;
+}
+#mainContent{
+    margin-top: 100px;
 }
 #questions {
     height: 450px;
@@ -52,11 +56,6 @@ h4 {
 }
 
 footer {
-    /*border : 3px solid blue;*/
-
-    height: 30px;
-    background-color: 	#d3ded9;
-    /*position : static ;*/
-    clear: both;
-    text-align: center;
+    margin-left: 65px;
+    margin-right: 65px;
 }
