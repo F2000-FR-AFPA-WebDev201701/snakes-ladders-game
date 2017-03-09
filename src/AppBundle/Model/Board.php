@@ -16,18 +16,38 @@ class Board {
         $this->pawns = [];
 
         // init. du plateau
-        // init. des joueurs
-        foreach ($aoUsers as $oUser) {
-            $aP = new Pawn($oUser);
-            $aP->setPosition(0);
+        for ($i = 0; $i <= 63; $i++) {  // création des 64 cases objets
+            $iNumCell = $this->getNumCell($i);  // $this->corr..[$i] // Verif fonction de Pierre
 
-            $this->pawns[] = $aP;
+            $oCell = new Cell();
+            $oCell->setNum($iNumCell);
+            $oCell->setLevel(LEVEL_EASY);
+            $oCell->setPawns('1');  // Pawns sert a savoir combien de pion se trouve sur une cellule
+
+            $this->cells[] = $oCell;
         }
-        shuffle($this->pawns);
+
+        // init. des joueurs
+        foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
+            $oPawn = new Pawn($oUser);
+            $oPawn->setPosition(0);
+            $oPawn->setColor('blue');
+            $oPawn->setUser($oUser);
+
+            $this->pawns[] = $oPawn;
+        }
+        shuffle($this->pawns);  // va mélanger le tableau d'objet des pions pour déterminer au hasard qui va commencer
     }
 
-    public function selectPlayer($iLastPlayer, $iNbPlayer) {
+    public function selectPlayer($ActualPlayer) {
 //joueur+1 avec modulo pour gerer la fin du tableau
+        if ($ActualPlayer <= /$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ a finir
+
+        return $ActualPlayer++;
+
+
+
+
         if (!$sLastPlayer) { // si pas de LastPlayer nous sommes à la début de partie, définition aléatoire du premier joueur qui va jouer parmis le nombre de player
             $iPlayerMin = 1;
             $iPlayerMax = $iNbPlayer;
