@@ -1,23 +1,38 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::base.html.twig' %}
 
-{% block body %}
+{% block content %}
     <div class="row">
-        <div class="col-md-2"><h1>La Question</h1></div>
-        <div class="col-md-8"><h1>Le Plateau du Jeu</h1></div>
-        <div class="col-md-2"><h1>Les 3 Réponses</h1></div>
-
+        <div id="questions" class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">La Question</div>
+                <div class="panel-body">
+                    Omitto iuris dictionem in libera civitate contra leges senatusque consulta; caedes relinquo; libidines praetereo, quarum acerbissimum extat indicium et ad insignem memoriam turpitudinis et paene ad iustum odium imperii nostri, quod constat nobilissimas virgines se in puteos abiecisse et morte voluntaria necessariam turpitudinem depulisse. Nec haec idcirco omitto, quod non gravissima sint, sed quia nunc sine teste dico.
+                </div>
+            </div>
+        </div>
+        <div id="plateau" class="col-md-6" >
+            <p class="titre">Le Plateau</p>
+        </div>
+        <div id="reponses" class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Commentaires</div>
+                <div class="panel-body">
+                    <p id="question">A toi de jouer Toto !</p>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
-        <div class="col-md-2"><h1>Les Commentaires du Jeu</h1></div>
-        <div class="col-md-8"><h1>L'Emplacement des Joueurs</h1></div>
-        <div class="col-md-2"><h1>Le Dé et Le Score du Dé</h1></div>
+        <div id="partie" class="col-md-3">
+            <h4>Partie de Bruno</h4>
+        </div>
+        <div id="joueurs" class="col-md-6">
+            <h3>Joueurs</h3>
+        </div>
+        <div id="de" class="col-md-3">
+            <h4>Le Dé</h4>
+        </div>
 
     </div>
 
-{% endblock %}
-
-{% block stylesheets %}
-    <style>
-
-    </style>
 {% endblock %}

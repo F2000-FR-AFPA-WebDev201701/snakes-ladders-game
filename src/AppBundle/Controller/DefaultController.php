@@ -18,4 +18,13 @@ class DefaultController extends Controller {
         return [];
     }
 
+    /**
+     * @Route("/gameboard", name="gameboard")
+     * @Template
+
+     */
+    public function gameBoardAction() {
+        return [];
+    }
+
 }
