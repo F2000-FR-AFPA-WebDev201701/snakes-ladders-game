@@ -25,6 +25,7 @@ class DefaultController extends Controller {
      */
     public function gameBoardAction() {
         return [];
+//        return ['board' => $oBoard];
     }
 
 }
