@@ -11,7 +11,19 @@
             </div>
         </div>
         <div id="plateau" class="col-md-6" >
-            <img src="{{ asset('images/board.jpg') }}" alt="le plateau du jeu">
+            {#            bord.cells#}
+            {% set aTwigNumber=[56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63] %}
+            {#                        Creation of the view board with the corresponding number inside#}
+            <table class="table table-bordered" >
+                <tr>
+                    {% for value in aTwigNumber %}
+                        {% if loop.index0 % 8 == 0 and loop.index0 != 0 %}
+                        </tr><tr>
+                        {% endif %}
+                        <td id='{{value}}'>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            </table>
         </div>
         <div id="reponses" class="col-md-3">
             <div class="panel panel-default">
