@@ -25,6 +25,20 @@ header {
 #plateau {
     height: 450px;
 }
+.column{
+    position: relative;
+}
+
+#plateau td{
+    height: 50px;
+    width: 40px;
+}
+.numCell{
+    position: absolute;
+    right: 5px;
+    top: 1px;
+
+}
 .panel-body {
     height: 450px;
 }

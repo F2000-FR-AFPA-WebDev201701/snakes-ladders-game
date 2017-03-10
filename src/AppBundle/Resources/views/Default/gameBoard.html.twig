@@ -11,16 +11,28 @@
             </div>
         </div>
         <div id="plateau" class="col-md-6" >
-            {#            bord.cells#}
-            {% set aTwigNumber=[56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63,56,57,58,59,60,61,62,63] %}
-            {#                        Creation of the view board with the corresponding number inside#}
+            {# Creation of the view board with the corresponding number inside#}
             <table class="table table-bordered" >
                 <tr>
-                    {% for value in aTwigNumber %}
+                    {% for value in board.cells %}
                         {% if loop.index0 % 8 == 0 and loop.index0 != 0 %}
                         </tr><tr>
                         {% endif %}
-                        <td id='{{value}}'>{{ value }}</td>
+                        <td class="column" id='{{value.num}}'>
+                            <div class="numCell">
+                                {{ value.num }}
+                            </div>
+                            <div>
+                                {% for pawn in value.pawns %}
+                                    <span class="glyphicon glyphicon-user" style="color:{{pawn.pawnColor}}"></span>
+                                    <span class="glyphicon glyphicon-user" style="color:green"></span>
+
+                                    <span class="glyphicon glyphicon-user" style="color:red"></span>
+
+                                {% endfor %}
+                            </div>
+
+                        </td>
                     {% endfor %}
                 </tr>
             </table>

@@ -117,4 +117,52 @@ class Board {
         return array_search($num, $this->aCorrespondances);
     }
 
+    function getBackgroundImage() {
+        return $this->backgroundImage;
+    }
+
+    function getACorrespondances() {
+        return $this->aCorrespondances;
+    }
+
+    function getCells() {
+        return $this->cells;
+    }
+
+    function getPawns() {
+        return $this->pawns;
+    }
+
+    function getDice() {
+        return $this->dice;
+    }
+
+    function getPlayerTurn() {
+        return $this->playerTurn;
+    }
+
+    function setBackgroundImage($backgroundImage) {
+        $this->backgroundImage = $backgroundImage;
+    }
+
+    function setACorrespondances($aCorrespondances) {
+        $this->aCorrespondances = $aCorrespondances;
+    }
+
+    function setCells($cells) {
+        $this->cells = $cells;
+    }
+
+    function setPawns($pawns) {
+        $this->pawns = $pawns;
+    }
+
+    function setDice($dice) {
+        $this->dice = $dice;
+    }
+
+    function setPlayerTurn($playerTurn) {
+        $this->playerTurn = $playerTurn;
+    }
+
 }
