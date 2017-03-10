@@ -10,7 +10,7 @@ class Cell {
 
     private $num;  // cela va être le numéro de case Twig
     private $level;
-    private $pawns;
+    private $pawns = [];
 
     public function getNum() {
         return $this->num;
@@ -32,8 +32,15 @@ class Cell {
         $this->level = $level;
     }
 
-    function setPawns($pawns) {
-        $this->pawns = $pawns;
+    function addPawn(Pawn $pawn) {
+        $this->pawns[] = $pawn;
+    }
+
+    function removePawn(Pawn $pawn) {
+
+        $idxPawn = array_search($pawn, $this->pawns);
+
+        unset($this->pawns[$idxPawn]); // unset va supprimer l'index d'un tableau ou une variable
     }
 
 }

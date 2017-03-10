@@ -33,8 +33,7 @@ class Board {
 
             $oCell = new Cell();
             $oCell->setNum($iNumCell);
-            $oCell->setLevel(LEVEL_EASY);
-            $oCell->setPawns('1');  // Pawns sert a savoir combien de pion se trouve sur une cellule
+            $oCell->setLevel(Cell::LEVEL_EASY);
 
             $this->cells[] = $oCell;
         }
@@ -42,38 +41,50 @@ class Board {
         // init. des joueurs
         foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
-            $oPawn->setPosition(0);
-            $oPawn->setColor('blue');
+            $oPawn->setPosition(0); // numéro de la case twig
+            $oPawn->setPawnColor('blue');
             $oPawn->setUser($oUser);
 
             $this->pawns[] = $oPawn;
+
+            // Position de départ
+            $Idx = $this->getIdxCell(0);
+            $oCell = $this->cells[$Idx];
+            $oCell->addPawn($oPawn); // ajouter un pion au tableau de pion de la cellule
         }
         shuffle($this->pawns);  // va mélanger le tableau d'objet des pions pour déterminer au hasard qui va commencer
     }
 
-    public function selectPlayer($ActualPlayer) {
+    public function selectPlayer() {
 //joueur+1 avec modulo pour gerer la fin du tableau
-        if ($ActualPlayer <= /$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ a finir
 
-        return $ActualPlayer++;
+        $ActualPlayer = 0;
 
-
-
-
-        if (!$sLastPlayer) { // si pas de LastPlayer nous sommes à la début de partie, définition aléatoire du premier joueur qui va jouer parmis le nombre de player
-            $iPlayerMin = 1;
-            $iPlayerMax = $iNbPlayer;
-            $iPlayerTurn = rand($iPlayerMin, $iPlayerMax);
-        } else {
-            $iPlayerTurn = $iLastPlayer++;
-        }
-
-        return $iPlayerTurn;
+        return $ActualPlayer;
     }
+
+    /* if ($ActualPlayer <= /$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ a finir
+
+      return $ActualPlayer++;
+
+
+
+
+      if (!$sLastPlayer) { // si pas de LastPlayer nous sommes à la début de partie, définition aléatoire du premier joueur qui va jouer parmis le nombre de player
+      $iPlayerMin = 1;
+      $iPlayerMax = $iNbPlayer;
+      $iPlayerTurn = rand($iPlayerMin, $iPlayerMax);
+      } else {
+      $iPlayerTurn = $iLastPlayer++;
+      }
+
+      return $iPlayerTurn;
+      }
+     */
 
     public function checkEndGame($PosLastPlayer) {
 
-        If ($PosLastPlayer == 63) { // jeu terminé
+        If ($posLastPlayer >= 63) { // jeu terminé   $$$$$$$$$$$$$$$$$$$$
         } else {  // jeu continue
         }
     }
@@ -91,19 +102,19 @@ class Board {
     }
 
     /**
-     * @param int $num :   numéro de la case
-     * @return int : numéro PHP de la case
+     * @param int $idx :   index PHP de la case
+     * @return int : numéro de la case
      */
-    public function getNumCell($num) {
-        return array_search($num, $this->aCorrespondances);
+    public function getNumCell($idx) {
+        return $this->aCorrespondances[$idx];
     }
 
     /**
-     * @param int $idx : numéro PHP de la case
-     * @return int : numéro de la case
+     * @param int $num : numéro  de la case
+     * @return int : indeex PHP de la case
      */
-    public function getIdxCell($idx) {
-        return $this->cells[$idx];
+    public function getIdxCell($num) {
+        return array_search($num, $this->aCorrespondances);
     }
 
 }
