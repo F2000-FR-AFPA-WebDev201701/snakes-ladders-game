@@ -64,7 +64,9 @@
         </div>
 
         <div id="de" class="col-md-3">
-            <h4>Le Dé</h4>
+            <h4>Le Dé : {{ board.dice }}</h4>
+            <button id="runDice" class="btn btn-primary">Lancer le dé</button>
+            <a href="{{ path('gameaction', {'action' : 'dice'}) }}">Run</a>
         </div>
     </div>
 

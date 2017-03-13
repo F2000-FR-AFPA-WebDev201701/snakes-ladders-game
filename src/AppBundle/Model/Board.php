@@ -9,9 +9,10 @@ class Board {
     private $cells;
     private $pawns;
     private $dice;
-    private $playerTurn;
+    private $playerTurn;  // index du tableau de pion (qui a été mélanger à la création du plateau et des pions
 
     // setup du jeu se fait avec le constructeur (car le plateau ne va se construire qu'une fois):
+
     public function __construct($aoUsers) {
         $this->cells = [];
         $this->pawns = [];
@@ -53,14 +54,15 @@ class Board {
             $oCell->addPawn($oPawn); // ajouter un pion au tableau de pion de la cellule
         }
         shuffle($this->pawns);  // va mélanger le tableau d'objet des pions pour déterminer au hasard qui va commencer
+
+        $this->playerTurn = 0;  // l'objet pion situé dans l'index 0 du tableau d'objet va commencer la partie
     }
 
-    public function selectPlayer() {
+    public function selectPlayer($actualPlayer) {
 //joueur+1 avec modulo pour gerer la fin du tableau
 
-        $ActualPlayer = 0;
 
-        return $ActualPlayer;
+        $this->playerTurn = $ActualPlayer++;
     }
 
     /* if ($ActualPlayer <= /$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ a finir
@@ -82,6 +84,18 @@ class Board {
       }
      */
 
+    public function doAction($action) {
+        // dump($action);
+
+        switch ($action) {
+
+            case "dice":
+                $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
+
+                break;
+        }
+    }
+
     public function checkEndGame($PosLastPlayer) {
 
         If ($posLastPlayer >= 63) { // jeu terminé   $$$$$$$$$$$$$$$$$$$$
@@ -93,8 +107,8 @@ class Board {
      * Lancement du dé (1-6)
      * @return int
      */
-    public function launchDice() {
-        return rand(1, 6);
+    public function runDice() {
+        return rand(1, 6);  // on affecte une valeur au hasard de 1 à 6  dans l'attribut dice de l'objet plateau oBoard
     }
 
     public function movePawn() {
