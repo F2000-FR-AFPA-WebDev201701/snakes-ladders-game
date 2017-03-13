@@ -15,13 +15,6 @@ header {
 #mainContent{
     margin-top: 100px;
 }
-#questions {
-    height: 450px;
-}
-#reponses {
-    height: 450px;
-
-}
 #plateau {
     height: 450px;
 }
@@ -39,9 +32,13 @@ header {
     top: 1px;
 
 }
-.panel-body {
-    height: 450px;
+.game-aside-info  {
+    height: 410px;
 }
+.game-aside-info .panel-body  {
+    height: 100%;
+}
+
 #partie {
     height: 80px;
     border: 0px;
@@ -51,16 +48,43 @@ header {
     height: 80px;
     border: 0px;
     background-color: 	#b3c6ff;
+    text-align: center;
 }
+.players_info_turn{
+    display: inline-block;
+    opacity: 0.5;
+    margin: 10px;
+    overflow:hidden;
+}
+
+.players_info_turn.active{
+    opacity: 1;
+}
+.players_info_turn .panel{
+    min-height:50px;
+    max-height: 65px;
+}
+.players_info_turn .panel-heading{
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+.players_info_turn .panel-body{
+    padding: 5px;
+    padding-top: 7px;
+}
+.players_info_turn .panel-body p{
+    font-size: 8px;
+}
+#img_logo{
+    width: 20px;
+    height: 20px;
+}
+/* le paragraphe contenant la question : */
 #de {
     height: 80px;
     border: 0px;
     background-color:  	#f0f4f2;
 }
-
-
-
-/* le paragraphe contenant la question : */
 #question {
     text-align: justify;
 }
