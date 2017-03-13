@@ -29,16 +29,28 @@ class DefaultController extends Controller {
 
         $oPlayer = new User();
         $oPlayer->setId('1');
-
         $oPlayer->setEmailLogin('aaa@aaa.com');
         $oPlayer->setPassword('aaaaaa');
-        // $this->setIcone('a.jpg');
+        $oPlayer->setIcone('images/joueur_logo.jpg');
         $oPlayer->setPseudo('bbbbbb');
         $oPlayer->setFirstname('Pierre');
         $oPlayer->setLastname('cccccc');
 
+        $aoPlayer[] = $oPlayer;
 
-        $oBoard = new Board([$oPlayer]);
+        $oPlayer = new User();
+        $oPlayer->setId('2');
+        $oPlayer->setEmailLogin('aaa2@aaa2.com');
+        $oPlayer->setPassword('aaaaaa2');
+        $oPlayer->setIcone('images/joueur_logo.jpg');
+        $oPlayer->setPseudo('coco');
+        $oPlayer->setFirstname('Pierre2');
+        $oPlayer->setLastname('cccccc2');
+
+        $aoPlayer[] = $oPlayer;
+
+        $oBoard = new Board($aoPlayer);
+        $oBoard->setPlayerTurn(0);
 
         // dump($oBoard);
         return ['board' => $oBoard];
