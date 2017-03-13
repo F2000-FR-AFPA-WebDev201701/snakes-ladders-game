@@ -46,9 +46,9 @@ class Game {
     /**
      * @var string
      *
-     *
+     * @ORM\Column(name="data", type="text")
      */
-    private $data;
+    private $data;    // contiens les données de tout la plateau de jeu C'EST A DIRE : une variable sérialisé du plateau de jeu oBoard (qui pourra être restitué a chaque demande)
 
     /**
      * @var string
@@ -67,9 +67,8 @@ class Game {
     /**
      * Constructor
      */
-    public function __construct()
-    {
-        $this->players = new \Doctrine\Common\Collections\ArrayCollection();
+    public function __construct() {
+        $this->players = new \Doctrine\Common\Collections\ArrayCollection();  // création du tableau de joueurs
     }
 
     /**
@@ -77,8 +76,7 @@ class Game {
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -89,8 +87,7 @@ class Game {
      *
      * @return Game
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -101,8 +98,7 @@ class Game {
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -113,8 +109,7 @@ class Game {
      *
      * @return Game
      */
-    public function setCreatedDate($createdDate)
-    {
+    public function setCreatedDate($createdDate) {
         $this->createdDate = $createdDate;
 
         return $this;
@@ -125,8 +120,7 @@ class Game {
      *
      * @return \DateTime
      */
-    public function getCreatedDate()
-    {
+    public function getCreatedDate() {
         return $this->createdDate;
     }
 
@@ -137,8 +131,7 @@ class Game {
      *
      * @return Game
      */
-    public function setNbPlayerMax($nbPlayerMax)
-    {
+    public function setNbPlayerMax($nbPlayerMax) {
         $this->nbPlayerMax = $nbPlayerMax;
 
         return $this;
@@ -149,8 +142,7 @@ class Game {
      *
      * @return integer
      */
-    public function getNbPlayerMax()
-    {
+    public function getNbPlayerMax() {
         return $this->nbPlayerMax;
     }
 
@@ -161,8 +153,7 @@ class Game {
      *
      * @return Game
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -173,8 +164,7 @@ class Game {
      *
      * @return string
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -185,8 +175,7 @@ class Game {
      *
      * @return Game
      */
-    public function addPlayer(\AppBundle\Entity\User $player)
-    {
+    public function addPlayer(\AppBundle\Entity\User $player) {
         $this->players[] = $player;
 
         return $this;
@@ -197,8 +186,7 @@ class Game {
      *
      * @param \AppBundle\Entity\User $player
      */
-    public function removePlayer(\AppBundle\Entity\User $player)
-    {
+    public function removePlayer(\AppBundle\Entity\User $player) {
         $this->players->removeElement($player);
     }
 
@@ -207,8 +195,30 @@ class Game {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPlayers()
-    {
+    public function getPlayers() {
         return $this->players;
     }
+
+    /**
+     * Set data
+     *
+     * @param string $data
+     *
+     * @return Game
+     */
+    public function setData($data) {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return string
+     */
+    public function getData() {
+        return $this->data;
+    }
+
 }
