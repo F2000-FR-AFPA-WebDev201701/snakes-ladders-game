@@ -22,11 +22,28 @@ class DefaultController extends Controller {
         return [];
     }
 
+    // Routing :  "/board" est ce qui va s'afficher dans le navigateur (cela peut être n'importe quel nom mais il ne doit pas avoir été utilisé comme Url avant)
+    //            name="board" est le nom de la route que l'on peut appeler avec la fonction path de twig
+    //            boardAction  est la fonction sur laquelle on va effectué des opération Php puis elle va retourner les résultats à la page/vue twig du même nom : board.html.twig
+    /**
+     * @Route("/board", name="board")
+     * @Template
+     */
+    public function boardAction() {
+        // on copie pour l'instant la fonction gameBoardAction() du dessous
+        $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
+        $oGame = $repoGame->find(1); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
+
+        $oBoard = unserialize($oGame->getData());
+
+        //dump($oBoard);
+        return ['board' => $oBoard];   // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
+    }
+
     /**
      * @Route("/create", name="game_create")
      */
-    public function createAction() {
-
+    public function createAction() {   // on va lancer le create 1 fois pour creer le tableau de jeu
         $oPlayer = new User();
         $oPlayer->setId('1');
         $oPlayer->setEmailLogin('aaa@aaa.com');
@@ -81,12 +98,12 @@ class DefaultController extends Controller {
         $oBoard = unserialize($oGame->getData());
 
         //dump($oBoard);
-        return ['board' => $oBoard];
+        return ['board' => $oBoard];   // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
     }
 
     /**
      * @Route("/gameboard/action/{action}", name="gameaction")
-     * @Template("AppBundle:Default:gameBoard.html.twig")
+     * @Template("AppBundle:Default:board.html.twig")
      */
     public function gameAction($action) {
 
