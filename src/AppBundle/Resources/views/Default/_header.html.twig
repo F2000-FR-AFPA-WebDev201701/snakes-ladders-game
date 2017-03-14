@@ -9,19 +9,29 @@
         <div id="navbar">
             <ul class="nav navbar-nav">
                 <li class='active'><a href="{{path('home')}}">Accueil</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Jouer <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Jouer Seul</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Multijoueurs</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Regle du jeu</a></li>
+                <li><a href="#">Règles du jeu</a></li>
+
+                {% if app.session.get('oUser') %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Jouer <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{path('gameboard')}}">Jouer Seul</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Multijoueurs</a></li>
+                        </ul>
+                    </li>
+                    Bonjour {{ app.session.get('oUser').emailLogin }} vous êtes connecté(e) !
+
+                    <li><a href="{{ path('logout') }}">Déconnection</a></li>
+
+                {% else %}
+                    {{ render( controller('AppBundle:User:login') ) }}
+                    <br/>
+                    <li><a href="{{ path('user_register') }}">S'inscrire pour jouer</a></li>
+
+                {% endif %}
             </ul>
-            <form class="navbar-form navbar-right">
-                <h3> formulaire a mettre </h3>
-            </form>
+
         </div><!--/.nav-collapse -->
     </div>
 </nav>

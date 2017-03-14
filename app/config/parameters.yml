@@ -2,7 +2,7 @@
 parameters:
     database_host: 127.0.0.1
     database_port: null
-    database_name: symfony
+    database_name: snakesladders
     database_user: root
     database_password: null
     mailer_transport: smtp
@@ -10,3 +10,4 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: 739947562e9f0b22cb9f7817fb10d6db7144cf52
+    crypt_key: AdM=u~D3vb?8@5L^v58S
