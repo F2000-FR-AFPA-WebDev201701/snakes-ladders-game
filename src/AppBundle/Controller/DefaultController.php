@@ -71,6 +71,7 @@ class DefaultController extends Controller {
     /**
      * @Route("/gameboard", name="gameboard")
      * @Template
+     * Chargement du plateau de jeu
      */
     public function gameBoardAction() {
 
@@ -80,7 +81,6 @@ class DefaultController extends Controller {
 
         $oBoard = unserialize($oGame->getData());
 
-        //dump($oBoard);
         return ['board' => $oBoard];
     }
 
@@ -95,8 +95,13 @@ class DefaultController extends Controller {
         $oGame = $repoGame->find(1); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
 
         $oBoard = unserialize($oGame->getData());  // on crée l'objet oBoard en désérialisant l'attribut-variable $data de oGame : ne pas oublier de faire un schéma update pour créer la table data car elle ne va pas se créé
-        $oBoard->doAction($action);
-
+        // parameters. action va lancer le dés + faire le deplacement du pions via (doAction)
+        // movePawn a besoin comme paramètre l'identifiant du user qui a appuyé sur "Dés" Il faut donc changer son propore pion. (session)
+        $oBoard->doAction(1, $action);
+        // mise a jour de $ogame en lui
+        $oGame->setData(serialize($oBoard));
+        $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
+        $em->flush();
         return ['board' => $oBoard];
     }
 
