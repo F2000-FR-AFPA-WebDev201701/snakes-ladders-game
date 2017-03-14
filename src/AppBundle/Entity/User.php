@@ -25,7 +25,7 @@ class User {
     /**
      * @var string
      *
-     * @ORM\Column(name="emailLogin", type="string", length=255)
+     * @ORM\Column(name="emailLogin", type="string", length=255, unique=true)
      * @Assert\Email(
      *     message = "l'email '{{ value }}' n'est pas un email valide",
      *     checkMX = true
@@ -37,11 +37,11 @@ class User {
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255)
+     * @ORM\Column(name="password", type="string", length=12)
      * @Assert\NotBlank()
      * @Assert\Length(
      * min = 6,
-     * max = 30,
+     * max = 12,
      * minMessage = "le mot de passe doit avoir au moins {{ limit }} caractères",
      * maxMessage = "le mot de passe doit avoir plus de  {{ limit }} caractères"
      * )

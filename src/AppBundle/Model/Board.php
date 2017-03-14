@@ -11,7 +11,7 @@ class Board {
     private $dice;
     private $playerTurn;  // index du tableau de pion (qui a été mélanger à la création du plateau et des pions
 
-    // setup du jeu se fait avec le constructeur (car le plateau ne va se construire qu'une fois):
+// setup du jeu se fait avec le constructeur (car le plateau ne va se construire qu'une fois):
 
     public function __construct($aoUsers) {
         $this->cells = [];
@@ -28,7 +28,7 @@ class Board {
         ];
 
 
-        // init. du plateau
+// init. du plateau
         for ($i = 0; $i <= 63; $i++) {  // création des 64 cases objets
             $iNumCell = $this->getNumCell($i);  // $this->corr..[$i] // Verif fonction de Pierre
 
@@ -39,7 +39,7 @@ class Board {
             $this->cells[] = $oCell;
         }
 
-        // init. des joueurs
+// init. des joueurs
         foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
             $oPawn->setPosition(0); // numéro de la case twig
@@ -48,7 +48,7 @@ class Board {
 
             $this->pawns[] = $oPawn;
 
-            // Position de départ
+// Position de départ
             $Idx = $this->getIdxCell(0);
             $oCell = $this->cells[$Idx];
             $oCell->addPawn($oPawn); // ajouter un pion au tableau de pion de la cellule
@@ -60,41 +60,27 @@ class Board {
 
     public function selectPlayer($actualPlayer) {
 //joueur+1 avec modulo pour gerer la fin du tableau
-
-
         $this->playerTurn = $ActualPlayer++;
     }
 
-    /* if ($ActualPlayer <= /$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ a finir
-
-      return $ActualPlayer++;
-
-
-
-
-      if (!$sLastPlayer) { // si pas de LastPlayer nous sommes à la début de partie, définition aléatoire du premier joueur qui va jouer parmis le nombre de player
-      $iPlayerMin = 1;
-      $iPlayerMax = $iNbPlayer;
-      $iPlayerTurn = rand($iPlayerMin, $iPlayerMax);
-      } else {
-      $iPlayerTurn = $iLastPlayer++;
-      }
-
-      return $iPlayerTurn;
-      }
-     */
-
-    public function doAction($action) {
-        // dump($action);
-
-        switch ($action) {
-
-            case "dice":
-                $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
-
-                break;
+    public function doAction($idUser, $action) {
+//      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
+        dump($this);
+        if ($idUser == $this->pawns[$this->playerTurn]->getUser()->getId()) {
+//        Recuperer le pion du user si celui ci est bon
+            $oActualPawn = $this->pawns[$this->playerTurn];
+            switch ($action) {
+                case "dice":
+                    $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
+//                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
+                    $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
+//                    modifier le tableau de cells avec les nouveaux pions
+                    break;
+            }
         }
     }
+
+//    }
 
     public function checkEndGame($PosLastPlayer) {
 
@@ -111,8 +97,21 @@ class Board {
         return rand(1, 6);  // on affecte une valeur au hasard de 1 à 6  dans l'attribut dice de l'objet plateau oBoard
     }
 
-    public function movePawn() {
-
+// This function take as input the oActualPawn and will return :
+// the new position value of the pawn (in twig case) and change the tab cells with the new position of the pawn inside
+    public function movePawn($oPawn) {
+        // Remove into the cell the place where the pawn were
+        $iOldCell = $this->getIdxCell($oPawn->getPosition());
+        $this->cells[$iOldCell]->removePawn($oPawn);
+        // Calcul of the new position
+        $iLastPosition = $oPawn->getPosition();
+        $iDiceValue = $this->getDice();
+        $iNewPosition = $iLastPosition + $iDiceValue;
+        $this->pawns[$this->playerTurn]->setPosition($iNewPosition);
+        // Add into the new cell the pawn
+        $iNewCell = $this->getIdxCell($this->pawns[$this->playerTurn]->getPosition());
+        $this->cells[$iNewCell]->addPawn($this->pawns[$this->playerTurn]);
+        return;
     }
 
     /**

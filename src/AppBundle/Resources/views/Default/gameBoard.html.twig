@@ -1,5 +1,5 @@
 {% extends 'AppBundle::base.html.twig' %}
-
+{#board is an object send via tthe defualtController#}
 {% block content %}
     <div id="board">
         {% include "AppBundle:Default:board.html.twig" %}   <!-- avec include il n'est pas possible d'utiliser de Route -->

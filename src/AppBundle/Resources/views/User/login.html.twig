@@ -1,0 +1,8 @@
+<li>
+    {{form_start(formLogin, {'action' : path('login')})}}
+    Login : {{form_widget(formLogin.emailLogin)}}
+    Mot de Passe : {{form_widget(formLogin.password)}}
+    {{form_widget(formLogin.save)}}
+    {{form_widget(formLogin)}}
+    {{form_end(formLogin)}}
+</li>
