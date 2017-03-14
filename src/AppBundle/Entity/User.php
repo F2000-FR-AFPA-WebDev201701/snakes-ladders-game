@@ -25,7 +25,7 @@ class User {
     /**
      * @var string
      *
-     * @ORM\Column(name="emailLogin", type="string", length=255)
+     * @ORM\Column(name="emailLogin", type="string", length=255, unique=true)
      * @Assert\Email(
      *     message = "l'email '{{ value }}' n'est pas un email valide",
      *     checkMX = true
@@ -37,11 +37,11 @@ class User {
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255)
+     * @ORM\Column(name="password", type="string", length=12)
      * @Assert\NotBlank()
      * @Assert\Length(
      * min = 6,
-     * max = 30,
+     * max = 12,
      * minMessage = "le mot de passe doit avoir au moins {{ limit }} caractères",
      * maxMessage = "le mot de passe doit avoir plus de  {{ limit }} caractères"
      * )
@@ -120,14 +120,12 @@ class User {
      */
     private $game;
 
-
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -138,8 +136,7 @@ class User {
      *
      * @return User
      */
-    public function setEmailLogin($emailLogin)
-    {
+    public function setEmailLogin($emailLogin) {
         $this->emailLogin = $emailLogin;
 
         return $this;
@@ -150,8 +147,7 @@ class User {
      *
      * @return string
      */
-    public function getEmailLogin()
-    {
+    public function getEmailLogin() {
         return $this->emailLogin;
     }
 
@@ -162,8 +158,7 @@ class User {
      *
      * @return User
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         $this->password = $password;
 
         return $this;
@@ -174,8 +169,7 @@ class User {
      *
      * @return string
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
@@ -186,8 +180,7 @@ class User {
      *
      * @return User
      */
-    public function setIcone($icone)
-    {
+    public function setIcone($icone) {
         $this->icone = $icone;
 
         return $this;
@@ -198,8 +191,7 @@ class User {
      *
      * @return string
      */
-    public function getIcone()
-    {
+    public function getIcone() {
         return $this->icone;
     }
 
@@ -210,8 +202,7 @@ class User {
      *
      * @return User
      */
-    public function setPseudo($pseudo)
-    {
+    public function setPseudo($pseudo) {
         $this->pseudo = $pseudo;
 
         return $this;
@@ -222,8 +213,7 @@ class User {
      *
      * @return string
      */
-    public function getPseudo()
-    {
+    public function getPseudo() {
         return $this->pseudo;
     }
 
@@ -234,8 +224,7 @@ class User {
      *
      * @return User
      */
-    public function setFirstname($firstname)
-    {
+    public function setFirstname($firstname) {
         $this->firstname = $firstname;
 
         return $this;
@@ -246,8 +235,7 @@ class User {
      *
      * @return string
      */
-    public function getFirstname()
-    {
+    public function getFirstname() {
         return $this->firstname;
     }
 
@@ -258,8 +246,7 @@ class User {
      *
      * @return User
      */
-    public function setLastname($lastname)
-    {
+    public function setLastname($lastname) {
         $this->lastname = $lastname;
 
         return $this;
@@ -270,8 +257,7 @@ class User {
      *
      * @return string
      */
-    public function getLastname()
-    {
+    public function getLastname() {
         return $this->lastname;
     }
 
@@ -282,8 +268,7 @@ class User {
      *
      * @return User
      */
-    public function setGame(\AppBundle\Entity\Game $game = null)
-    {
+    public function setGame(\AppBundle\Entity\Game $game = null) {
         $this->game = $game;
 
         return $this;
@@ -294,8 +279,8 @@ class User {
      *
      * @return \AppBundle\Entity\Game
      */
-    public function getGame()
-    {
+    public function getGame() {
         return $this->game;
     }
+
 }
