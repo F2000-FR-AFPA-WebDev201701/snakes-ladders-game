@@ -37,11 +37,11 @@ class User {
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=12)
+     * @ORM\Column(name="password", type="string")
      * @Assert\NotBlank()
      * @Assert\Length(
      * min = 6,
-     * max = 12,
+     * max = 255,
      * minMessage = "le mot de passe doit avoir au moins {{ limit }} caractères",
      * maxMessage = "le mot de passe doit avoir plus de  {{ limit }} caractères"
      * )
