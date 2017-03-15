@@ -2,7 +2,7 @@
 {#board is an object send via tthe defualtController#}
 {% block content %}
     <div id="board">
-        {% include "AppBundle:Default:board.html.twig" %}   <!-- avec include il n'est pas possible d'utiliser de Route -->
+        {% include "AppBundle:Game:board.html.twig" %}   <!-- avec include il n'est pas possible d'utiliser de Route -->
     </div>
     <script>
         $('#board').on('click', '#the-dice', function () {   // #the-dice est l'identifiant de l'image du dè mais il va être écrasé à chaque clique, c'est pourquoi on le met en option / #board est l'identifiant en dur qui ne va pas être écrasé au rechargement de la page
