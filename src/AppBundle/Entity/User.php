@@ -84,11 +84,11 @@ class User {
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=255)
+     * @ORM\Column(name="firstname", type="string")
      * @Assert\NotBlank()
      * @Assert\Length(
      * min = 2,
-     * max = 50,
+     * max = 255,
      * minMessage = "le prénom doit avoir au moins {{ limit }} caractères",
      * maxMessage = "le prénom doit avoir plus de  {{ limit }} caractères"
      * )
