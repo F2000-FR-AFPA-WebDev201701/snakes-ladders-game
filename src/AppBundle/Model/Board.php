@@ -65,7 +65,6 @@ class Board {
 
     public function doAction($idUser, $action) {
 //      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
-        dump($this);
         if ($idUser == $this->pawns[$this->playerTurn]->getUser()->getId()) {
 //        Recuperer le pion du user si celui ci est bon
             $oActualPawn = $this->pawns[$this->playerTurn];
@@ -75,19 +74,14 @@ class Board {
 //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
                     $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
 //                    modifier le tableau de cells avec les nouveaux pions
+
+
                     break;
             }
         }
     }
 
 //    }
-
-    public function checkEndGame($PosLastPlayer) {
-
-        If ($posLastPlayer >= 63) { // jeu terminé   $$$$$$$$$$$$$$$$$$$$
-        } else {  // jeu continue
-        }
-    }
 
     /**
      * Lancement du dé (1-6)
@@ -101,16 +95,25 @@ class Board {
 // the new position value of the pawn (in twig case) and change the tab cells with the new position of the pawn inside
     public function movePawn($oPawn) {
         // Remove into the cell the place where the pawn were
+
+
         $iOldCell = $this->getIdxCell($oPawn->getPosition());
         $this->cells[$iOldCell]->removePawn($oPawn);
+
         // Calcul of the new position
         $iLastPosition = $oPawn->getPosition();
         $iDiceValue = $this->getDice();
         $iNewPosition = $iLastPosition + $iDiceValue;
+        if ($iNewPosition >= 63) {     // si la nouvelle position du pion dépasse 63, la position du pion restera à 63
+            $iNewPosition = 63;
+        }
         $this->pawns[$this->playerTurn]->setPosition($iNewPosition);
+
         // Add into the new cell the pawn
         $iNewCell = $this->getIdxCell($this->pawns[$this->playerTurn]->getPosition());
         $this->cells[$iNewCell]->addPawn($this->pawns[$this->playerTurn]);
+
+
         return;
     }
 
@@ -176,6 +179,16 @@ class Board {
 
     function setPlayerTurn($playerTurn) {
         $this->playerTurn = $playerTurn;
+    }
+
+    function isEndGame() {
+        $bEndOfGame = 0;
+
+        if (count($this->cells[self::getIdxCell(63)]->getPawns()) != 0) {
+            $bEndOfGame = 1; // si un pion arrive dans la case 63 on retourne un booléen = 1 pour dire que la partie est finie
+            // attribut "statut" de l'objet oGame = KO => fair dans le GameControleur
+        }
+        return $bEndOfGame;
     }
 
 }

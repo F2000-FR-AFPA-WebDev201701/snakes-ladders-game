@@ -65,4 +65,35 @@
     <div id="de" class="col-md-3">
         <img id="the-dice" src="{{ asset('images/dice_' ~ board.dice ~ '.png') }}" alt="{{board.dice}}"/>
     </div>
+
+    {% if bEndGame == 1 %}
+
+
+        <!-- Modal --> <!-- Popup Bootstrap bien fait, pratique -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title" id="myModalLabel">Fin de partie</h4>
+                    </div>
+                    <div class="modal-body">
+                        <H2> Partie terminée ! </H2>
+                        <H3> Bien joué {{ board.cells[63].pawns[0].user.firstname }} ! tu es super fort(e)! tu as gagné la partie !!!</H3>
+                        <HR>
+                        Que voulez vous faire ?
+                        <BR><BR>
+                        <div class="center">
+                            <a href="{{  app.request.getBasePath()  }}"<button type="button" class="btn btn-primary">Rejouer une partie</button></a>&nbsp;&nbsp;&nbsp;&nbsp;  <!--  app.request.getBasePath()  est une fonction twig pour indiquer la page d'acceuil du site -->
+                            &nbsp;&nbsp;<a href="http://www.yahoo.fr"><button type="button" class="btn btn-danger">Quitter le plateau de jeu</button></a>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <script> $('#myModal').modal('show')</script> <!-- on affiche la fenêtre popup Bootstrap avec Jquery au chargement de la page si la partie est terminée, sinon il faudrait mettre un bouton bootstrap-->
+    {% endif %}
+
+
 </div>
