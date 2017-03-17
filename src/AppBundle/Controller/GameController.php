@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\User;
 use AppBundle\Model\Board;
 use AppBundle\Entity\Game;
@@ -17,68 +18,94 @@ class GameController extends Controller {
         // on copie pour l'instant la fonction gameBoardAction() du dessous
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
         $oGame = $repoGame->find(1); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
-
         $oBoard = unserialize($oGame->getData());
-
-        //dump($oBoard);
         return ['board' => $oBoard];   // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
     }
 
     /**
-     * @Route("/create", name="game_create")
+     * @Route("/create-game/{nbJ}/{theme}", name="game_create")
      */
-    public function createAction() {   // on va lancer le create 1 fois pour creer le tableau de jeu
-        $oPlayer = new User();
-        $oPlayer->setId('1');
-        $oPlayer->setEmailLogin('aaa@aaa.com');
-        $oPlayer->setPassword('aaaaaa');
-        $oPlayer->setIcone('images/joueur_logo.jpg');
-        $oPlayer->setPseudo('bbbbbb');
-        $oPlayer->setFirstname('Pierre');
-        $oPlayer->setLastname('cccccc');
-
-        $aoPlayer[] = $oPlayer;
-
-        $oPlayer = new User();
-        $oPlayer->setId('2');
-        $oPlayer->setEmailLogin('aaa2@aaa2.com');
-        $oPlayer->setPassword('aaaaaa2');
-        $oPlayer->setIcone('images/joueur_logo.jpg');
-        $oPlayer->setPseudo('coco');
-        $oPlayer->setFirstname('Pierre2');
-        $oPlayer->setLastname('cccccc2');
-
-        $aoPlayer[] = $oPlayer;
-
-        $oBoard = new Board($aoPlayer);
-        $oBoard->setPlayerTurn(0);
-
-        //sérialisation l'objet plateau de jeu oBoard dans l'attribut $data de l'objet game pour pouvoir le sauver en DB/faire un persist flush sur l'entité game
+    public function createAction(Request $request, $nbJ, $theme) {
+//      on recupère l'identidiant du user en cours pour récuperer ces données dans la bdd et creer le game avec
+        $oUserSession = $request->getSession()->get('oUser')->getId();
+        // recupération des informations du User dans la base d donnée via celle de la session
+        $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
+        $oUser = $repoUser->find($oUserSession);
+//        Initialisation de Game
         $oGame = new Game;
-        $oGame->setData(serialize($oBoard));
-        $oGame->setName('partie 1');
-        $oGame->setCreatedDate(new \DateTime(date('Y-m-d H:i:s')));
-        $oGame->setNbPlayerMax(9);
-        $oGame->setStatus('OK');
-
+        $oDateGame = new \DateTime('now');
+        $oGame->setCreatedDate($oDateGame);
+        $nameGame = 'jeu de ' . $oUser->getPseudo() . ' a la date du ' . $oDateGame->format('Y-m-d H:i:s') . ' avec le super theme ' . $theme;
+        $statusGame = 'wait';
+        $playersGame = $oUser->getId();
+        $themeGame = $theme;
+        $oGame->setName($nameGame);
+        $oGame->setNbPlayerMax($nbJ);
+        $oGame->setStatus($statusGame);
+        $oGame->setTheme($themeGame);
         //[DOCTRINE] sauvegarde dans la base de données data (en fait on rend persistant l'objet Game)
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
         $em->persist($oGame);  // on sauve dans la db l'entité Game qui sera mis a jour en temps réel dans le repository
         $em->flush(); // on effectue la requête
-
-        return $this->redirectToRoute('gameboard');
+//        Join the user into this party
+        return $this->redirectToRoute('game_join', array(
+                    'iGame' => $oGame->getId()
+        ));
     }
 
     /**
-     * @Route("/gameboard", name="gameboard")
+     * @Route("/join-game/{iGame}", name="game_join")
+     */
+    public function joinAction(Request $request, $iGame) {
+//        Add in the databse User gameId the information on the idGame
+        // recupération des informations du User dans la base d donnée via celle de la session
+        //      on recupère l'identidiant du user en cours pour récuperer ces données dans la bdd et creer le game avec
+        $oUserSession = $request->getSession()->get('oUser')->getId();
+        // recupération des informations du User dans la base d donnée via celle de la session
+        $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
+        $oUser = $repoUser->find($oUserSession);
+
+        // recupération des informations de game depuis sa base de données.
+        $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game');
+        $oGame = $repoGame->find($iGame);
+        $maxPlayer = $oGame->getNbPlayerMax();
+//ajouter au game le user qui a rejoins la partie
+        $oGame->addPlayer($oUser);
+        $oUser->setGame($oGame);
+//ajouter in the dabase the information
+        $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
+        $em->flush();
+
+//        Si le nombre de joueur affilier a une partie est atteint
+        $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
+        $aoGamePlayers = $repoUser->findBy(array('game' => $iGame));
+        if (count($aoGamePlayers) == $maxPlayer) {
+//            creation du oBord
+            $oBoard = new Board($aoGamePlayers);
+//            ajout de oBoard dans data de oGame; et update de Game
+            $oGame->setData(serialize($oBoard));
+            $statusGame = 'ok';
+            $oGame->setStatus($statusGame);
+
+
+            $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
+            $em->flush();
+            return $this->redirectToRoute('gameboard', array(
+                        'iGame' => $oGame->getId()
+            ));
+        }
+    }
+
+    /**
+     * @Route("/gameboard/{iGame}", name="gameboard")
      * @Template
      * Chargement du plateau de jeu
      */
-    public function gameBoardAction() {
+    public function gameBoardAction($iGame) {
 
         // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game (Game est sauver de manière persistante dans la Db
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
-        $oGame = $repoGame->find(1); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
+        $oGame = $repoGame->find($iGame); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
 
         $oBoard = unserialize($oGame->getData());
 

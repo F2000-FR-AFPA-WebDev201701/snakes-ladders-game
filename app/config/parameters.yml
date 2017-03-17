@@ -1,4 +1,5 @@
 # This file is auto-generated during the composer install
+# This is important to remove this file form git repository as git is public and this file can contain private information 
 parameters:
     database_host: 127.0.0.1
     database_port: null

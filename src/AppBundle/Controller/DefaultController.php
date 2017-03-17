@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type as FormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 use AppBundle\Model\Board;
@@ -22,11 +23,62 @@ class DefaultController extends Controller {
         return [];
     }
 
-    // Routing :  "/board" est ce qui va s'afficher dans le navigateur (cela peut être n'importe quel nom mais il ne doit pas avoir été utilisé comme Url avant)
-    //            name="board" est le nom de la route que l'on peut appeler avec la fonction path de twig
-    //            boardAction  est la fonction sur laquelle on va effectué des opération Php puis elle va retourner les résultats à la page/vue twig du même nom : board.html.twig
     /**
-     * @Route("/board", name="board")
+     * @Route("/create", name="createParty")
      * @Template
      */
+    public function createPartyAction(Request $request) {
+//        Creation du formulaire de creation d'une partie
+        $oForm = $this->createFormBuilder()
+                ->add('Theme', FormType\ChoiceType::class, array('choices' => array(
+                        'Programmation Web' => 'WebProgramming',
+                        'Cuisine' => 'cooking'),
+                    'multiple' => false, 'expanded' => true))
+                ->add('Type', FormType\ChoiceType::class, array('choices' => array(
+                        'Seul' => 'Alone_user',
+                        'Multi-joueurs' => 'Multiple_user'),
+                    'multiple' => false, 'expanded' => true))
+                ->add('nombreJoeur', FormType\ChoiceType::class, array('choices' => array(
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6',
+                        '7' => '7',
+                        '8' => '8',
+                        '9' => '9'),
+                    'multiple' => false, 'expanded' => true))
+                ->add('Creer', FormType\SubmitType::class, array('attr' => array('class' => 'save')))
+                ->getForm();
+// Génération du formulaire
+
+        $oForm->handleRequest($request);
+        if ($oForm->isSubmitted() && $oForm->isValid()) {
+            $form = $oForm->getData();
+            return $this->redirectToRoute('game_create', array(
+                        'nbJ' => $form['nombreJoeur'],
+                        'theme' => $form['Theme']
+            ));
+        }
+
+        return ['formCreate' => $oForm->createView()];
+    }
+
+    /**
+     * @Route("/join", name="joinParty")
+     * @Template
+     */
+    public function joinPartyAction() {
+        return[];
+    }
+
+    /**
+     * @Route("/gameTheme", name="gameTheme")
+     * @Template
+     */
+    public function gameThemeAction() {
+        return [];
+    }
+
 }
