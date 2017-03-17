@@ -1,0 +1,107 @@
+body {
+    width: 1000px;
+    margin: auto;
+    color:#000000; /*code hexadécimal du noir*/
+    font-family:verdana;
+    font-size:12px;
+}
+#logo{
+    width: 80px;
+    height: 80px;
+}
+header {
+    position: static;
+}
+#mainContent{
+    margin-top: 100px;
+}
+#plateau {
+    height: 450px;
+}
+.column{
+    position: relative;
+}
+
+#plateau td{
+    height: 50px;
+    width: 40px;
+}
+.numCell{
+    position: absolute;
+    right: 5px;
+    top: 1px;
+
+}
+.game-aside-info  {
+    height: 410px;
+}
+.game-aside-info .panel-body  {
+    height: 100%;
+}
+
+#partie {
+    height: 80px;
+    border: 0px;
+    background-color:  	#f0f4f2;
+}
+#joueurs {
+    height: 80px;
+    border: 0px;
+    background-color: 	#b3c6ff;
+    text-align: center;
+}
+.players_info_turn{
+    display: inline-block;
+    opacity: 0.5;
+    margin: 10px;
+    overflow:hidden;
+}
+
+.players_info_turn.active{
+    opacity: 1;
+}
+.players_info_turn .panel{
+    min-height:50px;
+    max-height: 65px;
+}
+.players_info_turn .panel-heading{
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+.players_info_turn .panel-body{
+    padding: 5px;
+    padding-top: 7px;
+}
+.players_info_turn .panel-body p{
+    font-size: 8px;
+}
+#img_logo{
+    width: 20px;
+    height: 20px;
+}
+/* le paragraphe contenant la question : */
+#de {
+    height: 80px;
+    border: 0px;
+    background-color:  	#f0f4f2;
+}
+#question {
+    text-align: justify;
+}
+h4 {
+    text-align: center;
+}
+
+footer {
+    margin-left: 65px;
+    margin-right: 65px;
+}
+
+
+#the-dice {
+    width:60px;
+}
+
+.center {
+    text-align: center;
+}
