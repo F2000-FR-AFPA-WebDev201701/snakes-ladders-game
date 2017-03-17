@@ -87,7 +87,6 @@ class GameController extends Controller {
             $statusGame = 'ok';
             $oGame->setStatus($statusGame);
 
-
             $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
             $em->flush();
             return $this->redirectToRoute('gameboard', array(
