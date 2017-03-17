@@ -35,8 +35,10 @@
     <div id="reponses" class="col-md-3 game-aside-info">
         <div class="panel panel-default">
             <div class="panel-heading">Commentaires</div>
-            <div class="panel-body">
-                <p id="question">A toi de jouer Toto !</p>
+            <div id="comments" class="panel-body">
+                {% for msg in board.messagesToPlayers %}
+                    {{ msg | raw }}<br /><br />
+                {% endfor %}
             </div>
         </div>
     </div>

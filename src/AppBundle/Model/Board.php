@@ -4,18 +4,43 @@ namespace AppBundle\Model;
 
 class Board {
 
+    const MSG_GAMEBEGINS = 'La partie commence.';
+    const MSG_YOURTURN = 'A toi de Jouer __name__ ! <br/>Lance le Dé !';
+    const MSG_WRONGANSWER = 'Mauvaise Réponse __name__ !<br/>Tu recules de __nbcase__ cases !';
+    const MSG_RIGHTANSWER = 'Bonne Réponse __name__ !';
+    const MSG_GAMEISOVER = 'La Partie est Terminée!<br>__name__ a Gagné !!!';
+
+    /* Variables constantes. Chaque variable constante correspond à une situation de jeu.
+     * Il y a six situations de jeu. __name__ et __nbcase__ pourront être remplacés
+     * respectivement par "le nom du joueur" et le "nombre de cases à reculer".
+     */
+
     private $backgroundImage;
     private $aCorrespondances;
     private $cells;
     private $pawns;
     private $dice;
-    private $playerTurn;  // index du tableau de pion (qui a été mélanger à la création du plateau et des pions
 
-// setup du jeu se fait avec le constructeur (car le plateau ne va se construire qu'une fois):
+    /**
+     * Index du tableau de pion (qui a été mélanger à la création du plateau et des pions
+     * @var type
+     */
+    private $playerTurn;
 
+    /**
+     * Cet attribut $messagesToPlayers est utilisé en même temps que les variables constantes (plus haut).
+     * @var array
+     */
+    private $messagesToPlayers;
+
+    /**
+     * Setup du jeu se fait avec le constructeur (car le plateau ne va se construire qu'une fois):
+     * @param array $aoUsers
+     */
     public function __construct($aoUsers) {
         $this->cells = [];
         $this->pawns = [];
+        $this->messagesToPlayers = [];
         $this->aCorrespondances = [
             56, 57, 58, 59, 60, 61, 62, 63,
             55, 54, 53, 52, 51, 50, 49, 48,
@@ -28,7 +53,7 @@ class Board {
         ];
 
 
-// init. du plateau
+        // init. du plateau
         for ($i = 0; $i <= 63; $i++) {  // création des 64 cases objets
             $iNumCell = $this->getNumCell($i);  // $this->corr..[$i] // Verif fonction de Pierre
 
@@ -39,7 +64,7 @@ class Board {
             $this->cells[] = $oCell;
         }
 
-// init. des joueurs
+        // init. des joueurs
         foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
             $oPawn->setPosition(0); // numéro de la case twig
@@ -48,7 +73,7 @@ class Board {
 
             $this->pawns[] = $oPawn;
 
-// Position de départ
+            // Position de départ
             $Idx = $this->getIdxCell(0);
             $oCell = $this->cells[$Idx];
             $oCell->addPawn($oPawn); // ajouter un pion au tableau de pion de la cellule
@@ -56,32 +81,41 @@ class Board {
         shuffle($this->pawns);  // va mélanger le tableau d'objet des pions pour déterminer au hasard qui va commencer
 
         $this->playerTurn = 0;  // l'objet pion situé dans l'index 0 du tableau d'objet va commencer la partie
+        // La Partie Commence !
+        $oStartPawn = $this->pawns[$this->playerTurn];
+        $oStartUser = $oStartPawn->getUser();
+        $messagetoto = str_replace(
+                '__name__', $oStartUser->getPseudo(), Board::MSG_YOURTURN
+        );
+
+        $this->messagesToPlayers = [Board::MSG_GAMEBEGINS, $messagetoto];
     }
 
     public function selectPlayer($actualPlayer) {
-//joueur+1 avec modulo pour gerer la fin du tableau
-        $this->playerTurn = $ActualPlayer++;
+        //joueur+1 avec modulo pour gerer la fin du tableau
+        $this->playerTurn = $actualPlayer++;
     }
 
     public function doAction($idUser, $action) {
-//      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
+        $oActualPawn = $this->pawns[$this->playerTurn];
+        //      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
         dump($this);
-        if ($idUser == $this->pawns[$this->playerTurn]->getUser()->getId()) {
-//        Recuperer le pion du user si celui ci est bon
-            $oActualPawn = $this->pawns[$this->playerTurn];
+        if ($idUser == $oActualPawn->getUser()->getId()) {
+            //        Recuperer le pion du user si celui ci est bon
+
             switch ($action) {
                 case "dice":
                     $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
-//                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
+                    //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
                     $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
-//                    modifier le tableau de cells avec les nouveaux pions
+                    //                    modifier le tableau de cells avec les nouveaux pions
                     break;
             }
         }
     }
 
-//    }
-
+    //    }
+// A NETTOYER :
     public function checkEndGame($PosLastPlayer) {
 
         If ($posLastPlayer >= 63) { // jeu terminé   $$$$$$$$$$$$$$$$$$$$
@@ -111,6 +145,7 @@ class Board {
         // Add into the new cell the pawn
         $iNewCell = $this->getIdxCell($this->pawns[$this->playerTurn]->getPosition());
         $this->cells[$iNewCell]->addPawn($this->pawns[$this->playerTurn]);
+
         return;
     }
 
@@ -176,6 +211,14 @@ class Board {
 
     function setPlayerTurn($playerTurn) {
         $this->playerTurn = $playerTurn;
+    }
+
+    public function getMessagesToPlayers() {
+        return $this->messagesToPlayers;
+    }
+
+    public function setMessagesToPlayers($messagesToPlayers) {
+        $this->messagesToPlayers = $messagesToPlayers;
     }
 
 }
