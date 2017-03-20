@@ -30,22 +30,23 @@ class GameController extends Controller {
      * @Route("/create-game/{nbJ}/{theme}", name="game_create")
      */
     public function createAction(Request $request, $nbJ, $theme) {
-//      on recupère l'identidiant du user en cours pour récuperer ces données dans la bdd et creer le game avec
+//      on recupère l'identidiant du user de la session pour récuperer ces données dans la bdd et creer le game avec
         $oUserSession = $request->getSession()->get('oUser')->getId();
-        // recupération des informations du User dans la base d donnée via celle de la session
         $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
         $oUser = $repoUser->find($oUserSession);
+//        Recupération de l'objet Theme
+        $repoTheme = $this->getDoctrine()->getRepository('AppBundle:Theme');
+        $oTheme = $repoTheme->find($theme);
 //        Initialisation de Game
         $oGame = new Game;
         $oDateGame = new \DateTime('now');
         $oGame->setCreatedDate($oDateGame);
-        $nameGame = 'jeu de ' . $oUser->getPseudo() . ' a la date du ' . $oDateGame->format('Y-m-d H:i:s') . ' avec le super theme ' . $theme;
+        $nameGame = 'jeu de ' . $oUser->getPseudo() . ' a la date du ' . $oDateGame->format('Y-m-d H:i:s') . ' avec le super theme ' . $oTheme->getWording();
         $statusGame = 'wait';
-        $themeGame = $theme;
         $oGame->setName($nameGame);
         $oGame->setNbPlayerMax($nbJ);
         $oGame->setStatus($statusGame);
-        $oGame->setTheme($themeGame);
+        $oGame->setTheme($oTheme);
         //[DOCTRINE] sauvegarde dans la base de données data (en fait on rend persistant l'objet Game)
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
         $em->persist($oGame);  // on sauve dans la db l'entité Game qui sera mis a jour en temps réel dans le repository
@@ -94,6 +95,8 @@ class GameController extends Controller {
             return $this->redirectToRoute('gameboard', array(
                         'iGame' => $oGame->getId()
             ));
+        } else {
+
         }
         return[""];
     }
@@ -118,16 +121,19 @@ class GameController extends Controller {
      * @Route("/gameboard/action/{action}", name="gameaction")
      * @Template("AppBundle:Game:board.html.twig")
      */
-    public function gameAction($action) {
+    public function gameAction(Request $request, $action) {
         // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game
-        // recuperer la session du User -> et y recupérer son game_id. Ainsi nous récipérons le game en cours . Désérialisation .
-        $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
-        $oGame = $repoGame->find(9); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
-
-        $oBoard = unserialize($oGame->getData());  // on crée l'objet oBoard en désérialisant l'attribut-variable $data de oGame : ne pas oublier de faire un schéma update pour créer la table data car elle ne va pas se créé
+        // Pour cela, recuperer la session du User -> et y recupérer son game_id. Ainsi nous récipérons le game en cours . Désérialisation .
+        $oUserSession = $request->getSession()->get('oUser')->getId();
+        $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
+        $oUser = $repoUser->find($oUserSession);
+        $iGameUser = $oUser->getGame();
+        $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game');
+        $oGame = $repoGame->find($iGameUser); // on sélectionne l'objet Game en cours (la partie en cours).
+        $oBoard = unserialize($oGame->getData());  // on crée l'objet oBoard en désérialisant l'attribut-variable $data de oGame
         // parameters. action va lancer le dés + faire le deplacement du pions via (doAction)
-        // movePawn a besoin comme paramètre l'identifiant du user qui a appuyé sur "Dés" Il faut donc changer son propore pion. (session)
-        $oBoard->doAction(1, $action);
+        // movePawn a besoin comme paramètre l'identifiant du user qui a appuyé sur "Dés" ($_session)
+        $oBoard->doAction($oUser->getId(), $action);
         // mise a jour de $ogame en lui
         $oGame->setData(serialize($oBoard));
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine

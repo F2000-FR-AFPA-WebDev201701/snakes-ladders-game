@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type as FormType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 use AppBundle\Model\Board;
@@ -30,9 +31,9 @@ class DefaultController extends Controller {
     public function createPartyAction(Request $request) {
 //        Creation du formulaire de creation d'une partie
         $oForm = $this->createFormBuilder()
-                ->add('Theme', FormType\ChoiceType::class, array('choices' => array(
-                        'Programmation Web' => 'WebProgramming',
-                        'Cuisine' => 'cooking'),
+                ->add('Theme', EntityType::class, array(
+                    'class' => 'AppBundle:Theme',
+                    'choice_label' => 'wording',
                     'multiple' => false, 'expanded' => true))
                 ->add('Type', FormType\ChoiceType::class, array('choices' => array(
                         'Seul' => 'Alone_user',
@@ -58,7 +59,7 @@ class DefaultController extends Controller {
             $form = $oForm->getData();
             return $this->redirectToRoute('game_create', array(
                         'nbJ' => $form['nombreJoeur'],
-                        'theme' => $form['Theme']
+                        'theme' => $form['Theme']->getId()
             ));
         }
 
@@ -70,7 +71,7 @@ class DefaultController extends Controller {
      * @Template
      */
     public function joinPartyAction() {
-        // affichage des différentes parties qui sont en attente 
+        // affichage des différentes parties qui sont en attente
         return[];
     }
 

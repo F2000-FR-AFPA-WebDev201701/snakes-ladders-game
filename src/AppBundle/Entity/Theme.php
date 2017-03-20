@@ -18,6 +18,7 @@ class Theme {
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\OneToMany(targetEntity="Game", mappedBy="theme")
      */
     private $id;
 
@@ -67,8 +68,7 @@ class Theme {
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -79,8 +79,7 @@ class Theme {
      *
      * @return Theme
      */
-    public function addQuestion(\AppBundle\Entity\Question $question)
-    {
+    public function addQuestion(\AppBundle\Entity\Question $question) {
         $this->questions[] = $question;
 
         return $this;
@@ -91,8 +90,7 @@ class Theme {
      *
      * @param \AppBundle\Entity\Question $question
      */
-    public function removeQuestion(\AppBundle\Entity\Question $question)
-    {
+    public function removeQuestion(\AppBundle\Entity\Question $question) {
         $this->questions->removeElement($question);
     }
 
@@ -101,8 +99,8 @@ class Theme {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getQuestions()
-    {
+    public function getQuestions() {
         return $this->questions;
     }
+
 }
