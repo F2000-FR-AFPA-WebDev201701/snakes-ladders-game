@@ -70,6 +70,7 @@ class DefaultController extends Controller {
      * @Template
      */
     public function joinPartyAction() {
+        // affichage des différentes parties qui sont en attente 
         return[];
     }
 

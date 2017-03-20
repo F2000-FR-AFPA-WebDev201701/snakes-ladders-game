@@ -37,7 +37,6 @@ class GameController extends Controller {
         $oGame->setCreatedDate($oDateGame);
         $nameGame = 'jeu de ' . $oUser->getPseudo() . ' a la date du ' . $oDateGame->format('Y-m-d H:i:s') . ' avec le super theme ' . $theme;
         $statusGame = 'wait';
-        $playersGame = $oUser->getId();
         $themeGame = $theme;
         $oGame->setName($nameGame);
         $oGame->setNbPlayerMax($nbJ);
@@ -59,12 +58,11 @@ class GameController extends Controller {
     public function joinAction(Request $request, $iGame) {
 //        Add in the databse User gameId the information on the idGame
         // recupération des informations du User dans la base d donnée via celle de la session
-        //      on recupère l'identidiant du user en cours pour récuperer ces données dans la bdd et creer le game avec
+        // on recupère l'identidiant du user en cours pour récuperer ces données dans la bdd et creer le game avec
         $oUserSession = $request->getSession()->get('oUser')->getId();
         // recupération des informations du User dans la base d donnée via celle de la session
         $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
         $oUser = $repoUser->find($oUserSession);
-
         // recupération des informations de game depuis sa base de données.
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game');
         $oGame = $repoGame->find($iGame);
@@ -93,6 +91,7 @@ class GameController extends Controller {
                         'iGame' => $oGame->getId()
             ));
         }
+        return[""];
     }
 
     /**
@@ -105,10 +104,7 @@ class GameController extends Controller {
         // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game (Game est sauver de manière persistante dans la Db
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
         $oGame = $repoGame->find($iGame); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
-
         $oBoard = unserialize($oGame->getData());
-
-        //dump($oBoard);
         return ['board' => $oBoard];   // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
     }
 
@@ -117,8 +113,10 @@ class GameController extends Controller {
      * @Template("AppBundle:Game:board.html.twig")
      */
     public function gameAction($action) {
-
-        // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game (Game est sauver de manière persistante dans la Db
+        // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game
+        // recuperer la session du User -> et y recupérer son game_id. Ainsi nous récipérons le game en cours . Désérialisation .
+        $oUserSession = $request->getSession()->get('oUser')->getId();
+        dump($oUserSession);
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
         $oGame = $repoGame->find(1); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
 
