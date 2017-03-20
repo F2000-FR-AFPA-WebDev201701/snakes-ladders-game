@@ -114,7 +114,6 @@ class GameController extends Controller {
         return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
             'bEndGame' => $oBoard->isEndGame()
         ];
-        return ['board' => $oBoard];   // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
     }
 
     /**
