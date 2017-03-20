@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type as FormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 use AppBundle\Model\Board;
@@ -19,6 +20,65 @@ class DefaultController extends Controller {
 
      */
     public function homeAction() {
+        return [];
+    }
+
+    /**
+     * @Route("/create", name="createParty")
+     * @Template
+     */
+    public function createPartyAction(Request $request) {
+//        Creation du formulaire de creation d'une partie
+        $oForm = $this->createFormBuilder()
+                ->add('Theme', FormType\ChoiceType::class, array('choices' => array(
+                        'Programmation Web' => 'WebProgramming',
+                        'Cuisine' => 'cooking'),
+                    'multiple' => false, 'expanded' => true))
+                ->add('Type', FormType\ChoiceType::class, array('choices' => array(
+                        'Seul' => 'Alone_user',
+                        'Multi-joueurs' => 'Multiple_user'),
+                    'multiple' => false, 'expanded' => true))
+                ->add('nombreJoeur', FormType\ChoiceType::class, array('choices' => array(
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6',
+                        '7' => '7',
+                        '8' => '8',
+                        '9' => '9'),
+                    'multiple' => false, 'expanded' => true))
+                ->add('Creer', FormType\SubmitType::class, array('attr' => array('class' => 'save')))
+                ->getForm();
+// Génération du formulaire
+
+        $oForm->handleRequest($request);
+        if ($oForm->isSubmitted() && $oForm->isValid()) {
+            $form = $oForm->getData();
+            return $this->redirectToRoute('game_create', array(
+                        'nbJ' => $form['nombreJoeur'],
+                        'theme' => $form['Theme']
+            ));
+        }
+
+        return ['formCreate' => $oForm->createView()];
+    }
+
+    /**
+     * @Route("/join", name="joinParty")
+     * @Template
+     */
+    public function joinPartyAction() {
+        // affichage des différentes parties qui sont en attente 
+        return[];
+    }
+
+    /**
+     * @Route("/gameTheme", name="gameTheme")
+     * @Template
+     */
+    public function gameThemeAction() {
         return [];
     }
 

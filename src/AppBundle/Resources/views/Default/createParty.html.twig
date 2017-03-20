@@ -1,0 +1,15 @@
+{% extends 'AppBundle::base.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div id="creation" class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"> A votre choix:</div>
+                <div class="panel-body">
+                    {{form_start(formCreate)}}
+                    {{form_widget(formCreate)}}
+                    {{form_end(formCreate)}}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

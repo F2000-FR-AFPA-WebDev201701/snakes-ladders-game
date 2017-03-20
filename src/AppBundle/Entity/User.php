@@ -113,6 +113,8 @@ class User {
     private $lastname;
 
     /**
+     * in a relation manytoOne means that user can be correalted to only one game. So users is the one which will contzin the information
+     * Then in this relation a column game_id will be created in the users database and will automatically complete the information of players in Game
      * @var int
      *
      * @ORM\ManyToOne(targetEntity="Game", inversedBy="players")
