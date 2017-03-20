@@ -47,10 +47,12 @@ class GameController extends Controller {
         $oGame->setNbPlayerMax($nbJ);
         $oGame->setStatus($statusGame);
         $oGame->setTheme($oTheme);
+
         //[DOCTRINE] sauvegarde dans la base de données data (en fait on rend persistant l'objet Game)
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
         $em->persist($oGame);  // on sauve dans la db l'entité Game qui sera mis a jour en temps réel dans le repository
         $em->flush(); // on effectue la requête
+        //
 //        Join the user into this party
         return $this->redirectToRoute('game_join', array(
                     'iGame' => $oGame->getId()
@@ -65,7 +67,6 @@ class GameController extends Controller {
         // recupération des informations du User dans la base d donnée via celle de la session
         // on recupère l'identidiant du user en cours pour récuperer ces données dans la bdd et creer le game avec
         $oUserSession = $request->getSession()->get('oUser')->getId();
-        // recupération des informations du User dans la base d donnée via celle de la session
         $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
         $oUser = $repoUser->find($oUserSession);
         // recupération des informations de game depuis sa base de données.
