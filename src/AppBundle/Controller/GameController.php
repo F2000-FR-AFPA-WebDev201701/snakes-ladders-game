@@ -21,7 +21,9 @@ class GameController extends Controller {
         $oBoard = unserialize($oGame->getData());
 
         //dump($oBoard);
-        return ['board' => $oBoard];   // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
+        return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
+            'bEndGame' => $oBoard->isEndGame()
+        ];
     }
 
     /**
@@ -83,7 +85,9 @@ class GameController extends Controller {
         $oBoard = unserialize($oGame->getData());
 
         //dump($oBoard);
-        return ['board' => $oBoard];   // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
+        return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
+            'bEndGame' => $oBoard->isEndGame()
+        ];
     }
 
     /**
@@ -99,12 +103,24 @@ class GameController extends Controller {
         $oBoard = unserialize($oGame->getData());  // on crée l'objet oBoard en désérialisant l'attribut-variable $data de oGame : ne pas oublier de faire un schéma update pour créer la table data car elle ne va pas se créé
         // parameters. action va lancer le dés + faire le deplacement du pions via (doAction)
         // movePawn a besoin comme paramètre l'identifiant du user qui a appuyé sur "Dés" Il faut donc changer son propore pion. (session)
-        $oBoard->doAction(1, $action);
+        $oBoard->doAction(2, $action);
         // mise a jour de $ogame en lui
         $oGame->setData(serialize($oBoard));
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
+
+
+        $bEndGame = $oBoard->isEndGame();
+
+
+        if ($bEndGame) {
+            $oGame->setStatus('KO');
+        }
         $em->flush();
-        return ['board' => $oBoard];
+
+        return [
+            'board' => $oBoard, // on retourne toutes les infos du plateau dans la variable objet 'board' utilisable par twig
+            'bEndGame' => $bEndGame // on retourne un booléen 'bEndGame' utilisable par twig qui est le résultat de la fonction IsEndGame(). Cette fonction test si la partie est fini => un ou plusieurs pion se trouve dans la case 63
+        ];
     }
 
 }

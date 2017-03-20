@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Game
  *
- * @ORM\Table(name="game")
+ * @ORM\Table(name="SnakeNLader_game")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\GameRepository")
  */
 class Game {
