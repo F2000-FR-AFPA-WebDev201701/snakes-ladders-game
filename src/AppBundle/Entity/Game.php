@@ -70,9 +70,8 @@ class Game {
 
     /**
      * @var string
-     *
-     * @ORM\ManyToOne(targetEntity="Theme", inversedBy="id")
-     * @ORM\JoinColumn(name="Theme_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Theme", inversedBy="games")
+     * @ORM\JoinColumn(name="theme_id", referencedColumnName="id")
      */
     private $theme;
 

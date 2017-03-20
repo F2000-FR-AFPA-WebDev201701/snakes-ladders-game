@@ -18,7 +18,6 @@ class Theme {
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="Game", mappedBy="theme")
      */
     private $id;
 
@@ -33,6 +32,11 @@ class Theme {
      * @ORM\OneToMany(targetEntity="Question", mappedBy="theme")
      */
     private $questions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Game", mappedBy="theme")
+     */
+    private $games;
 
     /**
      * Get id
@@ -101,6 +105,14 @@ class Theme {
      */
     public function getQuestions() {
         return $this->questions;
+    }
+
+    function getGames() {
+        return $this->games;
+    }
+
+    function setGames($games) {
+        $this->games = $games;
     }
 
 }
