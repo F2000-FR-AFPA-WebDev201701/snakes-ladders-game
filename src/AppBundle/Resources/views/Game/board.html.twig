@@ -79,12 +79,13 @@
                     </div>
                     <div class="modal-body">
                         <H2> Partie terminée ! </H2>
-                        <H3> Bien joué {{ board.cells[63].pawns[0].user.firstname }} ! tu es super fort(e)! tu as gagné la partie !!!</H3>
+                        <H3> Bien joué {{ board.cells[7].pawns[1].user.firstname }} ! tu es super fort(e)! tu as gagné la partie !!!</H3>
+                            {{dump (board)}}
                         <HR>
                         Que voulez vous faire ?
                         <BR><BR>
                         <div class="center">
-                            <a href="{{  app.request.getBasePath()  }}"<button type="button" class="btn btn-primary">Rejouer une partie</button></a>&nbsp;&nbsp;&nbsp;&nbsp;  <!--  app.request.getBasePath()  est une fonction twig pour indiquer la page d'acceuil du site -->
+                            <a href="{{  path('home') }}"<button type="button" class="btn btn-primary">Rejouer une partie</button></a>&nbsp;&nbsp;&nbsp;&nbsp;  <!--  app.request.getBasePath()  est une fonction twig pour indiquer la page d'acceuil du site -->
                             &nbsp;&nbsp;<a href="http://www.yahoo.fr"><button type="button" class="btn btn-danger">Quitter le plateau de jeu</button></a>
                         </div>
                     </div>
