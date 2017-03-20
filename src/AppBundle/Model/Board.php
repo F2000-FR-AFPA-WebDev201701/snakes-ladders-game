@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 namespace AppBundle\Model;
 
 class Board {
@@ -60,7 +62,7 @@ class Board {
 
     public function selectPlayer($actualPlayer) {
 //joueur+1 avec modulo pour gerer la fin du tableau
-        $this->playerTurn = $ActualPlayer++;
+        $this->playerTurn = $actualPlayer++;
     }
 
     public function doAction($idUser, $action) {
@@ -74,10 +76,10 @@ class Board {
 //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
                     $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
 //                    modifier le tableau de cells avec les nouveaux pions
-
-
                     break;
             }
+        } else {
+            throw new NotFoundHttpException("Page not found");
         }
     }
 
@@ -95,8 +97,6 @@ class Board {
 // the new position value of the pawn (in twig case) and change the tab cells with the new position of the pawn inside
     public function movePawn($oPawn) {
         // Remove into the cell the place where the pawn were
-
-
         $iOldCell = $this->getIdxCell($oPawn->getPosition());
         $this->cells[$iOldCell]->removePawn($oPawn);
 
@@ -108,12 +108,9 @@ class Board {
             $iNewPosition = 63;
         }
         $this->pawns[$this->playerTurn]->setPosition($iNewPosition);
-
         // Add into the new cell the pawn
         $iNewCell = $this->getIdxCell($this->pawns[$this->playerTurn]->getPosition());
         $this->cells[$iNewCell]->addPawn($this->pawns[$this->playerTurn]);
-
-
         return;
     }
 

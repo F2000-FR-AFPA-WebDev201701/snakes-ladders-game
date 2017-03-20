@@ -52,7 +52,7 @@ header {
 }
 .players_info_turn{
     display: inline-block;
-    opacity: 0.5;
+    opacity: 0.2;
     margin: 10px;
     overflow:hidden;
 }
