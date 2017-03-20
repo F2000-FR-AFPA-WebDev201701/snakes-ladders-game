@@ -13,18 +13,18 @@ use AppBundle\Entity\Game;
 use Doctrine\ORM\Mapping as ORM;  // déclaration de l'utilisation de doctrine
 
 class GameController extends Controller {
-
-    public function boardAction() {
-        // on copie pour l'instant la fonction gameBoardAction() du dessous
-        $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
-        $oGame = $repoGame->find(1); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
-        $oBoard = unserialize($oGame->getData());
-
-        //dump($oBoard);
-        return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
-            'bEndGame' => $oBoard->isEndGame()
-        ];
-    }
+//    function ci dessous à effacer si il s'avère qu'elle ne sert vraiment a rien
+//    public function boardAction() {
+//        // on copie pour l'instant la fonction gameBoardAction() du dessous
+//        $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
+//        $oGame = $repoGame->find(1); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
+//        $oBoard = unserialize($oGame->getData());
+//
+//        //dump($oBoard);
+//        return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
+//            'bEndGame' => $oBoard->isEndGame()
+//        ];
+//    }
 
     /**
      * @Route("/create-game/{nbJ}/{theme}", name="game_create")
@@ -109,8 +109,6 @@ class GameController extends Controller {
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
         $oGame = $repoGame->find($iGame); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
         $oBoard = unserialize($oGame->getData());
-
-        //dump($oBoard);
         return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
             'bEndGame' => $oBoard->isEndGame()
         ];
@@ -123,23 +121,18 @@ class GameController extends Controller {
     public function gameAction($action) {
         // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game
         // recuperer la session du User -> et y recupérer son game_id. Ainsi nous récipérons le game en cours . Désérialisation .
-        $oUserSession = $request->getSession()->get('oUser')->getId();
-        dump($oUserSession);
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
-        $oGame = $repoGame->find(1); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
+        $oGame = $repoGame->find(9); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
 
         $oBoard = unserialize($oGame->getData());  // on crée l'objet oBoard en désérialisant l'attribut-variable $data de oGame : ne pas oublier de faire un schéma update pour créer la table data car elle ne va pas se créé
         // parameters. action va lancer le dés + faire le deplacement du pions via (doAction)
         // movePawn a besoin comme paramètre l'identifiant du user qui a appuyé sur "Dés" Il faut donc changer son propore pion. (session)
-        $oBoard->doAction(2, $action);
+        $oBoard->doAction(1, $action);
         // mise a jour de $ogame en lui
         $oGame->setData(serialize($oBoard));
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
-
-
+//        gestion de la fin de la partie si user >63
         $bEndGame = $oBoard->isEndGame();
-
-
         if ($bEndGame) {
             $oGame->setStatus('KO');
         }
