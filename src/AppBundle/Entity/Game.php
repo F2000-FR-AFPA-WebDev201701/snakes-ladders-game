@@ -70,8 +70,8 @@ class Game {
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="theme", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Theme", inversedBy="games")
+     * @ORM\JoinColumn(name="theme_id", referencedColumnName="id")
      */
     private $theme;
 
@@ -232,12 +232,28 @@ class Game {
         return $this->data;
     }
 
-    function getTheme() {
+
+    /**
+     * Set theme
+     *
+     * @param \AppBundle\Entity\Theme $theme
+     *
+     * @return Game
+     */
+    public function setTheme(\AppBundle\Entity\Theme $theme = null)
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    /**
+     * Get theme
+     *
+     * @return \AppBundle\Entity\Theme
+     */
+    public function getTheme()
+    {
         return $this->theme;
     }
-
-    function setTheme($theme) {
-        $this->theme = $theme;
-    }
-
 }

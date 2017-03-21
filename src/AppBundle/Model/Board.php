@@ -74,6 +74,7 @@ class Board {
                 case "dice":
                     $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
 //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
+                    $this->dice = 6;
                     $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
 //                    modifier le tableau de cells avec les nouveaux pions
                     break;

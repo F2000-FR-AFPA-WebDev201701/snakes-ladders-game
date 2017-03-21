@@ -34,6 +34,11 @@ class Theme {
     private $questions;
 
     /**
+     * @ORM\OneToMany(targetEntity="Game", mappedBy="theme")
+     */
+    private $games;
+
+    /**
      * Get id
      *
      * @return int
@@ -67,8 +72,7 @@ class Theme {
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -79,8 +83,7 @@ class Theme {
      *
      * @return Theme
      */
-    public function addQuestion(\AppBundle\Entity\Question $question)
-    {
+    public function addQuestion(\AppBundle\Entity\Question $question) {
         $this->questions[] = $question;
 
         return $this;
@@ -91,8 +94,7 @@ class Theme {
      *
      * @param \AppBundle\Entity\Question $question
      */
-    public function removeQuestion(\AppBundle\Entity\Question $question)
-    {
+    public function removeQuestion(\AppBundle\Entity\Question $question) {
         $this->questions->removeElement($question);
     }
 
@@ -101,8 +103,42 @@ class Theme {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getQuestions()
-    {
+    public function getQuestions() {
         return $this->questions;
+    }
+
+
+    /**
+     * Add game
+     *
+     * @param \AppBundle\Entity\Game $game
+     *
+     * @return Theme
+     */
+    public function addGame(\AppBundle\Entity\Game $game)
+    {
+        $this->games[] = $game;
+
+        return $this;
+    }
+
+    /**
+     * Remove game
+     *
+     * @param \AppBundle\Entity\Game $game
+     */
+    public function removeGame(\AppBundle\Entity\Game $game)
+    {
+        $this->games->removeElement($game);
+    }
+
+    /**
+     * Get games
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGames()
+    {
+        return $this->games;
     }
 }
