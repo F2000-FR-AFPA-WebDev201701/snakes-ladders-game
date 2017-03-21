@@ -1,4 +1,38 @@
 {% extends 'AppBundle::base.html.twig' %}
 {% block content %}
-    <h2>rejoindre une partie </h2>
+    <div class="row">
+        <div id="creation" class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"> Voici toutes les partie:</div>
+                <div class="panel-body">
+                    <table class="table table-striped" >
+                        <thead>
+                            <tr>
+                                <th>Nom de la partie</th>
+                                <th>Status de la partie</th>
+                                <th>Theme de la partie</th>
+                                <th>Lien de la partie</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for game in games %}
+                                </tr><tr>
+                                    <td>{{ game.name }}</td>
+                                    <td>{{ game.status }}</td>
+                                    <td>{{ game.theme.wording }}</td>
+                                    <td>
+                                        {% if game.status == 'waiting' %}
+                                            <a href="{{path( 'game_join', {'iGame' : game.id} )}}" class="btn btn-warning" role="button">Rejoindre la partie</a>
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

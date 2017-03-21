@@ -15,7 +15,7 @@ class Board {
 
 // setup du jeu se fait avec le constructeur (car le plateau ne va se construire qu'une fois):
 
-    public function __construct($aoUsers) {
+    public function __construct() {
         $this->cells = [];
         $this->pawns = [];
         $this->aCorrespondances = [
@@ -48,14 +48,15 @@ class Board {
 
             $this->cells[] = $oCell;
         }
+    }
 
-// init. des joueurs
+    public function initPlayer($aoUsers) {
+        // init. des joueurs
         foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
             $oPawn->setPosition(0); // numéro de la case twig
             $oPawn->setPawnColor('blue');
             $oPawn->setUser($oUser);
-
             $this->pawns[] = $oPawn;
 
 // Position de départ
@@ -68,13 +69,17 @@ class Board {
         $this->playerTurn = 0;  // l'objet pion situé dans l'index 0 du tableau d'objet va commencer la partie
     }
 
-    public function selectPlayer($actualPlayer) {
-//joueur+1 avec modulo pour gerer la fin du tableau
-        $this->playerTurn = $actualPlayer++;
+    public function selectPlayer() {
+        $this->playerTurn = $this->playerTurn + 1;
+//        test si on est arrivé à la fin du tableau
+        if ($this->playerTurn >= count($this->pawns)) {
+            $this->playerTurn = 0;
+        }
     }
 
     public function doAction($idUser, $action) {
 //      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
+        dump($this->playerTurn);
         if ($idUser == $this->pawns[$this->playerTurn]->getUser()->getId()) {
 //        Recuperer le pion du user si celui ci est bon
             $oActualPawn = $this->pawns[$this->playerTurn];
@@ -82,13 +87,11 @@ class Board {
                 case "dice":
                     $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
 //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
-                    $this->dice = 6;
                     $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
 //                    modifier le tableau de cells avec les nouveaux pions
+                    $this->selectPlayer();
                     break;
             }
-        } else {
-            throw new NotFoundHttpException("Page not found");
         }
     }
 
