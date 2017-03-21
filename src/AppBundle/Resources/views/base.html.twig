@@ -17,6 +17,10 @@
 
         <!- on ne peut pas utiliser twig dans le fichier externe style.css, alors on rajoute ci dessous les styles utilisant twig -->
         <style>
+            body {
+                background-image: url({{ asset('images/la_ferme_de_l_oie.jpg') }});
+            }
+
             #plateau {
                 background-image: url({{ asset('images/board.jpg')}});
             }

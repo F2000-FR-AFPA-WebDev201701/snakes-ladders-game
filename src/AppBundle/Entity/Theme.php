@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Theme
  *
- * @ORM\Table(name="theme")
+ * @ORM\Table(name="SnakeNLadder_theme")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ThemeRepository")
  */
 class Theme {
