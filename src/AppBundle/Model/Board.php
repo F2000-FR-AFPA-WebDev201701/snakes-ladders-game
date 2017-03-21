@@ -50,6 +50,7 @@ class Board {
         }
     }
 
+    public function initPlayers($aoUsers) {
         // init. des joueurs
         foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
@@ -88,7 +89,6 @@ class Board {
 //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
                     $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
 //                    modifier le tableau de cells avec les nouveaux pions
-                    $this->selectPlayer();
                     $idx = $this->getIdxCell($oActualPawn->getPosition());
                     $oCell = $this->cells[$idx];
 
@@ -98,6 +98,7 @@ class Board {
                     ]);
                     shuffle($aoQuestions);
                     $this->question = $aoQuestions[0];
+                    $this->selectPlayer();
 
                     break;
             }
@@ -211,6 +212,8 @@ class Board {
 
     public function getQuestion() {
         return $this->question;
+    }
+
     function malusPawn($oPawn, $level) {
         // Level = niveau de difficulté de la case/question
         $comment = '';

@@ -49,8 +49,13 @@ class GameController extends Controller {
         $oGame->setCreatedDate($oDateGame);
         $oGame->setName($nameGame);
         $oGame->setNbPlayerMax($nbJ);
-        $oGame->setStatus('wait');
+        $oGame->setStatus('waiting');
         $oGame->setTheme($oTheme);
+        $oGame->setGameCreator($oUser);
+//        creation du tableau de jeu pour gérer le cas que le nombre de user (dans join n'est pas suffisant')
+        $oBoard = new Board();
+//            ajout de oBoard dans data de oGame; et update de Game
+        $oGame->setData(serialize($oBoard));
 
         //[DOCTRINE] sauvegarde dans la base de données data (en fait on rend persistant l'objet Game)
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
@@ -93,23 +98,21 @@ class GameController extends Controller {
         $aoGamePlayers = $repoUser->findBy(array('game' => $iGame));
 
         if (count($aoGamePlayers) == $oGame->getNbPlayerMax()) {
-            $oBoard = new Board($aoGamePlayers);
+// [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game (Game est sauver de manière persistante dans la Db
+            $oBoard = unserialize($oGame->getData());
+            $oBoard->initPlayers($aoGamePlayers);
 
             // ajout de oBoard dans data de oGame; et update de Game
             $oGame->setData(serialize($oBoard));
-            $oGame->setStatus('ok');
+            $oGame->setStatus('in-process');
 
             // em signifie Entity Manager : on récupère le service em de doctrine
             $em->flush();
-
-            return $this->redirectToRoute('gameboard', array(
-                        'iGame' => $oGame->getId()
-            ));
-        } else {
-
         }
 
-        return [];
+        return $this->redirectToRoute('gameboard', array(
+                    'iGame' => $oGame->getId()
+        ));
     }
 
     /**
@@ -123,8 +126,10 @@ class GameController extends Controller {
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
         $oGame = $repoGame->find($iGame); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
         $oBoard = unserialize($oGame->getData());
-        return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
-            'bEndGame' => $oBoard->isEndGame()
+        return [
+            'board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
+            'bEndGame' => $oBoard->isEndGame(),
+            'nameGame' => $oGame->getName()
         ];
     }
 
@@ -153,7 +158,7 @@ class GameController extends Controller {
         // gestion de la fin de la partie si user >63
         $bEndGame = $oBoard->isEndGame();
         if ($bEndGame) {
-            $oGame->setStatus('KO');
+            $oGame->setStatus('Done');
         }
 
         // mise a jour de $ogame en lui
@@ -163,7 +168,8 @@ class GameController extends Controller {
 
         return [
             'board' => $oBoard, // on retourne toutes les infos du plateau dans la variable objet 'board' utilisable par twig
-            'bEndGame' => $bEndGame // on retourne un booléen 'bEndGame' utilisable par twig qui est le résultat de la fonction IsEndGame(). Cette fonction test si la partie est fini => un ou plusieurs pion se trouve dans la case 63
+            'bEndGame' => $bEndGame, // on retourne un booléen 'bEndGame' utilisable par twig qui est le résultat de la fonction IsEndGame(). Cette fonction test si la partie est fini => un ou plusieurs pion se trouve dans la case 63
+            'nameGame' => $oGame->getName(),
         ];
     }
 
