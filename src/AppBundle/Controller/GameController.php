@@ -110,7 +110,8 @@ class GameController extends Controller {
         $oGame = $repoGame->find($iGame); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
         $oBoard = unserialize($oGame->getData());
         return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
-            'bEndGame' => $oBoard->isEndGame()
+            'bEndGame' => $oBoard->isEndGame(),
+            'nameGame' => $oGame->getName()
         ];
     }
 
@@ -122,7 +123,7 @@ class GameController extends Controller {
         // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game
         // recuperer la session du User -> et y recupérer son game_id. Ainsi nous récipérons le game en cours . Désérialisation .
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
-        $oGame = $repoGame->find(9); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
+        $oGame = $repoGame->find(4); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
 
         $oBoard = unserialize($oGame->getData());  // on crée l'objet oBoard en désérialisant l'attribut-variable $data de oGame : ne pas oublier de faire un schéma update pour créer la table data car elle ne va pas se créé
         // parameters. action va lancer le dés + faire le deplacement du pions via (doAction)
