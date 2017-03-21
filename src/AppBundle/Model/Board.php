@@ -36,7 +36,15 @@ class Board {
 
             $oCell = new Cell();
             $oCell->setNum($iNumCell);
-            $oCell->setLevel(Cell::LEVEL_EASY);
+
+            // Attribution difficultés des cases
+            If (($i == 7 || $i == 9 || $i == 11 || $i == 14 || $i == 16 || $i == 17) || ($i > 34 && $i < 40) || ($i > 43 && $i < 47) || ($i > 53 && $i < 56)) {
+                $oCell->setLevel(Cell::LEVEL_MEDIUM);
+            } else if (($i == 42 || $i == 43 || $i == 34 || $i == 32 || $i == 23 || $i == 20 ) || ($i > 55 && $i < 65) || ($i > 46 && $i < 54) || ($i > 25 && $i < 28)) {
+                $oCell->setLevel(Cell::LEVEL_HARD);
+            } else {
+                $oCell->setLevel(Cell::LEVEL_EASY);
+            }
 
             $this->cells[] = $oCell;
         }
@@ -187,6 +195,80 @@ class Board {
             // attribut "statut" de l'objet oGame = KO => fair dans le GameControleur
         }
         return $bEndOfGame;
+    }
+
+    function malusPawn($oPawn, $level) {
+        // Level = niveau de difficulté de la case/question
+        $comment = '';
+        $nbCaseMalus = 0;
+
+        switch ($level) {
+            case 0:
+                $comment = "Mauvaise réponse, vous reculez de 4 cases";
+                $nbCaseMalus = 4;
+                break;
+            case 1:
+                $comment = "Mauvaise réponse, vous recullez de 2 cases";
+                $nbCaseMalus = 2;
+                break;
+            case 2:
+                $comment = "Mauvaise réponse, vous recullez de 1 case";
+                $nbCaseMalus = 1;
+                break;
+        }
+        // On enlève le pion de la case actuelle
+        $iOldCell = $this->getIdxCell($oPawn->getPosition());
+        $this->cells[$iOldCell]->removePawn($oPawn);
+
+        // calcul de la nouvelle position
+        if (($oPawn->getPosition()) < $nbCaseMalus) {
+            $oPawn->setPosition(0);
+        } else {
+            $oPawn->setPosition(($oPawn->getPosition()) - $nbCaseMalus);
+        }
+
+        // on ajoute le pion sur la nouvelle case
+        $iNewCell = $this->getIdxCell($oPawn->getPosition());
+        $this->cells[$iNewCell]->addPawn($oPawn);
+
+        return $comment;
+    }
+
+    function bonusPawn($oPawn, $level) {
+        // Level = niveau de difficulté de la case/question
+        $comment = '';
+        $nbCaseBonus = 0;
+
+        switch ($level) {
+            case 0:
+                $comment = "Bravo! Bonne réponse, vous avancez de 1 case";
+                $nbCaseBonus = 1;
+                break;
+            case 1:
+                $comment = "Bravo! Bonne réponse,  vous avancez de 2 cases";
+                $nbCaseBonus = 2;
+                break;
+            case 2:
+                $comment = "Bravo! Bonne réponse, vous avancez de 4 cases";
+                $nbCaseBonus = 4;
+                break;
+        }
+        // On enlève le pion de la case actuelle
+        $iOldCell = $this->getIdxCell($oPawn->getPosition());
+        $this->cells[$iOldCell]->removePawn($oPawn);
+
+        // calcul de la nouvelle position
+        if ((($oPawn->getPosition()) + $nbCaseBonus) > 63) {
+            $oPawn->setPosition(63);
+        } else {
+            $oPawn->setPosition(($oPawn->getPosition()) + $nbCaseBonus);
+        }
+
+        // on ajoute le pion sur la nouvelle case
+        $iNewCell = $this->getIdxCell($oPawn->getPosition());
+        $this->cells[$iNewCell]->addPawn($oPawn);
+
+        return $comment;
     }
 
 }

@@ -114,7 +114,8 @@ class GameController extends Controller {
         $oGame = $repoGame->find($iGame); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
         $oBoard = unserialize($oGame->getData());
         return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
-            'bEndGame' => $oBoard->isEndGame()
+            'bEndGame' => $oBoard->isEndGame(),
+            'nameGame' => $oGame->getName()
         ];
     }
 
