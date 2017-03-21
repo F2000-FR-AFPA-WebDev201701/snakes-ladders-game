@@ -148,7 +148,8 @@ class GameController extends Controller {
 
         return [
             'board' => $oBoard, // on retourne toutes les infos du plateau dans la variable objet 'board' utilisable par twig
-            'bEndGame' => $bEndGame // on retourne un booléen 'bEndGame' utilisable par twig qui est le résultat de la fonction IsEndGame(). Cette fonction test si la partie est fini => un ou plusieurs pion se trouve dans la case 63
+            'bEndGame' => $bEndGame, // on retourne un booléen 'bEndGame' utilisable par twig qui est le résultat de la fonction IsEndGame(). Cette fonction test si la partie est fini => un ou plusieurs pion se trouve dans la case 63
+            'nameGame' => $oGame->getName()  // il y a un doublon de passage d'infos içi avec le GameBoardAction car on rafraichit tout içi avec Ajax, le Gameboard action va créer le tableau
         ];
     }
 
