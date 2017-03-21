@@ -18,6 +18,13 @@ header {
 #plateau {
     height: 450px;
 }
+#plateau-overlay {
+    position:absolute;
+    top:24px;
+    z-index: 10;
+    width:485px;
+    height:401px;
+}
 .column{
     position: relative;
 }
@@ -38,6 +45,7 @@ header {
 .game-aside-info .panel-body  {
     height: 100%;
 }
+
 
 #partie {
     height: 80px;
@@ -75,6 +83,8 @@ header {
 .players_info_turn .panel-body p{
     font-size: 8px;
 }
+
+
 #img_logo{
     width: 20px;
     height: 20px;
