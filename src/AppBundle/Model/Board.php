@@ -12,6 +12,7 @@ class Board {
     private $pawns;
     private $dice;
     private $playerTurn;  // index du tableau de pion (qui a été mélanger à la création du plateau et des pions
+    private $question;
 
 // setup du jeu se fait avec le constructeur (car le plateau ne va se construire qu'une fois):
 
@@ -29,8 +30,7 @@ class Board {
             7, 6, 5, 4, 3, 2, 1, 0
         ];
 
-
-// init. du plateau
+        // init. du plateau
         for ($i = 0; $i <= 63; $i++) {  // création des 64 cases objets
             $iNumCell = $this->getNumCell($i);  // $this->corr..[$i] // Verif fonction de Pierre
 
@@ -41,7 +41,7 @@ class Board {
             $this->cells[] = $oCell;
         }
 
-// init. des joueurs
+        // init. des joueurs
         foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
             $oPawn->setPosition(0); // numéro de la case twig
@@ -50,7 +50,7 @@ class Board {
 
             $this->pawns[] = $oPawn;
 
-// Position de départ
+            // Position de départ
             $Idx = $this->getIdxCell(0);
             $oCell = $this->cells[$Idx];
             $oCell->addPawn($oPawn); // ajouter un pion au tableau de pion de la cellule
@@ -65,7 +65,7 @@ class Board {
         $this->playerTurn = $actualPlayer++;
     }
 
-    public function doAction($idUser, $action) {
+    public function doAction($idUser, $action, $oRepo, $oTheme) {
 //      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
         if ($idUser == $this->pawns[$this->playerTurn]->getUser()->getId()) {
 //        Recuperer le pion du user si celui ci est bon
@@ -77,6 +77,16 @@ class Board {
                     $this->dice = 6;
                     $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
 //                    modifier le tableau de cells avec les nouveaux pions
+                    $idx = $this->getIdxCell($oActualPawn->getPosition());
+                    $oCell = $this->cells[$idx];
+
+                    $aoQuestions = $oRepo->findBy([
+                        'theme' => $oTheme,
+                        'difficulty' => $oCell->getLevel(),
+                    ]);
+                    shuffle($aoQuestions);
+                    $this->question = $aoQuestions[0];
+
                     break;
             }
         } else {
@@ -187,6 +197,10 @@ class Board {
             // attribut "statut" de l'objet oGame = KO => fair dans le GameControleur
         }
         return $bEndOfGame;
+    }
+
+    public function getQuestion() {
+        return $this->question;
     }
 
 }

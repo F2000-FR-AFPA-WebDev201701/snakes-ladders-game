@@ -16,22 +16,28 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}" >
 
         <style>
+            body {
+                background-image: url({{ asset('images/la_ferme_de_l_oie.jpg') }});
+            }
+
             #plateau {
                 background-image: url({{ asset('images/board.jpg')}});
-            }
-        </style>
-    </head>
-    <body>
-        <header>
-            {% include 'AppBundle:Default:_header.html.twig' %}
-        </header>
 
-        <div id="mainContent">
-            {% block content %} {% endblock %}
-        </div>
+                footer {background-color:white;
+                }
+            </style>
+        </head>
+        <body>
+            <header>
+                {% include 'AppBundle:Default:_header.html.twig' %}
+            </header>
 
-        <footer>
-            {% include 'AppBundle:Default:_footer.html.twig' %}
-        </footer>
-    </body>
-</html>
+            <div id="mainContent">
+                {% block content %} {% endblock %}
+            </div>
+
+            <footer>
+                {% include 'AppBundle:Default:_footer.html.twig' %}
+            </footer>
+        </body>
+    </html>

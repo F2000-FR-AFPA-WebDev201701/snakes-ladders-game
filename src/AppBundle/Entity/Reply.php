@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Reply
  *
- * @ORM\Table(name="reply")
+ * @ORM\Table(name="SnakeNLadder_reply")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ReplyRepository")
  */
 class Reply {
@@ -94,7 +94,6 @@ class Reply {
         return $this->valid;
     }
 
-
     /**
      * Set question
      *
@@ -102,8 +101,7 @@ class Reply {
      *
      * @return Reply
      */
-    public function setQuestion(\AppBundle\Entity\Question $question = null)
-    {
+    public function setQuestion(\AppBundle\Entity\Question $question = null) {
         $this->question = $question;
 
         return $this;
@@ -114,8 +112,8 @@ class Reply {
      *
      * @return \AppBundle\Entity\Question
      */
-    public function getQuestion()
-    {
+    public function getQuestion() {
         return $this->question;
     }
+
 }
