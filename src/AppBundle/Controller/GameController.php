@@ -42,12 +42,12 @@ class GameController extends Controller {
         $oDateGame = new \DateTime('now');
         $oGame->setCreatedDate($oDateGame);
         $nameGame = 'jeu de ' . $oUser->getPseudo() . ' a la date du ' . $oDateGame->format('Y-m-d H:i:s') . ' avec le super theme ' . $oTheme->getWording();
-        $statusGame = 'wait';
+        $statusGame = 'waiting';
         $oGame->setName($nameGame);
         $oGame->setNbPlayerMax($nbJ);
         $oGame->setStatus($statusGame);
         $oGame->setTheme($oTheme);
-
+        $oGame->setGameCreator($oUser);
         //[DOCTRINE] sauvegarde dans la base de données data (en fait on rend persistant l'objet Game)
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
         $em->persist($oGame);  // on sauve dans la db l'entité Game qui sera mis a jour en temps réel dans le repository
@@ -88,7 +88,7 @@ class GameController extends Controller {
             $oBoard = new Board($aoGamePlayers);
 //            ajout de oBoard dans data de oGame; et update de Game
             $oGame->setData(serialize($oBoard));
-            $statusGame = 'ok';
+            $statusGame = 'In-process';
             $oGame->setStatus($statusGame);
 
             $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
@@ -96,11 +96,24 @@ class GameController extends Controller {
             return $this->redirectToRoute('gameboard', array(
                         'iGame' => $oGame->getId()
             ));
-        } else {
-
         }
-        return[""];
+        //        Si le nombre de joueur affilier a une partie n'est pas atteint
+        else {
+//            return $this->redirectToRoute('waitingGame');
+//             afficher les informations suivante dans un popup
+//            1- jouer quand meme (si IdUser=GameCreator)-> URL
+//            2- affichage nombre de joueur actuel est x manque x joueur. En attente
+//           3- Sortir du jeux -> URL . supprimer le joueur dans game ET si IDuser =GameCreator alors on supprimer egalement la partie
+        }
     }
+
+    /**
+     * @Route("/waitingGame, name="waitingGame")
+     * @Template
+     */
+//    public function waitingGameAction() {
+//        return [];
+//    }
 
     /**
      * @Route("/gameboard/{iGame}", name="gameboard")
@@ -141,7 +154,7 @@ class GameController extends Controller {
 //        gestion de la fin de la partie si user >63
         $bEndGame = $oBoard->isEndGame();
         if ($bEndGame) {
-            $oGame->setStatus('KO');
+            $oGame->setStatus('Done');
         }
         $em->flush();
 

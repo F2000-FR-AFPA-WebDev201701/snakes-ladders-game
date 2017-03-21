@@ -76,6 +76,14 @@ class Game {
     private $theme;
 
     /**
+     *
+     * @var type
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id")
+     */
+    private $gameCreator;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -232,7 +240,6 @@ class Game {
         return $this->data;
     }
 
-
     /**
      * Set theme
      *
@@ -240,8 +247,7 @@ class Game {
      *
      * @return Game
      */
-    public function setTheme(\AppBundle\Entity\Theme $theme = null)
-    {
+    public function setTheme(\AppBundle\Entity\Theme $theme = null) {
         $this->theme = $theme;
 
         return $this;
@@ -252,8 +258,30 @@ class Game {
      *
      * @return \AppBundle\Entity\Theme
      */
-    public function getTheme()
-    {
+    public function getTheme() {
         return $this->theme;
     }
+
+    /**
+     * Set gameCreator
+     *
+     * @param \AppBundle\Entity\User $gameCreator
+     *
+     * @return Game
+     */
+    public function setGameCreator(\AppBundle\Entity\User $gameCreator = null) {
+        $this->gameCreator = $gameCreator;
+
+        return $this;
+    }
+
+    /**
+     * Get gameCreator
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getGameCreator() {
+        return $this->gameCreator;
+    }
+
 }

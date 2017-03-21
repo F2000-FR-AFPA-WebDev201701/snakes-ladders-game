@@ -70,9 +70,30 @@ class DefaultController extends Controller {
      * @Route("/join", name="joinParty")
      * @Template
      */
-    public function joinPartyAction() {
-        // affichage des différentes parties qui sont en attente
-        return[];
+    public function joinPartyAction(Request $request) {
+        // recupération des informations de toutes les parties de la base de données.
+        $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game');
+        $oGame = $repoGame->findAll();
+        return['games' => $oGame];
+
+
+//        $oForm = $this->createFormBuilder()
+//                ->add('Jeux', EntityType::class, array(
+//                    'class' => 'AppBundle:Game',
+//                    'choice_label' => 'name',
+//                    'multiple' => false, 'expanded' => true))
+//                ->add('Valider Votre Choix', FormType\SubmitType::class, array('attr' => array('class' => 'save')))
+//                ->getForm();
+//        $oForm->handleRequest($request);
+//
+//        if ($oForm->isSubmitted() && $oForm->isValid()) {
+//            $form = $oForm->getData();
+//            //        Join the user into this party
+//            return $this->redirectToRoute('game_join', array(
+//                        'iGame' => $form['Jeux']->getId()
+//            ));
+//        }
+        return ['formJoin' => $oForm->createView()];
     }
 
     /**
