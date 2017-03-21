@@ -38,12 +38,12 @@ class Board {
             $oCell->setNum($iNumCell);
 
             // Attribution difficultés des cases
-            If (($i == 7 || $i == 9 || $i == 11 || $i == 14 || $i == 16 || $i == 17) || ($i > 34 && $i < 40) || ($i > 43 && $i < 47) || ($i > 53 && $i < 56)) {
+            If (($i == 0 || $i == 4 || $i == 9 || $i == 11 || $i == 14 || $i == 16 || $i == 26 || $i == 29 || $i == 31 || $i == 17) || $i == 55 || ($i > 34 && $i < 40) || ($i > 43 && $i < 47) || ($i > 53 && $i < 56)) {
                 $oCell->setLevel(Cell::LEVEL_MEDIUM);
-            } else if (($i == 42 || $i == 43 || $i == 34 || $i == 32 || $i == 23 || $i == 20 ) || ($i > 55 && $i < 65) || ($i > 46 && $i < 54) || ($i > 25 && $i < 28)) {
-                $oCell->setLevel(Cell::LEVEL_HARD);
-            } else {
+            } else if (($i == 42 || $i == 43 || $i == 34 || $i == 32 || $i == 23 || $i == 20 ) || ($i > 56 && $i < 65) || ($i > 46 && $i < 54) || ($i > 25 && $i < 28)) {
                 $oCell->setLevel(Cell::LEVEL_EASY);
+            } else {
+                $oCell->setLevel(Cell::LEVEL_HARD);
             }
 
             $this->cells[] = $oCell;
