@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Question
  *
- * @ORM\Table(name="question")
+ * @ORM\Table(name="SnakeNLadder_question")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\QuestionRepository")
  */
 class Question {
@@ -102,8 +102,7 @@ class Question {
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->replies = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -114,8 +113,7 @@ class Question {
      *
      * @return Question
      */
-    public function setTheme(\AppBundle\Entity\Theme $theme = null)
-    {
+    public function setTheme(\AppBundle\Entity\Theme $theme = null) {
         $this->theme = $theme;
 
         return $this;
@@ -126,8 +124,7 @@ class Question {
      *
      * @return \AppBundle\Entity\Theme
      */
-    public function getTheme()
-    {
+    public function getTheme() {
         return $this->theme;
     }
 
@@ -138,8 +135,7 @@ class Question {
      *
      * @return Question
      */
-    public function addReply(\AppBundle\Entity\Reply $reply)
-    {
+    public function addReply(\AppBundle\Entity\Reply $reply) {
         $this->replies[] = $reply;
 
         return $this;
@@ -150,8 +146,7 @@ class Question {
      *
      * @param \AppBundle\Entity\Reply $reply
      */
-    public function removeReply(\AppBundle\Entity\Reply $reply)
-    {
+    public function removeReply(\AppBundle\Entity\Reply $reply) {
         $this->replies->removeElement($reply);
     }
 
@@ -160,8 +155,8 @@ class Question {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getReplies()
-    {
+    public function getReplies() {
         return $this->replies;
     }
+
 }
