@@ -15,7 +15,7 @@ class Board {
 
 // setup du jeu se fait avec le constructeur (car le plateau ne va se construire qu'une fois):
 
-    public function __construct($aoUsers) {
+    public function __construct() {
         $this->cells = [];
         $this->pawns = [];
         $this->aCorrespondances = [
@@ -40,14 +40,15 @@ class Board {
 
             $this->cells[] = $oCell;
         }
+    }
 
-// init. des joueurs
+    public function initPlayer($aoUsers) {
+        // init. des joueurs
         foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
             $oPawn->setPosition(0); // numéro de la case twig
             $oPawn->setPawnColor('blue');
             $oPawn->setUser($oUser);
-
             $this->pawns[] = $oPawn;
 
 // Position de départ
@@ -76,13 +77,11 @@ class Board {
             $oActualPawn = $this->pawns[$this->playerTurn];
             switch ($action) {
                 case "dice":
-//                    $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
+                    $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
 //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
-                    $this->dice = 6;
                     $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
 //                    modifier le tableau de cells avec les nouveaux pions
                     $this->selectPlayer();
-                    dump($this->playerTurn);
                     break;
             }
         }

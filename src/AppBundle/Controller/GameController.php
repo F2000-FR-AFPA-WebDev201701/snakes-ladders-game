@@ -48,6 +48,11 @@ class GameController extends Controller {
         $oGame->setStatus($statusGame);
         $oGame->setTheme($oTheme);
         $oGame->setGameCreator($oUser);
+//        creation du tableau de jeu pour gérer le cas que le nombre de user (dans join n'est pas suffisant')
+        $oBoard = new Board();
+//            ajout de oBoard dans data de oGame; et update de Game
+        $oGame->setData(serialize($oBoard));
+
         //[DOCTRINE] sauvegarde dans la base de données data (en fait on rend persistant l'objet Game)
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
         $em->persist($oGame);  // on sauve dans la db l'entité Game qui sera mis a jour en temps réel dans le repository
@@ -73,9 +78,11 @@ class GameController extends Controller {
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game');
         $oGame = $repoGame->find($iGame);
         $maxPlayer = $oGame->getNbPlayerMax();
-//ajouter au game le user qui a rejoins la partie
+
+//ajouter au game le user qui a rejoins la partie et vice versa
         $oGame->addPlayer($oUser);
         $oUser->setGame($oGame);
+
 //ajouter in the dabase the information
         $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
         $em->flush();
@@ -84,8 +91,9 @@ class GameController extends Controller {
         $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
         $aoGamePlayers = $repoUser->findBy(array('game' => $iGame));
         if (count($aoGamePlayers) == $maxPlayer) {
-//            creation du oBord
-            $oBoard = new Board($aoGamePlayers);
+            // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game (Game est sauver de manière persistante dans la Db
+            $oBoard = unserialize($oGame->getData());
+            $oBoard->initPlayer($aoGamePlayers);
 //            ajout de oBoard dans data de oGame; et update de Game
             $oGame->setData(serialize($oBoard));
             $statusGame = 'In-process';
@@ -93,27 +101,11 @@ class GameController extends Controller {
 
             $em = $this->getDoctrine()->getManager();  // em signifie Entity Manager : on récupère le service em de doctrine
             $em->flush();
-            return $this->redirectToRoute('gameboard', array(
-                        'iGame' => $oGame->getId()
-            ));
         }
-        //        Si le nombre de joueur affilier a une partie n'est pas atteint
-        else {
-//            return $this->redirectToRoute('waitingGame');
-//             afficher les informations suivante dans un popup
-//            1- jouer quand meme (si IdUser=GameCreator)-> URL
-//            2- affichage nombre de joueur actuel est x manque x joueur. En attente
-//           3- Sortir du jeux -> URL . supprimer le joueur dans game ET si IDuser =GameCreator alors on supprimer egalement la partie
-        }
+        return $this->redirectToRoute('gameboard', array(
+                    'iGame' => $oGame->getId()
+        ));
     }
-
-    /**
-     * @Route("/waitingGame, name="waitingGame")
-     * @Template
-     */
-//    public function waitingGameAction() {
-//        return [];
-//    }
 
     /**
      * @Route("/gameboard/{iGame}", name="gameboard")

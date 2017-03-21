@@ -63,13 +63,13 @@
     <div id="de" class="col-md-3">
         <img id="the-dice" src="{{ asset('images/dice_' ~ board.dice ~ '.png') }}" alt="{{board.dice}}"/>
     </div>
+    {#    Gestion de la fin de la partie#}
     {% if bEndGame == 1 %}
         <!-- Modal --> <!-- Popup Bootstrap bien fait, pratique -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-
                         <h4 class="modal-title" id="myModalLabel">Fin de partie</h4>
                     </div>
                     <div class="modal-body">
@@ -91,6 +91,4 @@
 
         <script> $('#myModal').modal('show')</script> <!-- on affiche la fenêtre popup Bootstrap avec Jquery au chargement de la page si la partie est terminée, sinon il faudrait mettre un bouton bootstrap-->
     {% endif %}
-
-
 </div>
