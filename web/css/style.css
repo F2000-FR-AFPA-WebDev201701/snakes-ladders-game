@@ -2,6 +2,8 @@ body {
     width: 1000px;
     margin: auto;
     color:#000000; /*code hexadécimal du noir*/
+
+    /*  background-image:url('web/images/la_ferme_de_l_oie.jpg');*/
     font-family:verdana;
     font-size:12px;
 }
@@ -17,6 +19,13 @@ header {
 }
 #plateau {
     height: 450px;
+}
+#plateau-overlay {
+    position:absolute;
+    top:24px;
+    z-index: 10;
+    width:485px;
+    height:401px;
 }
 .column{
     position: relative;
@@ -39,6 +48,7 @@ header {
     height: 100%;
 }
 
+
 #partie {
     height: 80px;
     border: 0px;
@@ -52,7 +62,7 @@ header {
 }
 .players_info_turn{
     display: inline-block;
-    opacity: 0.5;
+    opacity: 0.2;
     margin: 10px;
     overflow:hidden;
 }
@@ -75,6 +85,8 @@ header {
 .players_info_turn .panel-body p{
     font-size: 8px;
 }
+
+
 #img_logo{
     width: 20px;
     height: 20px;
@@ -104,4 +116,22 @@ footer {
 
 .center {
     text-align: center;
+}
+
+.panel-body {
+    width : 200px;
+    font-size : 14px;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-right:5px;
+    padding-left:5px;
+}
+.alert-info {
+    width : 200px;
+    font-size : 14px;
+    word-break: break-all;
+    padding-top:2px;
+    padding-bottom:2px;
+    padding-right:5px;
+    padding-left:5px;
 }

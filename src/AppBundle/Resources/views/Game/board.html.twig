@@ -1,25 +1,45 @@
-
-
 <div class="row">
     <div id="questions" class="col-md-3 game-aside-info">
         <div class="panel panel-default">
             <div class="panel-heading">La Question</div>
             <div class="panel-body">
-                Omitto iuris dictionem in libera civitate contra leges senatusque consulta; caedes relinquo; libidines praetereo, quarum acerbissimum extat indicium et ad insignem memoriam turpitudinis et paene ad iustum odium imperii nostri, quod constat nobilissimas virgines se in puteos abiecisse et morte voluntaria necessariam turpitudinem depulisse. Nec haec idcirco omitto, quod non gravissima sint, sed quia nunc sine teste dico.
+                {% if board.question %}
+                    <strong>{{ board.question.wording }}</strong><br/><br/>
+                    {% for reply in board.question.replies %}
+                        <div class="alert-info" data-id-question="{{ reply.question.id }}" data-id-reply="{{ reply.id }}">
+                            {{ reply.wording }}<br/>
+                        </div><br/>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
-    <div id="plateau" class="col-md-6" >
+    <div id="plateau" class="col-md-6" style="position:relative;" >
         {# Creation of the view board with the corresponding number inside#}
-        <table class="table table-bordered" >
+        <div id="plateau-overlay"></div>
+        <BR>
+        <table class="table table-bordered">
             <tr>
                 {% for value in board.cells %}
                     {% if loop.index0 % 8 == 0 and loop.index0 != 0 %}
                     </tr><tr>
                     {% endif %}
-                    <td class="column" id='{{value.num}}'>
-                        <div class="numCell">
+
+                    {% if value.level == 0 %}
+                        {% set background = 'orange' %}
+                    {% elseif value.level  == 1 %}
+                        {% set background = 'blue' %}
+                    {% elseif value.level  == 2 %}
+                        {% set background = 'red' %}
+                    {% endif %}
+
+                    <td style="background: {{ background }}; opacity:0.7;" class="column" id="{{value.num}}">
+                        <div  class="numCell">
                             {{ value.num }}
+                            <img src="{% if value.level == 0 %}{{ asset('images/easy.png') }}{% endif %}{% if value.level  == 1 %}{{ asset('images/medium.png') }}{% endif %}{% if value.level  == 2 %}{{ asset('images/hard.png') }}{% endif %}" height="20" width="40">
+
+
+
                         </div>
                         <div>
                             {% for pawn in value.pawns %}
@@ -43,7 +63,8 @@
 </div>
 <div class="row">
     <div id="partie" class="col-md-3">
-        <h4>Partie de Bruno</h4>
+        <h5>Partie de {{ nameGame }}</h5>
+
     </div>
 
     <div id="joueurs" class="col-md-6">
@@ -54,7 +75,7 @@
                         <span class="glyphicon glyphicon-user" style="color:{{pawn.pawnColor}}"></span>
                     </div>
                     <div class="panel-body row">
-                        <img id="img_logo" src="{{ asset(pawn.user.icone)}}" alt="logo" title="logo Player" />
+                        <img id="img_logo" src="{{ asset("images/" ~ pawn.user.icone)}}" alt="logo" title="logo Player" />
                         <p>{{pawn.user.pseudo}}</p>
                     </div>
                 </div>
@@ -65,10 +86,7 @@
     <div id="de" class="col-md-3">
         <img id="the-dice" src="{{ asset('images/dice_' ~ board.dice ~ '.png') }}" alt="{{board.dice}}"/>
     </div>
-
     {% if bEndGame == 1 %}
-
-
         <!-- Modal --> <!-- Popup Bootstrap bien fait, pratique -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -79,12 +97,14 @@
                     </div>
                     <div class="modal-body">
                         <H2> Partie terminée ! </H2>
-                        <H3> Bien joué {{ board.cells[63].pawns[0].user.firstname }} ! tu es super fort(e)! tu as gagné la partie !!!</H3>
+                            {#                        board.cells[7] coorespond à la case twig 63#}
+                            {#                        pawns[1] On ne sais pas pourquoi le tableau commence à 1 et non 0#}
+                        <H3> Bien joué {{ board.cells[7].pawns[0].user.firstname }} ! tu es super fort(e)! tu as gagné la partie !!!</H3>
                         <HR>
                         Que voulez vous faire ?
                         <BR><BR>
                         <div class="center">
-                            <a href="{{  app.request.getBasePath()  }}"<button type="button" class="btn btn-primary">Rejouer une partie</button></a>&nbsp;&nbsp;&nbsp;&nbsp;  <!--  app.request.getBasePath()  est une fonction twig pour indiquer la page d'acceuil du site -->
+                            <a href="{{path('home')}}"<button type="button" class="btn btn-primary">Rejouer une partie</button></a>&nbsp;&nbsp;&nbsp;&nbsp;  <!--  app.request.getBasePath()  est une fonction twig pour indiquer la page d'acceuil du site -->
                             &nbsp;&nbsp;<a href="http://www.yahoo.fr"><button type="button" class="btn btn-danger">Quitter le plateau de jeu</button></a>
                         </div>
                     </div>
@@ -94,6 +114,4 @@
 
         <script> $('#myModal').modal('show')</script> <!-- on affiche la fenêtre popup Bootstrap avec Jquery au chargement de la page si la partie est terminée, sinon il faudrait mettre un bouton bootstrap-->
     {% endif %}
-
-
 </div>
