@@ -7,8 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
-use AppBundle\Form\UserType;
-use AppBundle\Form\UserLoginType;
+use AppBundle\Form\Type\UserType;
+use AppBundle\Form\Type\UserLoginType;
 
 class UserController extends Controller {
 
