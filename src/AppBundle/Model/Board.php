@@ -79,7 +79,6 @@ class Board {
 
     public function doAction($idUser, $action, $oRepo, $oTheme) {
 //      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
-        dump($this->playerTurn);
         if ($idUser == $this->pawns[$this->playerTurn]->getUser()->getId()) {
 //        Recuperer le pion du user si celui ci est bon
             $oActualPawn = $this->pawns[$this->playerTurn];
@@ -99,7 +98,6 @@ class Board {
                     shuffle($aoQuestions);
                     $this->question = $aoQuestions[0];
                     $this->selectPlayer();
-
                     break;
             }
         }

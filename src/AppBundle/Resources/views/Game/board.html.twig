@@ -86,6 +86,7 @@
     <div id="de" class="col-md-3">
         <img id="the-dice" src="{{ asset('images/dice_' ~ board.dice ~ '.png') }}" alt="{{board.dice}}"/>
     </div>
+    {#    gestion de la fin de la partie#}
     {% if bEndGame == 1 %}
         <!-- Modal --> <!-- Popup Bootstrap bien fait, pratique -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -114,4 +115,39 @@
 
         <script> $('#myModal').modal('show')</script> <!-- on affiche la fenêtre popup Bootstrap avec Jquery au chargement de la page si la partie est terminée, sinon il faudrait mettre un bouton bootstrap-->
     {% endif %}
+    {#    gestion du status de la partie#}
+
+    {% if sStatusGame == 'waiting' %}
+        <!-- Modal --> <!-- Popup Bootstrap bien fait, pratique -->
+        <div class="modal fade" id="StatusModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel"> Partie en attente de Joueur !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <H4>il y a actuellement {{game.players | length}} joueurs dans cette partie. </H4>
+                        <H4> Il manque encore {{game.nbPlayerMax - game.players | length}} joueurs pour que la partie commence</H4>
+                        <HR>
+                        <BR><BR>
+                        {# Si le user en cours est celui qui a créé la session alors on affiche :#}
+                        <div class="center">
+                            {% if app.session.get('oUser').id == game.gameCreator.id %}
+                                <a href="{{path('changeNbPlayerMax',{'iGame': game.id, 'newNbPlayerMax' : game.players | length} ) }}">
+                                    <button type="button" class="btn btn-primary">Lancer quand-même la partie</button>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {% endif %}
+
+                            <a href="{{path('leaveGame',{'iGame': game.id})}}">
+                                <button type="button" class="btn btn-danger">Sortir du jeu</button>
+                            </a>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    {% endif %}
+    <script> $('#StatusModal').modal('show')</script> <!-- on affiche la fenêtre popup Bootstrap avec Jquery au chargement de la page si la partie est terminée, sinon il faudrait mettre un bouton bootstrap-->
+
 </div>
