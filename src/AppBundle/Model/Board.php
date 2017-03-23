@@ -88,8 +88,6 @@ class Board {
         if (!$this->isCurrentPlayer($idUser)) {
             return;
         }
-        dump("in");
-
 //        Recuperer le pion du user si celui ci est bon
         $oActualPawn = $this->pawns[$this->playerTurn];
 
@@ -97,8 +95,6 @@ class Board {
             case "dice":
 
                 //Désactivation du dès si une réponse à une question doit être donnée
-                //dump($this);
-                //die;
                 if (($this->getQuestion()) != Null) {
 
                     $this->setComment('Attention, répondez à la question avant de pouvoir relancer le dès !');
