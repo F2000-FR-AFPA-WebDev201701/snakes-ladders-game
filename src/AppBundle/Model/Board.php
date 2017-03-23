@@ -1,7 +1,5 @@
 <?php
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 namespace AppBundle\Model;
 
 class Board {
@@ -24,7 +22,6 @@ class Board {
     private $dice;
     private $playerTurn;  // index du tableau de pion (qui a été mélanger à la création du plateau et des pions
     private $question;
-    private $comment;
     private $clickOnDice;
 
     /**
@@ -82,6 +79,7 @@ class Board {
     public function initPlayers($aoUsers) {
         $aColors = ['white', 'green', 'blue', 'black'];
         shuffle($aColors);
+
         // init. des joueurs
         foreach ($aoUsers as $idx => $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
@@ -288,14 +286,6 @@ class Board {
         return $bEndOfGame;
     }
 
-    public function getQuestion() {
-        return $this->question;
-    }
-
-    public function getComment() {
-        return $this->comment;
-    }
-
     function malusPawn($oPawn, $level) {
         // Level = niveau de difficulté de la case/question
         $nbCaseMalus = 0;
@@ -306,11 +296,11 @@ class Board {
                 $nbCaseMalus = 4;
                 break;
             case 1:
-                $this->comment = "Mauvaise réponse, vous recullez de 2 cases";
+                $this->comment = "Mauvaise réponse, vous reculez de 2 cases";
                 $nbCaseMalus = 2;
                 break;
             case 2:
-                $this->comment = "Mauvaise réponse, vous recullez de 1 case";
+                $this->comment = "Mauvaise réponse, vous reculez de 1 case";
                 $nbCaseMalus = 1;
                 break;
         }
@@ -334,23 +324,22 @@ class Board {
 
     function bonusPawn($oPawn, $level) {
         // Level = niveau de difficulté de la case/question
-        $comment = '';
         $nbCaseBonus = 0;
 
         switch ($level) {
             case 0:
-                $comment = "Bravo! Bonne réponse, vous avancez de 1 case";
                 $nbCaseBonus = 1;
                 break;
             case 1:
-                $comment = "Bravo! Bonne réponse,  vous avancez de 2 cases";
                 $nbCaseBonus = 2;
                 break;
             case 2:
-                $comment = "Bravo! Bonne réponse, vous avancez de 4 cases";
                 $nbCaseBonus = 4;
                 break;
         }
+
+        $comment = "Bravo! Bonne réponse, vous avancez de " . $nbCaseBonus . " cases";
+
         // On enlève le pion de la case actuelle
         $iOldCell = $this->getIdxCell($oPawn->getPosition());
         $this->cells[$iOldCell]->removePawn($oPawn);
@@ -372,6 +361,8 @@ class Board {
 
     private function isCurrentPlayer($idUser) {
         return ($this->pawns[$this->playerTurn]->getUser()->getId() == $idUser);
+    }
+
     public function getMessagesToPlayers() {
         return $this->messagesToPlayers;
     }

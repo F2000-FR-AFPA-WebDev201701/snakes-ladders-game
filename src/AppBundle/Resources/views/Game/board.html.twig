@@ -68,12 +68,10 @@
     <div id="reponses" class="col-md-3 game-aside-info">
         <div class="panel panel-default">
             <div class="panel-heading">Commentaires</div>
-            <div class="panel-body">
-                {% if board.comment != null %}
-                    <p id="question">{{ board.comment }}</p>
-                {% else %}
-                    <p id="question">Pas de commentaires pour l'instant..</p>
-                {% endif %}
+            <div id="comments" class="panel-body">
+                {% for msg in board.messagesToPlayers %}
+                    {{ msg | raw }}<br /><br />
+                {% endfor %}
             </div>
         </div>
     </div>
