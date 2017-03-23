@@ -223,10 +223,6 @@ class Board {
         return $this->dice;
     }
 
-    function getClickOnDice() {
-        return $this->clickOnDice;
-    }
-
     function getPlayerTurn() {
         return $this->playerTurn;
     }
@@ -249,10 +245,6 @@ class Board {
 
     function setDice($dice) {
         $this->dice = $dice;
-    }
-
-    function setClickOnDice($clickOnDice) {
-        $this->clickOnDice = $clickOnDice;
     }
 
     function setComment($comment) {
