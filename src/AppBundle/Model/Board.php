@@ -14,7 +14,6 @@ class Board {
     private $playerTurn;  // index du tableau de pion (qui a été mélanger à la création du plateau et des pions
     private $question;
     private $comment;
-    private $clickOnDice;
 
 // setup du jeu se fait avec le constructeur (car le plateau ne va se construire qu'une fois):
 
@@ -96,6 +95,16 @@ class Board {
 
         switch ($action) {
             case "dice":
+
+                //Désactivation du dès si une réponse à une question doit être donnée
+                //dump($this);
+                //die;
+                if (($this->getQuestion()) != Null) {
+
+                    $this->setComment('Attention, répondez à la question avant de pouvoir relancer le dès !');
+                    break;
+                }
+
                 $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
 //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
                 $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
@@ -111,7 +120,7 @@ class Board {
                 ]);
                 shuffle($aoQuestions);
                 $this->question = $aoQuestions[0];
-                $this->clickOnDice = 'Off';
+                //$this->setClickOnDice(false);
                 break;
         }
     }
@@ -174,7 +183,7 @@ class Board {
             self::malusPawn($oPawn, $level);
         }
 
-        $this->clickOnDice = 'on';
+        $this->setClickOnDice(true);
         $this->nextPlayer();
     }
 
@@ -214,6 +223,10 @@ class Board {
         return $this->dice;
     }
 
+    function getClickOnDice() {
+        return $this->clickOnDice;
+    }
+
     function getPlayerTurn() {
         return $this->playerTurn;
     }
@@ -236,6 +249,14 @@ class Board {
 
     function setDice($dice) {
         $this->dice = $dice;
+    }
+
+    function setClickOnDice($clickOnDice) {
+        $this->clickOnDice = $clickOnDice;
+    }
+
+    function setComment($comment) {
+        $this->comment = $comment;
     }
 
     function setPlayerTurn($playerTurn) {
