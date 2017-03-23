@@ -17,9 +17,9 @@ header {
 #mainContent{
     margin-top: 100px;
 }
-#plateau {
+/*#plateau {
     height: 450px;
-}
+}*/
 #plateau-overlay {
     position:absolute;
     top:24px;
@@ -27,19 +27,19 @@ header {
     width:485px;
     height:401px;
 }
-.column{
+#plateau td, .cell-overlay  {
+    height: 50px;
+    width: 50px;
+}
+#plateau td {
     position: relative;
 }
-
-#plateau td{
-    height: 50px;
-    width: 40px;
-}
-.numCell{
+.cell-overlay {
     position: absolute;
     right: 5px;
     top: 1px;
-
+    color: #0A2A0A;
+    font-weight: bold;
 }
 .game-aside-info  {
     height: 410px;
@@ -107,6 +107,7 @@ h4 {
 footer {
     margin-left: 65px;
     margin-right: 65px;
+    background-color:  	#f0f4f2;
 }
 
 
@@ -118,7 +119,7 @@ footer {
     text-align: center;
 }
 
-.panel-body {
+#the-question {
     width : 200px;
     font-size : 14px;
     padding-top:10px;
@@ -126,7 +127,7 @@ footer {
     padding-right:5px;
     padding-left:5px;
 }
-.alert-info {
+#responses {
     width : 200px;
     font-size : 14px;
     word-break: break-all;
@@ -134,4 +135,9 @@ footer {
     padding-bottom:2px;
     padding-right:5px;
     padding-left:5px;
+}
+#presentation_equipe {
+    width : 800px;
+    font-size : 21px;
+    text-align: justify;
 }
