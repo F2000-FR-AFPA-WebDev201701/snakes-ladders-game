@@ -9,14 +9,13 @@
                         <strong>{{ board.question.wording }}</strong><br/><br/>
 
                     </div>
-                    <div id="responses">
-                        {% for reply in board.question.replies %}
+                    {% for reply in board.question.replies %}
+                        <div id="responses">
                             <div class="answer alert-info" data-id-question="{{ reply.question.id }}" data-id-reply="{{ reply.id }}">
                                 {{ reply.wording }}<br/>
                             </div><br/>
-                        {% endfor %}
-
-                    </div>
+                        </div>
+                    {% endfor %}
                 {% endif %}
             </div>
         </div>

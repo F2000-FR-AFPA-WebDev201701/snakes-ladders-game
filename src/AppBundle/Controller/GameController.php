@@ -42,7 +42,7 @@ class GameController extends Controller {
         $oTheme = $repoTheme->find($theme);
 
         $oDateGame = new \DateTime('now');
-        $nameGame = 'jeu de ' . $oUser->getPseudo() . ' a la date du ' . $oDateGame->format('Y-m-d H:i:s') . ' avec le super theme ' . $theme;
+        $nameGame = 'Jeu de ' . $oUser->getPseudo() . ' à la Date du ' . $oDateGame->format('Y-m-d H:i:s') . ' avec le Super-Thème ' . $theme;
 
         // Initialisation de Game
         $oGame = new Game;
