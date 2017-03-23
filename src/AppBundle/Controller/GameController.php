@@ -226,11 +226,22 @@ class GameController extends Controller {
         $oBoard = unserialize($oGame->getData());  // on crée l'objet oBoard en désérialisant l'attribut-variable $data de oGame
         // parameters. action va lancer le dés + faire le deplacement du pions via (doAction)
         // movePawn a besoin comme paramètre l'identifiant du user qui a appuyé sur "Dés" ($_session)
+        //
+        //Je récupère la requete dans le REQUEST et j'initialise la variable-paramètre $repoQuestion
+        // je vérifie si elle est de type POST (c'est à dire si un bouton réponse a été cliqué)
+        $idQuestion = $request->request->get('idQuestion', null);
+        $idReply = $request->request->get('idReply', null);
 
         $repoQuestion = $this->getDoctrine()->getRepository('AppBundle:Question');
-        $oBoard->doAction(
-                $oUser->getId(), $action, $repoQuestion, $oGame->getTheme()
-        );
+        if ($idQuestion && $idReply) {
+            $oBoard->doQuizzAction(
+                    $oUser->getId(), $repoQuestion, $idQuestion, $idReply
+            );
+        } else {
+            $oBoard->doAction(
+                    $oUser->getId(), $action, $repoQuestion, $oGame->getTheme()
+            );
+        }
 
         // gestion de la fin de la partie si user >63
         $bEndGame = $oBoard->isEndGame();

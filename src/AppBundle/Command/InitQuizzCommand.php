@@ -40,7 +40,7 @@ class InitQuizzCommand extends ContainerAwareCommand {
         $em->persist($oTheme02);
 
 
-
+        // THEME 01  ( Affichage du numéro du thème dans la variable question : Question0101 )
         // QUESTION 01 (FACILE)
         $oQuestion0101 = new Question ();
         $oQuestion0101->setWording('Quel est le doctype d\'un document HTML5 ?');
@@ -48,7 +48,7 @@ class InitQuizzCommand extends ContainerAwareCommand {
         $oQuestion0101->setTheme($oTheme01);
         $em->persist($oQuestion0101);
 
-        // réponse 01 : correcte
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
         $oReply010101 = new Reply ();
         $oReply010101->setWording('<!DOCTYPE html>');
         $oReply010101->setValid(true);
