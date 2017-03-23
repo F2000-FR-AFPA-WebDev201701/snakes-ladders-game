@@ -9,7 +9,7 @@
         <div id="navbar">
             <ul class="nav navbar-nav">
                 <li class='active'><a href="{{path('home')}}">Accueil</a></li>
-                <li><a href="#">Règles du jeu</a></li>
+                <li><a href="{{path('rules')}}">Règles du Jeu</a></li>
 
                 {% if app.session.get('oUser') %}
                     <li class="dropdown">
