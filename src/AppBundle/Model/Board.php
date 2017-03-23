@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 namespace AppBundle\Model;
 
 class Board {
@@ -20,6 +22,10 @@ class Board {
     private $cells;
     private $pawns;
     private $dice;
+    private $playerTurn;  // index du tableau de pion (qui a été mélanger à la création du plateau et des pions
+    private $question;
+    private $comment;
+    private $clickOnDice;
 
     /**
      * Index du tableau de pion (qui a été mélanger à la création du plateau et des pions
@@ -59,18 +65,29 @@ class Board {
 
             $oCell = new Cell();
             $oCell->setNum($iNumCell);
-            $oCell->setLevel(Cell::LEVEL_EASY);
+
+            // Attribution difficultés des cases
+            If (($i == 0 || $i == 4 || $i == 9 || $i == 11 || $i == 14 || $i == 16 || $i == 26 || $i == 29 || $i == 31 || $i == 17) || $i == 55 || ($i > 34 && $i < 40) || ($i > 43 && $i < 47) || ($i > 53 && $i < 56)) {
+                $oCell->setLevel(Cell::LEVEL_MEDIUM);
+            } else if (($i == 42 || $i == 43 || $i == 34 || $i == 32 || $i == 23 || $i == 20 ) || ($i > 56 && $i < 65) || ($i > 46 && $i < 54) || ($i > 25 && $i < 28)) {
+                $oCell->setLevel(Cell::LEVEL_EASY);
+            } else {
+                $oCell->setLevel(Cell::LEVEL_HARD);
+            }
 
             $this->cells[] = $oCell;
         }
+    }
 
+    public function initPlayers($aoUsers) {
+        $aColors = ['white', 'green', 'blue', 'black'];
+        shuffle($aColors);
         // init. des joueurs
-        foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
+        foreach ($aoUsers as $idx => $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
             $oPawn->setPosition(0); // numéro de la case twig
-            $oPawn->setPawnColor('blue');
+            $oPawn->setPawnColor($aColors[$idx]);
             $oPawn->setUser($oUser);
-
             $this->pawns[] = $oPawn;
 
             // Position de départ
@@ -91,37 +108,50 @@ class Board {
         $this->messagesToPlayers = [Board::MSG_GAMEBEGINS, $messagetoto];
     }
 
-    public function selectPlayer($actualPlayer) {
-        //joueur+1 avec modulo pour gerer la fin du tableau
-        $this->playerTurn = $actualPlayer++;
+    public function nextPlayer() {
+        $this->playerTurn = $this->playerTurn + 1;
+//        test si on est arrivé à la fin du tableau
+        if ($this->playerTurn >= count($this->pawns)) {
+            $this->playerTurn = 0;
+        }
+
+        // On reset la question
+        $this->question = null;
     }
 
-    public function doAction($idUser, $action) {
+    public function doAction($idUser, $action, $oRepo, $oTheme) {
+//      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
+        if (!$this->isCurrentPlayer($idUser)) {
+            return;
+        }
+
+//        Recuperer le pion du user si celui ci est bon
         $oActualPawn = $this->pawns[$this->playerTurn];
-        //      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
-        dump($this);
-        if ($idUser == $oActualPawn->getUser()->getId()) {
-            //        Recuperer le pion du user si celui ci est bon
 
-            switch ($action) {
-                case "dice":
-                    $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
-                    //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
-                    $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
-                    //                    modifier le tableau de cells avec les nouveaux pions
-                    break;
-            }
+
+        switch ($action) {
+            case "dice":
+                $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
+//                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
+                $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
+//                    modifier le tableau de cells avec les nouveaux pions
+                $idx = $this->getIdxCell($oActualPawn->getPosition());
+                $oCell = $this->cells[$idx];
+
+
+                // Affichage de la question et des trois réponses proposées :
+                $aoQuestions = $oRepo->findBy([
+                    'theme' => $oTheme,
+                    'difficulty' => $oCell->getLevel(),
+                ]);
+                shuffle($aoQuestions);
+                $this->question = $aoQuestions[0];
+                $this->clickOnDice = 'Off';
+                break;
         }
     }
 
-    //    }
-// A NETTOYER :
-    public function checkEndGame($PosLastPlayer) {
-
-        If ($posLastPlayer >= 63) { // jeu terminé   $$$$$$$$$$$$$$$$$$$$
-        } else {  // jeu continue
-        }
-    }
+//    }
 
     /**
      * Lancement du dé (1-6)
@@ -137,16 +167,51 @@ class Board {
         // Remove into the cell the place where the pawn were
         $iOldCell = $this->getIdxCell($oPawn->getPosition());
         $this->cells[$iOldCell]->removePawn($oPawn);
+
         // Calcul of the new position
         $iLastPosition = $oPawn->getPosition();
         $iDiceValue = $this->getDice();
         $iNewPosition = $iLastPosition + $iDiceValue;
+        if ($iNewPosition >= 63) {     // si la nouvelle position du pion dépasse 63, la position du pion restera à 63
+            $iNewPosition = 63;
+        }
         $this->pawns[$this->playerTurn]->setPosition($iNewPosition);
         // Add into the new cell the pawn
         $iNewCell = $this->getIdxCell($this->pawns[$this->playerTurn]->getPosition());
         $this->cells[$iNewCell]->addPawn($this->pawns[$this->playerTurn]);
 
         return;
+    }
+
+    public function doQuizzAction($idUser, $oRepo, $idQuestion, $idReply) {
+        if (!$this->isCurrentPlayer($idUser)) {
+            return;
+        }
+
+        // préparation des paramètres à envoyer pour bonus/malus
+        $oPawn = $this->pawns[$this->playerTurn];
+        $posOPawn = $this->pawns[$this->playerTurn]->getPosition();
+        $level = $this->cells[$this->getIdxCell($posOPawn)]->getLevel();
+
+        $oQuestion = $oRepo->find($idQuestion);
+        $aoReplies = $oQuestion->getReplies();
+
+        $oGoodReply = null;
+        foreach ($aoReplies as $oReply) {
+            if ($oReply->getValid()) {
+                $oGoodReply = $oReply;
+                break;
+            }
+        }
+
+        if ($oGoodReply->getId() == $idReply) {
+            self::bonusPawn($oPawn, $level);
+        } else {
+            self::malusPawn($oPawn, $level);
+        }
+
+        $this->clickOnDice = 'on';
+        $this->nextPlayer();
     }
 
     /**
@@ -213,6 +278,100 @@ class Board {
         $this->playerTurn = $playerTurn;
     }
 
+    function isEndGame() {
+        $bEndOfGame = 0;
+
+        if (count($this->cells[self::getIdxCell(63)]->getPawns()) != 0) {
+            $bEndOfGame = 1; // si un pion arrive dans la case 63 on retourne un booléen = 1 pour dire que la partie est finie
+            // attribut "statut" de l'objet oGame = KO => fair dans le GameControleur
+        }
+        return $bEndOfGame;
+    }
+
+    public function getQuestion() {
+        return $this->question;
+    }
+
+    public function getComment() {
+        return $this->comment;
+    }
+
+    function malusPawn($oPawn, $level) {
+        // Level = niveau de difficulté de la case/question
+        $nbCaseMalus = 0;
+
+        switch ($level) {
+            case 0:
+                $this->comment = "Mauvaise réponse, vous reculez de 4 cases";
+                $nbCaseMalus = 4;
+                break;
+            case 1:
+                $this->comment = "Mauvaise réponse, vous recullez de 2 cases";
+                $nbCaseMalus = 2;
+                break;
+            case 2:
+                $this->comment = "Mauvaise réponse, vous recullez de 1 case";
+                $nbCaseMalus = 1;
+                break;
+        }
+        // On enlève le pion de la case actuelle
+        $iOldCell = $this->getIdxCell($oPawn->getPosition());
+        $this->cells[$iOldCell]->removePawn($oPawn);
+
+        // calcul de la nouvelle position
+        if (($oPawn->getPosition()) < $nbCaseMalus) {
+            $oPawn->setPosition(0);
+        } else {
+            $oPawn->setPosition(($oPawn->getPosition()) - $nbCaseMalus);
+        }
+
+        // on ajoute le pion sur la nouvelle case
+        $iNewCell = $this->getIdxCell($oPawn->getPosition());
+        $this->cells[$iNewCell]->addPawn($oPawn);
+
+        return;
+    }
+
+    function bonusPawn($oPawn, $level) {
+        // Level = niveau de difficulté de la case/question
+        $comment = '';
+        $nbCaseBonus = 0;
+
+        switch ($level) {
+            case 0:
+                $comment = "Bravo! Bonne réponse, vous avancez de 1 case";
+                $nbCaseBonus = 1;
+                break;
+            case 1:
+                $comment = "Bravo! Bonne réponse,  vous avancez de 2 cases";
+                $nbCaseBonus = 2;
+                break;
+            case 2:
+                $comment = "Bravo! Bonne réponse, vous avancez de 4 cases";
+                $nbCaseBonus = 4;
+                break;
+        }
+        // On enlève le pion de la case actuelle
+        $iOldCell = $this->getIdxCell($oPawn->getPosition());
+        $this->cells[$iOldCell]->removePawn($oPawn);
+
+        // calcul de la nouvelle position
+        if ((($oPawn->getPosition()) + $nbCaseBonus) > 63) {
+            $oPawn->setPosition(63);
+        } else {
+            $oPawn->setPosition(($oPawn->getPosition()) + $nbCaseBonus);
+        }
+
+        // on ajoute le pion sur la nouvelle case
+        $iNewCell = $this->getIdxCell($oPawn->getPosition());
+        $this->cells[$iNewCell]->addPawn($oPawn);
+
+        $this->comment = $comment;
+        return;
+    }
+
+    private function isCurrentPlayer($idUser) {
+        return ($this->pawns[$this->playerTurn]->getUser()->getId() == $idUser);
     public function getMessagesToPlayers() {
         return $this->messagesToPlayers;
     }

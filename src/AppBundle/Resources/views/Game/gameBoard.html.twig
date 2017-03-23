@@ -1,9 +1,10 @@
 {% extends 'AppBundle::base.html.twig' %}
-{#board is an object send via tthe defualtController#}
+
 {% block content %}
     <div id="board">
         {% include "AppBundle:Game:board.html.twig" %}   <!-- avec include il n'est pas possible d'utiliser de Route -->
     </div>
+
     <script>
         $('#board').on('click', '#the-dice', function () {   // #the-dice est l'identifiant de l'image du dè mais il va être écrasé à chaque clique, c'est pourquoi on le met en option / #board est l'identifiant en dur qui ne va pas être écrasé au rechargement de la page
             $.ajax({
@@ -14,11 +15,24 @@
                     console.log(data);
                 },
                 success: function (view) {   // view est le résultat du champs Url, c'est à dire de la route gameaction
-                    $('#board').html(view);     // on remplace le code qui est situé en haut dans le div avec l'identifiant #board par le résultat du champs Url (nouvel vue du plateau = view)
-                    console.log(view);       // on va afficher la réponse du serveur dans la log
+                    $('#board').html(view); // on remplace le code qui est situé en haut dans le div avec l'identifiant #board par le résultat du champs Url (nouvel vue du plateau = view)
+                }
+            });
+        });
+
+        $('#board').on('click', '#responses .answer', function () {   // .answer est la classe l'identifiante du bouton réponse dans l'environnement des questino
+            $.ajax({
+                async: true,
+                type: 'POST',
+                url: '{{ path('gameaction', {'action' : 'answerQuizz'}) }}', // on va recharger dynamiquement cette vue : board.html.twig
+                data: {
+                    idQuestion: $(this).data('id-question'),
+                    idReply: $(this).data('id-reply')
+                },
+                success: function (view) {   // view est le résultat du champs Url, c'est à dire de la route gameaction
+                    $('#board').html(view); // on remplace le code qui est situé en haut dans le div avec l'identifiant #board par le résultat du champs Url (nouvel vue du plateau = view)
                 }
             });
         });
     </script>
-
 {% endblock %}

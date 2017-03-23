@@ -5,7 +5,7 @@
         <script src="{{asset('js/jquery-3.1.1.min.js')}}"></script>
 
         {# Create the favicon icon #}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/les_jeux_de_l_oie.png') }}">
 
         <!-- Bootstrap CSS, theme and JS -->
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
@@ -14,9 +14,14 @@
 
         {#correlation with the css file#}
         <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}" >
+
+        <!- on ne peut pas utiliser twig dans le fichier externe style.css, alors on rajoute ci dessous les styles utilisant twig -->
         <style>
-            #plateau {
-                background-image: url({{ asset('images/board.jpg')}});
+            body {
+                background-image: url({{ asset('images/ferme.png') }});
+            }
+            #plateau-overlay {
+                background-image: url({{ asset('images/board.png') }});
             }
         </style>
     </head>

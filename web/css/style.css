@@ -2,6 +2,8 @@ body {
     width: 1000px;
     margin: auto;
     color:#000000; /*code hexadécimal du noir*/
+
+    /*  background-image:url('web/images/la_ferme_de_l_oie.jpg');*/
     font-family:verdana;
     font-size:12px;
 }
@@ -15,22 +17,29 @@ header {
 #mainContent{
     margin-top: 100px;
 }
-#plateau {
+/*#plateau {
     height: 450px;
+}*/
+#plateau-overlay {
+    position:absolute;
+    top:24px;
+    z-index: 10;
+    width:485px;
+    height:401px;
 }
-.column{
+#plateau td, .cell-overlay  {
+    height: 50px;
+    width: 50px;
+}
+#plateau td {
     position: relative;
 }
-
-#plateau td{
-    height: 50px;
-    width: 40px;
-}
-.numCell{
+.cell-overlay {
     position: absolute;
     right: 5px;
     top: 1px;
-
+    color: #0A2A0A;
+    font-weight: bold;
 }
 .game-aside-info  {
     height: 410px;
@@ -38,6 +47,7 @@ header {
 .game-aside-info .panel-body  {
     height: 100%;
 }
+
 
 #partie {
     height: 80px;
@@ -52,7 +62,7 @@ header {
 }
 .players_info_turn{
     display: inline-block;
-    opacity: 0.5;
+    opacity: 0.2;
     margin: 10px;
     overflow:hidden;
 }
@@ -75,6 +85,8 @@ header {
 .players_info_turn .panel-body p{
     font-size: 8px;
 }
+
+
 #img_logo{
     width: 20px;
     height: 20px;
@@ -95,6 +107,7 @@ h4 {
 footer {
     margin-left: 65px;
     margin-right: 65px;
+    background-color:  	#f0f4f2;
 }
 
 
@@ -105,4 +118,31 @@ footer {
     color:red;
     font-family: verdana;
     font-size: 12px;
+}
+
+.center {
+    text-align: center;
+}
+
+#the-question {
+    width : 190px;
+    font-size : 10px;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-right:5px;
+    padding-left:5px;
+}
+#responses {
+    width : 190px;
+    font-size : 10px;
+    word-break: break-all;
+    padding-top:2px;
+    padding-bottom:2px;
+    padding-right:5px;
+    padding-left:5px;
+}
+#presentation_equipe {
+    width : 800px;
+    font-size : 21px;
+    text-align: justify;
 }
