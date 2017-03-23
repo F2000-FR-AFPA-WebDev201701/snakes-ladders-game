@@ -51,11 +51,14 @@ class Board {
     }
 
     public function initPlayers($aoUsers) {
+        $aColors = ['white', 'green', 'blue', 'black'];
+        shuffle($aColors);
+
         // init. des joueurs
-        foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
+        foreach ($aoUsers as $idx => $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
             $oPawn->setPosition(0); // numéro de la case twig
-            $oPawn->setPawnColor('blue');
+            $oPawn->setPawnColor($aColors[$idx]);
             $oPawn->setUser($oUser);
             $this->pawns[] = $oPawn;
 
@@ -91,7 +94,7 @@ class Board {
 //                    modifier le tableau de cells avec les nouveaux pions
                     $idx = $this->getIdxCell($oActualPawn->getPosition());
                     $oCell = $this->cells[$idx];
-
+// Affichage de la question et des trois réponses proposées :
                     $aoQuestions = $oRepo->findBy([
                         'theme' => $oTheme,
                         'difficulty' => $oCell->getLevel(),
