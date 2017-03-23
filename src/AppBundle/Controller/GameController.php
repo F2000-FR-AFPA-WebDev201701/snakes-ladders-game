@@ -215,6 +215,7 @@ class GameController extends Controller {
      * @Template("AppBundle:Game:board.html.twig")
      */
     public function gameAction($action, Request $request) {
+
         // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game
         // Pour cela, recuperer la session du User -> et y recupérer son game_id. Ainsi nous récipérons le game en cours . Désérialisation .
         $oUserSession = $request->getSession()->get('oUser')->getId();
@@ -233,7 +234,11 @@ class GameController extends Controller {
         $idReply = $request->request->get('idReply', null);
 
         $repoQuestion = $this->getDoctrine()->getRepository('AppBundle:Question');
+        dump($action);
+        dump($idQuestion);
+        dump($idReply);
         if ($idQuestion && $idReply) {
+
             $oBoard->doQuizzAction(
                     $oUser->getId(), $repoQuestion, $idQuestion, $idReply
             );

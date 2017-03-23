@@ -1,22 +1,23 @@
-{{ dump (board) }}
-
 <div class="row">
     <div id="questions" class="col-md-3 game-aside-info">
         <div class="panel panel-default">
             <div class="panel-heading">La Question</div>
             <div class="panel-body">
-                <div id="the-question">
-                    {% if board.question %}
+                {% if board.question %}
+                    <div id="the-question">
+
                         <strong>{{ board.question.wording }}</strong><br/><br/>
+
                     </div>
                     <div id="responses">
                         {% for reply in board.question.replies %}
-                            <div class="alert-info" data-id-question="{{ reply.question.id }}" data-id-reply="{{ reply.id }}">
+                            <div class="answer alert-info" data-id-question="{{ reply.question.id }}" data-id-reply="{{ reply.id }}">
                                 {{ reply.wording }}<br/>
                             </div><br/>
                         {% endfor %}
-                    {% endif %}
-                </div>
+
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

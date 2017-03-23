@@ -53,11 +53,13 @@ class Board {
     }
 
     public function initPlayers($aoUsers) {
+        $aColors = ['white', 'green', 'blue', 'black'];
+        shuffle($aColors);
         // init. des joueurs
-        foreach ($aoUsers as $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
+        foreach ($aoUsers as $idx => $oUser) {  // pour chaque utilisateur (qui joue?) creer un nouveau Pawn avec une position à 0
             $oPawn = new Pawn($oUser);
             $oPawn->setPosition(0); // numéro de la case twig
-            $oPawn->setPawnColor('blue');
+            $oPawn->setPawnColor($aColors[$idx]);
             $oPawn->setUser($oUser);
             $this->pawns[] = $oPawn;
 
@@ -84,13 +86,14 @@ class Board {
 
     public function doAction($idUser, $action, $oRepo, $oTheme) {
 //      Verification que le joueur qui a cliqué (idUser) est bien l'Id du User qui est sencés jouer (playerTurn)
-//        dump($this->playerTurn);
         if (!$this->isCurrentPlayer($idUser)) {
             return;
         }
 
 //        Recuperer le pion du user si celui ci est bon
         $oActualPawn = $this->pawns[$this->playerTurn];
+
+
         switch ($action) {
             case "dice":
                 $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
