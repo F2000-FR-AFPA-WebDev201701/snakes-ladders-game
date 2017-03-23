@@ -88,10 +88,10 @@ class Board {
         if (!$this->isCurrentPlayer($idUser)) {
             return;
         }
+        dump("in");
 
 //        Recuperer le pion du user si celui ci est bon
         $oActualPawn = $this->pawns[$this->playerTurn];
-
 
         switch ($action) {
             case "dice":
@@ -348,7 +348,7 @@ class Board {
     }
 
     private function isCurrentPlayer($idUser) {
-        return ($this->pawns[$this->playerTurn]->getUser()->getId() == $idUser);
+        return (!is_null($this->playerTurn)) && ($this->pawns[$this->playerTurn]->getUser()->getId() == $idUser);
     }
 
 }
