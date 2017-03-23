@@ -1,3 +1,5 @@
+{{ dump (board) }}
+
 <div class="row">
     <div id="questions" class="col-md-3 game-aside-info">
         <div class="panel panel-default">
@@ -6,8 +8,9 @@
                 {% if board.question %}
                     <strong>{{ board.question.wording }}</strong><br/><br/>
                     {% for reply in board.question.replies %}
-                        <div class="alert-info" data-id-question="{{ reply.question.id }}" data-id-reply="{{ reply.id }}">
-                            {{ reply.wording }}<br/>
+                        <div class="answer alert-info" data-id-question="{{ reply.question.id }}" data-id-reply="{{ reply.id }}">
+                            {{ reply.wording }}
+                            <br/>
                         </div><br/>
                     {% endfor %}
                 {% endif %}
@@ -56,7 +59,11 @@
         <div class="panel panel-default">
             <div class="panel-heading">Commentaires</div>
             <div class="panel-body">
-                <p id="question">A toi de jouer Toto !</p>
+                {% if board.comment != null %}
+                    <p id="question">{{ board.comment }}</p>
+                {% else %}
+                    <p id="question">Pas de commentaires pour l'instant..</p>
+                {% endif %}
             </div>
         </div>
     </div>
