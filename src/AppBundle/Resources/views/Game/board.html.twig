@@ -1,3 +1,5 @@
+{{ dump (board) }}
+
 <div class="row">
     <div id="questions" class="col-md-3 game-aside-info">
         <div class="panel panel-default">
@@ -101,7 +103,11 @@
     </div>
 
     <div id="de" class="col-md-3">
-        <img id="the-dice" src="{{ asset('images/dice_' ~ board.dice ~ '.png') }}" alt="{{board.dice}}"/>
+        {% if board.question == null %}
+            <img id="the-dice" src="{{ asset('images/dice_.gif') }}" alt="{{board.dice}}"/>
+        {% else %}
+            <img src="{{ asset('images/dice_' ~ board.dice ~ '.gif') }}" alt="{{board.dice}}"/>
+        {% endif %}
     </div>
     {#    gestion de la fin de la partie#}
     {% if bEndGame == 1 %}

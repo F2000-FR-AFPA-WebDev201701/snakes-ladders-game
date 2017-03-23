@@ -53,7 +53,10 @@ class GameController extends Controller {
         $oGame->setTheme($oTheme);
         $oGame->setGameCreator($oUser);
 //        creation du tableau de jeu pour gérer le cas que le nombre de user (dans join n'est pas suffisant')
+//        et initialisation du dès à "true" en début de partie
+
         $oBoard = new Board();
+
 //            ajout de oBoard dans data de oGame; et update de Game
         $oGame->setData(serialize($oBoard));
 
@@ -234,10 +237,10 @@ class GameController extends Controller {
         $idReply = $request->request->get('idReply', null);
 
         $repoQuestion = $this->getDoctrine()->getRepository('AppBundle:Question');
-        dump($action);
-        dump($idQuestion);
-        dump($idReply);
+
         if ($idQuestion && $idReply) {
+
+
 
             $oBoard->doQuizzAction(
                     $oUser->getId(), $repoQuestion, $idQuestion, $idReply
