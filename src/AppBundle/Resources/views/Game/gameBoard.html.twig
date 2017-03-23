@@ -6,7 +6,10 @@
     </div>
 
     <script>
+        var refreshIntervalId;
+
         $('#board').on('click', '#the-dice', function () {   // #the-dice est l'identifiant de l'image du dè mais il va être écrasé à chaque clique, c'est pourquoi on le met en option / #board est l'identifiant en dur qui ne va pas être écrasé au rechargement de la page
+            clearInterval(refreshIntervalId);
             $.ajax({
                 async: true,
                 type: 'GET',
@@ -21,6 +24,7 @@
         });
 
         $('#board').on('click', '#responses .answer', function () {   // .answer est la classe l'identifiante du bouton réponse dans l'environnement des questino
+            enableAutoRefresh();
             $.ajax({
                 async: true,
                 type: 'POST',
@@ -30,9 +34,30 @@
                     idReply: $(this).data('id-reply')
                 },
                 success: function (view) {   // view est le résultat du champs Url, c'est à dire de la route gameaction
-                    $('#board').html(view); // on remplace le code qui est situé en haut dans le div avec l'identifiant #board par le résultat du champs Url (nouvel vue du plateau = view)
+                    $('#board').html(view);
+
+                    // on remplace le code qui est situé en haut dans le div avec l'identifiant #board par le résultat du champs Url (nouvel vue du plateau = view)
                 }
             });
         });
+        {#        rafraichiseemnt automatique#}
+
+            function enableAutoRefresh() {
+                refreshIntervalId = setInterval(function () {
+                    $.ajax({
+                        async: true,
+                        type: 'GET',
+                        url: '{{ path('gameaction', {'action' : 'refresh'}) }}',
+                        error: function (data) {
+                            console.log(data);
+                        },
+                        success: function (view) {
+                            $('.modal-backdrop').remove(); // bootstrap modal envoie la popUp avec calque noir en fond. C'est calque ne se supprime pas automatiquement et avec le refresh cela devient de plus en plus noir. Donc a chaque refresh on supprime le calques
+                            $('#board').html(view);
+                        }
+                    });
+                }, 5000);
+            }
+            enableAutoRefresh();
     </script>
 {% endblock %}

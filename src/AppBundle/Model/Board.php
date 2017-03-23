@@ -89,13 +89,14 @@ class Board {
         if (!$this->isCurrentPlayer($idUser)) {
             return;
         }
+        dump("in");
 
 //        Recuperer le pion du user si celui ci est bon
         $oActualPawn = $this->pawns[$this->playerTurn];
 
-
         switch ($action) {
             case "dice":
+
                 $this->dice = $this->runDice();     // on appel une fonction qui est dans la même class : on aurait pu mettre : Board::runDice();
 //                  Changer dans pawn du user en cours sa nouvelle position et changer le tabeau cell avec les nouveuax pions integré
                 $this->movePawn($oActualPawn);     // On appel la fonction qui retournera la nouvelle position du pion en prennant en compte la valeur du dés
@@ -335,7 +336,7 @@ class Board {
     }
 
     private function isCurrentPlayer($idUser) {
-        return ($this->pawns[$this->playerTurn]->getUser()->getId() == $idUser);
+        return (!is_null($this->playerTurn)) && ($this->pawns[$this->playerTurn]->getUser()->getId() == $idUser);
     }
 
 }

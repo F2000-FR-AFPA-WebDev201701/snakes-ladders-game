@@ -13,18 +13,6 @@ use AppBundle\Entity\Game;
 use Doctrine\ORM\Mapping as ORM;  // déclaration de l'utilisation de doctrine
 
 class GameController extends Controller {
-//    function ci dessous à effacer si il s'avère qu'elle ne sert vraiment a rien
-//    public function boardAction() {
-//        // on copie pour l'instant la fonction gameBoardAction() du dessous
-//        $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
-//        $oGame = $repoGame->find(1); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
-//        $oBoard = unserialize($oGame->getData());
-//
-//        //dump($oBoard);
-//        return ['board' => $oBoard, // board est un tableau utilisable par twig qui va contenir tous les attributs de oBoard
-//            'bEndGame' => $oBoard->isEndGame()
-//        ];
-//    }
 
     /**
      * @Route("/create-game/{nbJ}/{theme}", name="game_create")
@@ -152,10 +140,6 @@ class GameController extends Controller {
 
         //      Redirection
         return $this->redirectToRoute('home');
-
-//        return $this->redirectToRoute('game_start', array(
-//                    'iGame' => $oGame->getId()
-//        ));
     }
 
     /**
@@ -215,14 +199,11 @@ class GameController extends Controller {
      * @Template("AppBundle:Game:board.html.twig")
      */
     public function gameAction($action, Request $request) {
-
         // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game
         // Pour cela, recuperer la session du User -> et y recupérer son game_id. Ainsi nous récipérons le game en cours . Désérialisation .
         $oUserSession = $request->getSession()->get('oUser')->getId();
-
         $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
         $oUser = $repoUser->find($oUserSession);
-
         $oGame = $oUser->getGame();
         $oBoard = unserialize($oGame->getData());  // on crée l'objet oBoard en désérialisant l'attribut-variable $data de oGame
         // parameters. action va lancer le dés + faire le deplacement du pions via (doAction)
@@ -234,11 +215,7 @@ class GameController extends Controller {
         $idReply = $request->request->get('idReply', null);
 
         $repoQuestion = $this->getDoctrine()->getRepository('AppBundle:Question');
-        dump($action);
-        dump($idQuestion);
-        dump($idReply);
         if ($idQuestion && $idReply) {
-
             $oBoard->doQuizzAction(
                     $oUser->getId(), $repoQuestion, $idQuestion, $idReply
             );
