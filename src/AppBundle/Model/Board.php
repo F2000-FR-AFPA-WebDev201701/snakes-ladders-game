@@ -179,7 +179,6 @@ class Board {
             self::malusPawn($oPawn, $level);
         }
 
-        $this->setClickOnDice(true);
         $this->nextPlayer();
     }
 
