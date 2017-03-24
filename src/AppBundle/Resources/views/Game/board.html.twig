@@ -9,14 +9,13 @@
                         <strong>{{ board.question.wording }}</strong><br/><br/>
 
                     </div>
-                    <div id="responses">
-                        {% for reply in board.question.replies %}
+                    {% for reply in board.question.replies %}
+                        <div id="responses">
                             <div class="answer alert-info" data-id-question="{{ reply.question.id }}" data-id-reply="{{ reply.id }}">
                                 {{ reply.wording }}<br/>
                             </div><br/>
-                        {% endfor %}
-
-                    </div>
+                        </div>
+                    {% endfor %}
                 {% endif %}
             </div>
         </div>
@@ -68,12 +67,10 @@
     <div id="reponses" class="col-md-3 game-aside-info">
         <div class="panel panel-default">
             <div class="panel-heading">Commentaires</div>
-            <div class="panel-body">
-                {% if board.comment != null %}
-                    <p id="question">{{ board.comment }}</p>
-                {% else %}
-                    <p id="question">Pas de commentaires pour l'instant..</p>
-                {% endif %}
+            <div id="comments" class="panel-body">
+                {% for msg in board.messagesToPlayers %}
+                    {{ msg | raw }}<br /><br />
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -81,6 +78,7 @@
 <div class="row">
     <div id="partie" class="col-md-3">
         <h5>Partie de {{ nameGame }}</h5>
+
     </div>
 
     <div id="joueurs" class="col-md-6">
@@ -116,6 +114,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
+
                         <h4 class="modal-title" id="myModalLabel">Fin de partie</h4>
                     </div>
                     <div class="modal-body">
@@ -173,3 +172,4 @@
     <script> $('#StatusModal').modal('show')</script> <!-- on affiche la fenêtre popup Bootstrap avec Jquery au chargement de la page si la partie est terminée, sinon il faudrait mettre un bouton bootstrap-->
 
 </div>
+

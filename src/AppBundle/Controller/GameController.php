@@ -30,7 +30,7 @@ class GameController extends Controller {
         $oTheme = $repoTheme->find($theme);
 
         $oDateGame = new \DateTime('now');
-        $nameGame = 'jeu de ' . $oUser->getPseudo() . ' a la date du ' . $oDateGame->format('Y-m-d H:i:s') . ' avec le super theme ' . $theme;
+        $nameGame = 'Jeu de ' . $oUser->getPseudo() . ' à la Date du ' . $oDateGame->format('Y-m-d H:i:s') . ' avec le Super-Thème ' . $theme;
 
         // Initialisation de Game
         $oGame = new Game;
@@ -41,10 +41,7 @@ class GameController extends Controller {
         $oGame->setTheme($oTheme);
         $oGame->setGameCreator($oUser);
 //        creation du tableau de jeu pour gérer le cas que le nombre de user (dans join n'est pas suffisant')
-//        et initialisation du dès à "true" en début de partie
-
         $oBoard = new Board();
-
 //            ajout de oBoard dans data de oGame; et update de Game
         $oGame->setData(serialize($oBoard));
 
@@ -202,11 +199,14 @@ class GameController extends Controller {
      * @Template("AppBundle:Game:board.html.twig")
      */
     public function gameAction($action, Request $request) {
+
         // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game
         // Pour cela, recuperer la session du User -> et y recupérer son game_id. Ainsi nous récipérons le game en cours . Désérialisation .
         $oUserSession = $request->getSession()->get('oUser')->getId();
+
         $repoUser = $this->getDoctrine()->getRepository('AppBundle:User');
         $oUser = $repoUser->find($oUserSession);
+
         $oGame = $oUser->getGame();
         $oBoard = unserialize($oGame->getData());  // on crée l'objet oBoard en désérialisant l'attribut-variable $data de oGame
         // parameters. action va lancer le dés + faire le deplacement du pions via (doAction)
@@ -220,8 +220,6 @@ class GameController extends Controller {
         $repoQuestion = $this->getDoctrine()->getRepository('AppBundle:Question');
 
         if ($idQuestion && $idReply) {
-
-
 
             $oBoard->doQuizzAction(
                     $oUser->getId(), $repoQuestion, $idQuestion, $idReply
