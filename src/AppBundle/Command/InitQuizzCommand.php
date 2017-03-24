@@ -34,12 +34,10 @@ class InitQuizzCommand extends ContainerAwareCommand {
         $oTheme01->setWording('Développement Web');
         $em->persist($oTheme01);
 
-// THEME 02 : Cuisine
-        $oTheme02 = new Theme ();
-        $oTheme02->setWording('Cuisine');
-        $em->persist($oTheme02);
-
-
+//// THEME 02 : Cuisine
+//        $oTheme02 = new Theme ();
+//        $oTheme02->setWording('Cuisine');
+//        $em->persist($oTheme02);
         // THEME 01  ( Affichage du numéro du thème dans la variable question : Question0101 )
         // QUESTION 01 (FACILE)
         $oQuestion0101 = new Question ();
@@ -322,14 +320,14 @@ class InitQuizzCommand extends ContainerAwareCommand {
         // réponse 01 : incorrecte
         $oReply011001 = new Reply ();
         $oReply011001->setWording('Cascading Style Sheets');
-        $oReply011001->setValid(false);
+        $oReply011001->setValid(true);
         $oReply011001->setQuestion($oQuestion0110);
         $em->persist($oReply011001);
 
         // réponse 02 : correcte
         $oReply010902 = new Reply ();
         $oReply010902->setWording('Create Simple Samples');
-        $oReply010902->setValid(true);
+        $oReply010902->setValid(false);
         $oReply010902->setQuestion($oQuestion0110);
         $em->persist($oReply010902);
 
@@ -339,6 +337,498 @@ class InitQuizzCommand extends ContainerAwareCommand {
         $oReply011003->setValid(false);
         $oReply011003->setQuestion($oQuestion0110);
         $em->persist($oReply011003);
+
+
+
+
+
+
+
+
+
+
+        // QUESTION 11 (FACILE)
+        $oQuestion0111 = new Question ();
+        $oQuestion0111->setWording('Avec qui le développeur va échanger le plus fréquemment ? ?');
+        $oQuestion0111->setDifficulty(Cell::LEVEL_EASY);
+        $oQuestion0111->setTheme($oTheme01);
+        $em->persist($oQuestion0111);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply011101 = new Reply ();
+        $oReply011101->setWording('L intégrateur web');
+        $oReply011101->setValid(true);
+        $oReply011101->setQuestion($oQuestion0111);
+        $em->persist($oReply011101);
+
+        // réponse 02 : incorrecte
+        $oReply011102 = new Reply ();
+        $oReply011102->setWording('Le graphiste');
+        $oReply011102->setValid(false);
+        $oReply011102->setQuestion($oQuestion0111);
+        $em->persist($oReply011102);
+
+        // réponse 03 : incorrecte
+        $oReply011103 = new Reply ();
+        $oReply011103->setWording(' Le gestionnaire de base de données ');
+        $oReply011103->setValid(false);
+        $oReply011103->setQuestion($oQuestion0111);
+        $em->persist($oReply011103);
+
+        // QUESTION 12 (FACILE)
+        $oQuestion0112 = new Question ();
+        $oQuestion0112->setWording('Quelles sont les données retournées par un serveur web ?');
+        $oQuestion0112->setDifficulty(Cell::LEVEL_EASY);
+        $oQuestion0112->setTheme($oTheme01);
+        $em->persist($oQuestion0112);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply011201 = new Reply ();
+        $oReply011201->setWording('Du HTML et du CSS ');
+        $oReply011201->setValid(false);
+        $oReply011201->setQuestion($oQuestion0112);
+        $em->persist($oReply011201);
+
+        // réponse 02 : incorrecte
+        $oReply011202 = new Reply ();
+        $oReply011202->setWording(' Du HTML, du CSS et du JS');
+        $oReply011202->setValid(true);
+        $oReply011202->setQuestion($oQuestion0112);
+        $em->persist($oReply011202);
+
+        // réponse 03 : incorrecte
+        $oReply011203 = new Reply ();
+        $oReply011203->setWording('Du PHP');
+        $oReply011203->setValid(false);
+        $oReply011203->setQuestion($oQuestion0112);
+        $em->persist($oReply011203);
+
+
+        // QUESTION 13 (FACILE)
+        $oQuestion0113 = new Question ();
+        $oQuestion0113->setWording('A quoi sert l attribut class ?');
+        $oQuestion0113->setDifficulty(Cell::LEVEL_EASY);
+        $oQuestion0113->setTheme($oTheme01);
+        $em->persist($oQuestion0113);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply011301 = new Reply ();
+        $oReply011301->setWording(' A spécifier la classe de style ');
+        $oReply011301->setValid(true);
+        $oReply011301->setQuestion($oQuestion0113);
+        $em->persist($oReply011301);
+
+        // réponse 02 : incorrecte
+        $oReply011302 = new Reply ();
+        $oReply011302->setWording(' A ordonner des éléments ');
+        $oReply011302->setValid(false);
+        $oReply011302->setQuestion($oQuestion0113);
+        $em->persist($oReply011302);
+
+        // réponse 03 : incorrecte
+        $oReply011303 = new Reply ();
+        $oReply011303->setWording(' A spécifier le type de HTML utilisé ');
+        $oReply011303->setValid(false);
+        $oReply011303->setQuestion($oQuestion0113);
+        $em->persist($oReply011303);
+
+
+        // QUESTION 14 (FACILE)
+        $oQuestion0114 = new Question ();
+        $oQuestion0114->setWording(' A quoi sert la balise <nav> ?');
+        $oQuestion0114->setDifficulty(Cell::LEVEL_EASY);
+        $oQuestion0114->setTheme($oTheme01);
+        $em->persist($oQuestion0114);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply011401 = new Reply ();
+        $oReply011401->setWording(' A définir des menus alternatifs  ');
+        $oReply011401->setValid(false);
+        $oReply011401->setQuestion($oQuestion0114);
+        $em->persist($oReply011401);
+
+        // réponse 02 : incorrecte
+        $oReply011402 = new Reply ();
+        $oReply011402->setWording(' A définir des listes déroulantes ');
+        $oReply011402->setValid(false);
+        $oReply011402->setQuestion($oQuestion0114);
+        $em->persist($oReply011402);
+
+        // réponse 03 : incorrecte
+        $oReply011403 = new Reply ();
+        $oReply011403->setWording('A définir des éléments de navigation ');
+        $oReply011403->setValid(true);
+        $oReply011403->setQuestion($oQuestion0114);
+        $em->persist($oReply011403);
+
+
+// QUESTION 15 (FACILE)
+        $oQuestion0115 = new Question ();
+        $oQuestion0115->setWording('Dans la règle suivante, quel élément deviendra rouge ? ( strong#intro {background-color: red;} )');
+        $oQuestion0115->setDifficulty(Cell::LEVEL_EASY);
+        $oQuestion0115->setTheme($oTheme01);
+        $em->persist($oQuestion0115);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply011501 = new Reply ();
+        $oReply011501->setWording('Tous les éléments <strong> contenus dans un élément dont l id est "intro"');
+        $oReply011501->setValid(false);
+        $oReply011501->setQuestion($oQuestion0115);
+        $em->persist($oReply011501);
+
+        // réponse 02 : incorrecte
+        $oReply011502 = new Reply ();
+        $oReply011502->setWording(' L élément dont  lid est "intro" et qui est contenu dans un élément <strong> ');
+        $oReply011502->setValid(false);
+        $oReply011502->setQuestion($oQuestion0115);
+        $em->persist($oReply011502);
+
+        // réponse 03 : incorrecte
+        $oReply011503 = new Reply ();
+        $oReply011503->setWording('  L élément <strong> dont l id est "intro"  ');
+        $oReply011503->setValid(true);
+        $oReply011503->setQuestion($oQuestion0115);
+        $em->persist($oReply011503);
+
+
+        // QUESTION 16 (moyenne)
+        $oQuestion0116 = new Question ();
+        $oQuestion0116->setWording('A quoi sert la propriété "relative" ?  )');
+        $oQuestion0116->setDifficulty(Cell::LEVEL_MEDIUM);
+        $oQuestion0116->setTheme($oTheme01);
+        $em->persist($oQuestion0116);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply011601 = new Reply ();
+        $oReply011601->setWording('Servier de référentiel à des éléments "fixed" ');
+        $oReply011601->setValid(false);
+        $oReply011601->setQuestion($oQuestion0116);
+        $em->persist($oReply011601);
+
+        // réponse 02 : incorrecte
+        $oReply011602 = new Reply ();
+        $oReply011602->setWording('Décaler un élément par rapport à sa position de référence');
+        $oReply011602->setValid(true);
+        $oReply011602->setQuestion($oQuestion0116);
+        $em->persist($oReply011602);
+
+        // réponse 03 : incorrecte
+        $oReply011603 = new Reply ();
+        $oReply011603->setWording('  Décaler un élément par rapport à un autre élément "relative"  ');
+        $oReply011603->setValid(false);
+        $oReply011603->setQuestion($oQuestion0116);
+        $em->persist($oReply011603);
+
+
+
+        // QUESTION 17 (moyenne)
+        $oQuestion0117 = new Question ();
+        $oQuestion0117->setWording('Quelle syntaxe n est pas correcte ? )');
+        $oQuestion0117->setDifficulty(Cell::LEVEL_MEDIUM);
+        $oQuestion0117->setTheme($oTheme01);
+        $em->persist($oQuestion0117);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply011701 = new Reply ();
+        $oReply011701->setWording('   public function maFonction( $p1=4, $p2, $p3=5) {... }  ');
+        $oReply011701->setValid(true);
+        $oReply011701->setQuestion($oQuestion0117);
+        $em->persist($oReply011701);
+
+        // réponse 02 : incorrecte
+        $oReply011702 = new Reply ();
+        $oReply011702->setWording('   public function maFonction( $p1, $p2, $p3=5) {... }   ');
+        $oReply011702->setValid(false);
+        $oReply011702->setQuestion($oQuestion0117);
+        $em->persist($oReply011702);
+
+        // réponse 03 : incorrecte
+        $oReply011703 = new Reply ();
+        $oReply011703->setWording('   public function maFonction( $p1=3, $p2=1, $p3=5) {... }  ');
+        $oReply011703->setValid(false);
+        $oReply011703->setQuestion($oQuestion0117);
+        $em->persist($oReply011703);
+
+        // QUESTION 18 (moyenne)
+        $oQuestion0118 = new Question ();
+        $oQuestion0118->setWording('Quelle instruction PHP permet de démarrer une session ? )');
+        $oQuestion0118->setDifficulty(Cell::LEVEL_MEDIUM);
+        $oQuestion0118->setTheme($oTheme01);
+        $em->persist($oQuestion0118);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply011801 = new Reply ();
+        $oReply011801->setWording('session_create( )');
+        $oReply011801->setValid(false);
+        $oReply011801->setQuestion($oQuestion0118);
+        $em->persist($oReply011801);
+
+        // réponse 02 : incorrecte
+        $oReply011802 = new Reply ();
+        $oReply011802->setWording('  new Session() ');
+        $oReply011802->setValid(false);
+        $oReply011802->setQuestion($oQuestion0118);
+        $em->persist($oReply011802);
+
+        // réponse 03 : incorrecte
+        $oReply011803 = new Reply ();
+        $oReply011803->setWording('session_start( ) ');
+        $oReply011803->setValid(true);
+        $oReply011803->setQuestion($oQuestion0118);
+        $em->persist($oReply011803);
+
+        // QUESTION 19 (moyenne)
+        $oQuestion0119 = new Question ();
+        $oQuestion0119->setWording('Quel est le pré-requis majeur à un autoload rapide à mettre en place ? )');
+        $oQuestion0119->setDifficulty(Cell::LEVEL_MEDIUM);
+        $oQuestion0119->setTheme($oTheme01);
+        $em->persist($oQuestion0119);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply011901 = new Reply ();
+        $oReply011901->setWording(' Utiliser PHP 7 ');
+        $oReply011901->setValid(false);
+        $oReply011901->setQuestion($oQuestion0119);
+        $em->persist($oReply011901);
+
+        // réponse 02 : incorrecte
+        $oReply011902 = new Reply ();
+        $oReply011902->setWording('  Respecter une nomenclature précise ');
+        $oReply011902->setValid(true);
+        $oReply011902->setQuestion($oQuestion0119);
+        $em->persist($oReply011902);
+
+        // réponse 03 : incorrecte
+        $oReply011903 = new Reply ();
+        $oReply011903->setWording('  Faire hériter toutes nos classes d une classe mère ');
+        $oReply011903->setValid(false);
+        $oReply011903->setQuestion($oQuestion0119);
+        $em->persist($oReply011903);
+
+// QUESTION 20 (moyenne)
+        $oQuestion0120 = new Question ();
+        $oQuestion0120->setWording(' Comment définir un bouton d alerte de couleur rouge ? )');
+        $oQuestion0120->setDifficulty(Cell::LEVEL_MEDIUM);
+        $oQuestion0120->setTheme($oTheme01);
+        $em->persist($oQuestion0120);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply012001 = new Reply ();
+        $oReply012001->setWording(' btn btn-danger ');
+        $oReply012001->setValid(true);
+        $oReply012001->setQuestion($oQuestion0120);
+        $em->persist($oReply012001);
+
+        // réponse 02 : incorrecte
+        $oReply012002 = new Reply ();
+        $oReply012002->setWording(' btn btn-warning ');
+        $oReply012002->setValid(false);
+        $oReply012002->setQuestion($oQuestion0120);
+        $em->persist($oReply012002);
+
+        // réponse 03 : incorrecte
+        $oReply012003 = new Reply ();
+        $oReply012003->setWording('  btn btn-error ');
+        $oReply012003->setValid(false);
+        $oReply012003->setQuestion($oQuestion0120);
+        $em->persist($oReply012003);
+
+// QUESTION 21 (difficile)
+        $oQuestion0121 = new Question ();
+        $oQuestion0121->setWording(' Quelle réponse ne valide pas la RegExp suivante : "s[ao]*" )');
+        $oQuestion0121->setDifficulty(Cell::LEVEL_HARD);
+        $oQuestion0121->setTheme($oTheme01);
+        $em->persist($oQuestion0121);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply012101 = new Reply ();
+        $oReply012101->setWording('  s');
+        $oReply012101->setValid(false);
+        $oReply012101->setQuestion($oQuestion0121);
+        $em->persist($oReply012101);
+
+        // réponse 02 : incorrecte
+        $oReply012102 = new Reply ();
+        $oReply012102->setWording('Sooaoaoa');
+        $oReply012102->setValid(true);
+        $oReply012102->setQuestion($oQuestion0121);
+        $em->persist($oReply012102);
+
+        // réponse 03 : incorrecte
+        $oReply012103 = new Reply ();
+        $oReply012103->setWording(' sao');
+        $oReply012103->setValid(false);
+        $oReply012103->setQuestion($oQuestion0121);
+        $em->persist($oReply012103);
+
+        // QUESTION 22 (difficile)
+        $oQuestion0122 = new Question ();
+        $oQuestion0122->setWording(' Comment faire un survol de lien (rollover) accessible au plus grand nombre en CSS" )');
+        $oQuestion0122->setDifficulty(Cell::LEVEL_HARD);
+        $oQuestion0122->setTheme($oTheme01);
+        $em->persist($oQuestion0122);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply012201 = new Reply ();
+        $oReply012201->setWording(' a:hover {color: blue;}');
+        $oReply012201->setValid(false);
+        $oReply012201->setQuestion($oQuestion0122);
+        $em->persist($oReply012201);
+
+        // réponse 02 : incorrecte
+        $oReply012202 = new Reply ();
+        $oReply012202->setWording('a:hover, a:focus {color: blue;}');
+        $oReply012202->setValid(false);
+        $oReply012202->setQuestion($oQuestion0122);
+        $em->persist($oReply012202);
+
+        // réponse 03 : incorrecte
+        $oReply012203 = new Reply ();
+        $oReply012203->setWording('a:hover, a:focus, a:active {color: blue;})');
+        $oReply012203->setValid(true);
+        $oReply012203->setQuestion($oQuestion0122);
+        $em->persist($oReply012203);
+
+
+        // QUESTION 23 (difficile)
+        $oQuestion0123 = new Question ();
+        $oQuestion0123->setWording(' En supposant que tous les sélecteurs suivants sont justes et désignent le même élément, lequel sera appliqué en priorité ?" )');
+        $oQuestion0123->setDifficulty(Cell::LEVEL_HARD);
+        $oQuestion0123->setTheme($oTheme01);
+        $em->persist($oQuestion0123);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply012301 = new Reply ();
+        $oReply012301->setWording('#page .menu a {}');
+        $oReply012301->setValid(true);
+        $oReply012301->setQuestion($oQuestion0123);
+        $em->persist($oReply012301);
+
+        // réponse 02 : incorrecte
+        $oReply012302 = new Reply ();
+        $oReply012302->setWording('div.menu ul li a {}');
+        $oReply012302->setValid(false);
+        $oReply012302->setQuestion($oQuestion0123);
+        $em->persist($oReply012302);
+
+        // réponse 03 : incorrecte
+        $oReply012303 = new Reply ();
+        $oReply012303->setWording('#page ul li a {}');
+        $oReply012303->setValid(false);
+        $oReply012303->setQuestion($oQuestion0123);
+        $em->persist($oReply012303);
+
+        // QUESTION 24 (difficile)
+        $oQuestion0124 = new Question ();
+        $oQuestion0124->setWording(' Comment définit-on le constructeur d une classe (compatible PHP3/4/5)');
+        $oQuestion0124->setDifficulty(Cell::LEVEL_HARD);
+        $oQuestion0124->setTheme($oTheme01);
+        $em->persist($oQuestion0124);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply012401 = new Reply ();
+        $oReply012401->setWording('en utilisant __construct()');
+        $oReply012401->setValid(false);
+        $oReply012401->setQuestion($oQuestion0124);
+        $em->persist($oReply012401);
+
+        // réponse 02 : incorrecte
+        $oReply012402 = new Reply ();
+        $oReply012402->setWording('en nommant la fonction comme la classe');
+        $oReply012402->setValid(true);
+        $oReply012402->setQuestion($oQuestion0124);
+        $em->persist($oReply012402);
+
+        // réponse 03 : incorrecte
+        $oReply012403 = new Reply ();
+        $oReply012403->setWording('grâce à public static void()');
+        $oReply012403->setValid(false);
+        $oReply012403->setQuestion($oQuestion0124);
+        $em->persist($oReply012403);
+
+        // QUESTION 25 (difficile)
+        $oQuestion0125 = new Question ();
+        $oQuestion0125->setWording('Quel mot clé permet de conserver la valeur d une variable locale dans une même fonction appelée plusieurs fois de suite ?');
+        $oQuestion0125->setDifficulty(Cell::LEVEL_HARD);
+        $oQuestion0125->setTheme($oTheme01);
+        $em->persist($oQuestion0125);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply012501 = new Reply ();
+        $oReply012501->setWording('static');
+        $oReply012501->setValid(true);
+        $oReply012501->setQuestion($oQuestion0125);
+        $em->persist($oReply012501);
+
+        // réponse 02 : incorrecte
+        $oReply012502 = new Reply ();
+        $oReply012502->setWording('global');
+        $oReply012502->setValid(false);
+        $oReply012502->setQuestion($oQuestion0125);
+        $em->persist($oReply012502);
+
+        // réponse 03 : incorrecte
+        $oReply012503 = new Reply ();
+        $oReply012503->setWording('const');
+        $oReply012503->setValid(false);
+        $oReply012503->setQuestion($oQuestion0125);
+        $em->persist($oReply012503);
+
+// QUESTION 26 (difficile)
+        $oQuestion0126 = new Question ();
+        $oQuestion0126->setWording('Quel est le résultat de parseInt("010",8) ?');
+        $oQuestion0126->setDifficulty(Cell::LEVEL_HARD);
+        $oQuestion0126->setTheme($oTheme01);
+        $em->persist($oQuestion0126);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply012601 = new Reply ();
+        $oReply012601->setWording('1');
+        $oReply012601->setValid(false);
+        $oReply012601->setQuestion($oQuestion0126);
+        $em->persist($oReply012601);
+
+        // réponse 02 : incorrecte
+        $oReply012602 = new Reply ();
+        $oReply012602->setWording('2');
+        $oReply012602->setValid(false);
+        $oReply012602->setQuestion($oQuestion0126);
+        $em->persist($oReply012602);
+
+        // réponse 03 : incorrecte
+        $oReply012603 = new Reply ();
+        $oReply012603->setWording('8');
+        $oReply012603->setValid(true);
+        $oReply012603->setQuestion($oQuestion0126);
+        $em->persist($oReply012603);
+
+        // QUESTION 27 (difficile)
+        $oQuestion0127 = new Question ();
+        $oQuestion0127->setWording('Quelle chaîne de caractères ne correspond pas à lexpression régulière /\ba/?');
+        $oQuestion0127->setDifficulty(Cell::LEVEL_HARD);
+        $oQuestion0127->setTheme($oTheme01);
+        $em->persist($oQuestion0127);
+
+        // réponse 01 : correcte ( ffichage du numéro du thème, puis numéro de la question dans la variable réponse : $oReply010101 )
+        $oReply012701 = new Reply ();
+        $oReply012701->setWording('"-a"');
+        $oReply012701->setValid(false);
+        $oReply012701->setQuestion($oQuestion0127);
+        $em->persist($oReply012701);
+
+        // réponse 02 : incorrecte
+        $oReply012702 = new Reply ();
+        $oReply012702->setWording('"_a"');
+        $oReply012702->setValid(true);
+        $oReply012702->setQuestion($oQuestion0127);
+        $em->persist($oReply012702);
+
+        // réponse 03 : incorrecte
+        $oReply012703 = new Reply ();
+        $oReply012703->setWording('"d c b a"');
+        $oReply012703->setValid(false);
+        $oReply012703->setQuestion($oQuestion0127);
+        $em->persist($oReply012703);
 
 // FLUSH
         //[DOCTRINE] sauvegarde dans la base de données data (en fait on rend persistant l'objet Game)

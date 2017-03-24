@@ -1,5 +1,6 @@
 {% extends 'AppBundle::base.html.twig' %}
 {% block content %}
+    <audio id="testaudio" src="{{ asset('sounds/ane.mp3')}}"></audio>
     <div class="row">
         <div id="creation" class="col-md-12">
             <div class="panel panel-default">
@@ -14,26 +15,26 @@
                         Le niveau de difficulté de la question est en fonction de la couleur de la case :
                         <br></br>
                         <strong>
-                            &nbsp;&nbsp;&nbsp;&nbspOrange : Facile<br>
-                            &nbsp;&nbsp;&nbsp;&nbspVert : Moyen<br>
-                            &nbsp;&nbsp;&nbsp;&nbspRouge : Difficile<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbspOrange => Niveau facile<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbspVer => Niveau moyen<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbspRouge => Niveau difficile<br>
                         </strong>
                         <br></br>
                         Selon que votre réponse soit bonne ou mauvaise vous avancez ou reculez de x cases.
                         <br></br>
                         Le joeur qui gagne est le premier arrivé à la 63.
                         <br></br<br></br>
-                        <strong>Si la case est de niveau facile :</strong>
-                        &nbsp;&nbsp;&nbsp;&nbsp; -  Vous avancez de 1 case si la réponse est bonne
-                        &nbsp;&nbsp;&nbsp;&nbsp;-  Vous reculer de 4 cases si la réponse est fausse
+                        <strong>Si la case est de niveau facile :</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;- Vous avancez de 1 case si la réponse est bonne<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;- Vous reculer de 4 cases si la réponse est fausse<br>
                         <br></br>
-                        <strong>Si la case est de niveau moyen :</strong>
-                        &nbsp;&nbsp;&nbsp;&nbsp;-  Vous avancez de 2 case si la réponse est bonne
-                        &nbsp;&nbsp;&nbsp;&nbsp;-  Vous reculer de 2 cases si la réponse est fausse
+                        <strong>Si la case est de niveau moyen :</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;- Vous avancez de 2 case si la réponse est bonne<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;- Vous reculer de 2 cases si la réponse est fausse<br>
                         <br></br>
-                        <strong>Si la case est de niveau difficile:</strong>
-                        &nbsp;&nbsp;&nbsp;&nbsp; -  Vous avancez de 1 case si la réponse est bonne
-                        &nbsp;&nbsp;&nbsp;&nbsp; -  Vous reculer de 1 cases si la réponse est fausse
+                        <strong>Si la case est de niveau difficile:</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;- Vous avancez de 1 case si la réponse est bonne<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;- Vous reculer de 1 cases si la réponse est fausse<br>
                         <br>
                     </p>
                     <img id="logo" src="{{ asset('images/jeu_de_l_oie.png')}}" alt="logo" title="jeu_de_l_oie_1" />
