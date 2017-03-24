@@ -146,3 +146,14 @@ footer {
     font-size : 21px;
     text-align: justify;
 }
+
+#intro {
+    width: 900px;
+    height: 300px;
+
+
+}
+
+.center {
+    text-align: center; 
+}
