@@ -100,12 +100,15 @@
     </div>
 
     <div id="de" class="col-md-3">
-        {% if board.question == null %}
+        {# DES Cliquable si pas de reponse en attente && Joueur Session est le joueura joué &&  que la partie est in-process (sinon des=NULL}#}
+        {% if ((board.question == null)  and (game.status == 'in-process') and (board.pawns[board.playerTurn].user.id == app.session.get('oUser').id)) %}
             <img id="the-dice" src="{{ asset('images/dice_.gif') }}" alt="{{board.dice}}"/>
         {% else %}
             <img src="{{ asset('images/dice_' ~ board.dice ~ '.gif') }}" alt="{{board.dice}}"/>
         {% endif %}
     </div>
+
+
     {#    gestion de la fin de la partie#}
     {% if bEndGame == 1 %}
         <!-- Modal --> <!-- Popup Bootstrap bien fait, pratique -->
