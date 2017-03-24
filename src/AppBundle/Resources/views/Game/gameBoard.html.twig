@@ -1,6 +1,8 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block content %}
+    <audio id="sound_vache" src="{{ asset('sounds/vache.mp3')}}" autoplay></audio>
+
     <div id="board">
         {% include "AppBundle:Game:board.html.twig" %}   <!-- avec include il n'est pas possible d'utiliser de Route -->
     </div>
@@ -9,6 +11,7 @@
         var refreshIntervalId;
 
         $('#board').on('click', '#the-dice', function () {   // #the-dice est l'identifiant de l'image du dè mais il va être écrasé à chaque clique, c'est pourquoi on le met en option / #board est l'identifiant en dur qui ne va pas être écrasé au rechargement de la page
+            $('#sound_vache').get(0).play();
             clearInterval(refreshIntervalId);
             $.ajax({
                 async: true,
