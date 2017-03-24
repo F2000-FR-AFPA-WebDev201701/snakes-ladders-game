@@ -9,14 +9,13 @@
                         <strong>{{ board.question.wording }}</strong><br/><br/>
 
                     </div>
-                    <div id="responses">
-                        {% for reply in board.question.replies %}
+                    {% for reply in board.question.replies %}
+                        <div id="responses">
                             <div class="answer alert-info" data-id-question="{{ reply.question.id }}" data-id-reply="{{ reply.id }}">
                                 {{ reply.wording }}<br/>
                             </div><br/>
-                        {% endfor %}
-
-                    </div>
+                        </div>
+                    {% endfor %}
                 {% endif %}
             </div>
         </div>
@@ -68,12 +67,10 @@
     <div id="reponses" class="col-md-3 game-aside-info">
         <div class="panel panel-default">
             <div class="panel-heading">Commentaires</div>
-            <div class="panel-body">
-                {% if board.comment != null %}
-                    <p id="question">{{ board.comment }}</p>
-                {% else %}
-                    <p id="question">Pas de commentaires pour l'instant..</p>
-                {% endif %}
+            <div id="comments" class="panel-body">
+                {% for msg in board.messagesToPlayers %}
+                    {{ msg | raw }}<br /><br />
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -101,8 +98,15 @@
     </div>
 
     <div id="de" class="col-md-3">
-        <img id="the-dice" src="{{ asset('images/dice_' ~ board.dice ~ '.png') }}" alt="{{board.dice}}"/>
+        {# DES Cliquable si pas de reponse en attente && Joueur Session est le joueura joué &&  que la partie est in-process (sinon des=NULL}#}
+        {% if ((board.question == null)  and (game.status == 'in-process') and (board.pawns[board.playerTurn].user.id == app.session.get('oUser').id)) %}
+            <img id="the-dice" src="{{ asset('images/dice_.gif') }}" alt="{{board.dice}}"/>
+        {% else %}
+            <img src="{{ asset('images/dice_' ~ board.dice ~ '.gif') }}" alt="{{board.dice}}"/>
+        {% endif %}
     </div>
+
+
     {#    gestion de la fin de la partie#}
     {% if bEndGame == 1 %}
         <!-- Modal --> <!-- Popup Bootstrap bien fait, pratique -->
@@ -117,7 +121,7 @@
                         <H2> Partie terminée ! </H2>
                             {#                        board.cells[7] coorespond à la case twig 63#}
                             {#                        pawns[1] On ne sais pas pourquoi le tableau commence à 1 et non 0#}
-                        <H3> Bien joué {{ board.cells[7].pawns[0].user.firstname }} ! tu es super fort(e)! tu as gagné la partie !!!</H3>
+                        <H3> Bien joué {{ board.cells[7].pawns[0].user.firstname }} ! Tu es super Fort(e)! Tu as gagné la partie !!!</H3>
                         <HR>
                         Que voulez vous faire ?
                         <BR><BR>
@@ -168,3 +172,4 @@
     <script> $('#StatusModal').modal('show')</script> <!-- on affiche la fenêtre popup Bootstrap avec Jquery au chargement de la page si la partie est terminée, sinon il faudrait mettre un bouton bootstrap-->
 
 </div>
+

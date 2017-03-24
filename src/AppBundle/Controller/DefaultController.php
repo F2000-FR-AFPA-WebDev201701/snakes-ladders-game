@@ -18,9 +18,16 @@ class DefaultController extends Controller {
     /**
      * @Route("/", name="home")
      * @Template
-
      */
     public function homeAction() {
+        return [];
+    }
+
+    /**
+     * @Route("/rules", name="rules")
+     * @Template
+     */
+    public function rulesAction() {
         return [];
     }
 
