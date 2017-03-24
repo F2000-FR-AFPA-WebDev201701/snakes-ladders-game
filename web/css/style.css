@@ -114,6 +114,11 @@ footer {
 #the-dice {
     width:60px;
 }
+#comments {
+    color:red;
+    font-family: verdana;
+    font-size: 12px;
+}
 
 .center {
     text-align: center;
