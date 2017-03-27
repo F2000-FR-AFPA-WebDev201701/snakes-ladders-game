@@ -1,7 +1,5 @@
 <?php
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 namespace AppBundle\Model;
 
 class Board {
@@ -11,8 +9,6 @@ class Board {
     const MSG_WRONGANSWER = 'Mauvaise Réponse __name__ !<br/>Tu recules de __nbcase__ case(s) !';
     const MSG_RIGHTANSWER = 'Bonne Réponse __name__ !<br/>Tu avances de __nbcase__ case(s) !';
 
-    // const MSG_GAMEISOVER = 'La Partie est Terminée!<br>__name__ a Gagné !!!';
-// Cette constante a été remplacée par un pop-un de fin de partie.
     /* Variables constantes. Chaque variable constante correspond à une situation de jeu.
      * Il y a six situations de jeu. __name__ et __nbcase__ pourront être remplacés
      * respectivement par "le nom du joueur" et le "nombre de cases à reculer".

@@ -34,10 +34,6 @@ class InitQuizzCommand extends ContainerAwareCommand {
         $oTheme01->setWording('Développement Web');
         $em->persist($oTheme01);
 
-//// THEME 02 : Cuisine
-//        $oTheme02 = new Theme ();
-//        $oTheme02->setWording('Cuisine');
-//        $em->persist($oTheme02);
         // THEME 01  ( Affichage du numéro du thème dans la variable question : Question0101 )
         // QUESTION 01 (FACILE)
         $oQuestion0101 = new Question ();

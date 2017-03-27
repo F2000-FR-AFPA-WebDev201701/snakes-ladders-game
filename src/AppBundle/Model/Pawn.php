@@ -18,27 +18,27 @@ class Pawn {
 // si le jeu démarre : Pion sur la position 0 (correspond à la case 1)
     }
 
-    function getPawnColor() {
+    public function getPawnColor() {
         return $this->pawnColor;
     }
 
-    function getPosition() {
+    public function getPosition() {
         return $this->position;
     }
 
-    function getUser() {
+    public function getUser() {
         return $this->user;
     }
 
-    function setPawnColor($pawnColor) {
+    public function setPawnColor($pawnColor) {
         $this->pawnColor = $pawnColor;
     }
 
-    function setPosition($position) {
+    public function setPosition($position) {
         $this->position = $position;
     }
 
-    function setUser($user) {
+    public function setUser($user) {
         $this->user = $user;
     }
 

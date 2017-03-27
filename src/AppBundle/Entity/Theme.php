@@ -107,7 +107,6 @@ class Theme {
         return $this->questions;
     }
 
-
     /**
      * Add game
      *
@@ -115,8 +114,7 @@ class Theme {
      *
      * @return Theme
      */
-    public function addGame(\AppBundle\Entity\Game $game)
-    {
+    public function addGame(\AppBundle\Entity\Game $game) {
         $this->games[] = $game;
 
         return $this;
@@ -127,8 +125,7 @@ class Theme {
      *
      * @param \AppBundle\Entity\Game $game
      */
-    public function removeGame(\AppBundle\Entity\Game $game)
-    {
+    public function removeGame(\AppBundle\Entity\Game $game) {
         $this->games->removeElement($game);
     }
 
@@ -137,8 +134,8 @@ class Theme {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getGames()
-    {
+    public function getGames() {
         return $this->games;
     }
+
 }
