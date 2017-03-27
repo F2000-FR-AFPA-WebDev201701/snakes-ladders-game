@@ -6,11 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Session\Session;
-use AppBundle\Entity\User;
 use AppBundle\Model\Board;
 use AppBundle\Entity\Game;
-use Doctrine\ORM\Mapping as ORM;  // déclaration de l'utilisation de doctrine
 
 class GameController extends Controller {
 
@@ -180,7 +177,7 @@ class GameController extends Controller {
         // [DOCTRINE] on récupère l'objet oBoard en deserialisant l'attribut data de Game (Game est sauver de manière persistante dans la Db
         $repoGame = $this->getDoctrine()->getRepository('AppBundle:Game'); // on récupère les objets Game en récupérant le repository de Game
         $oGame = $repoGame->find($iGame); // on sélectionne l'objet Game en cours (la partie en cours). On met un index à 1 pour l'instant, puis on modfiera ça lorsque nous aurons plusieurs parties en cours
-        if ($oGame == null) {
+        if ($oGame === null) {
             //      Redirection vers home si la partie n'existe plus (suprresion par le createur)
             return $this->redirectToRoute('home');
         }

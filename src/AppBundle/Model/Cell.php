@@ -24,19 +24,19 @@ class Cell {
         return $this->pawns;
     }
 
-    function setNum($num) {
+    public function setNum($num) {
         $this->num = $num;
     }
 
-    function setLevel($level) {
+    public function setLevel($level) {
         $this->level = $level;
     }
 
-    function addPawn(Pawn $pawn) {
+    public function addPawn(Pawn $pawn) {
         $this->pawns[] = $pawn;
     }
 
-    function removePawn(Pawn $pawn) {
+    public function removePawn(Pawn $pawn) {
 
         $idxPawn = array_search($pawn, $this->pawns);
 

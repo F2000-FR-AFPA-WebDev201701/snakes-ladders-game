@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type as FormType;
-use Symfony\Component\Form\FormConfigBuilderInterface;
 
 class UserType extends \Symfony\Component\Form\AbstractType {
 

@@ -22,7 +22,7 @@
                     </li>
                     Bonjour {{ app.session.get('oUser').emailLogin }} vous êtes connecté(e) !
 
-                    <li><a href="{{ path('logout') }}">Déconnection</a></li>
+                    <li><a href="{{ path('logout') }}">Déconnexion</a></li>
 
                 {% else %}
                     {{ render( controller('AppBundle:User:login') ) }}

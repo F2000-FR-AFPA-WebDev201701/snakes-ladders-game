@@ -1,10 +1,11 @@
 {
     "name": "f2000/snakes-ladders-game",
+    "description": "Projet PHP concernant le jeu de l'oie avec Quizz",
     "license": "proprietary",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "AppBundle\\": "src/AppBundle"
         },
         "classmap": [
             "app/AppKernel.php",
